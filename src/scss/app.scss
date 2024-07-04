@@ -1,3 +1,83 @@
-body {
-    background: $darkColor !important;
+.app {
+    background: $widgetBgColor;
+    display: flex;
+    border-radius: 20px;
+
+    .left {
+        width: 75%;
+        padding: 40px 60px;
+
+        .city-and-date {
+            color: $textColor;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .selected-weather {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+            .selected-temperature {
+                font-size: 150px;
+                margin: 0;
+                font-weight: 400;
+                color: $weatherTextColor;
+                position: relative;
+
+                .degree {
+                    position: absolute;
+                }
+            }
+            
+            .more-info {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                color: $weatherTextColor;
+            }
+        }
+
+        .daily-forecast {
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                gap: 10px;
+
+                .day {
+                    border-radius: 10px;
+                    padding: 5px;
+                    text-align: center;
+                    
+                    .weekday {
+                        color: $textColor;
+                        font-size: 12px;
+                        margin: 10px 0px;
+                    }
+                    
+                    .temperature {
+                        color: $weatherTextColor;
+                        margin: 10px 0px;
+                    }
+                    
+                    .forecast {
+                        color: $forecastGreyColor;
+                        margin: 10px 0px;
+                        font-size: 14px;
+                        font-weight: 400;
+                    }
+                    
+                    &:hover {
+                        outline: 2px solid $forecastGreyColor;
+                    }
+                }
+            }
+        }
+    }
+
+    .right {
+        width: 25%;
+    }
 }
