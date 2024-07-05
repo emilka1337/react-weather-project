@@ -1,20 +1,22 @@
 import ForecastDay from "./ForecastDay";
 
 function DailyForecast(props) {
-    console.log(props.forecast);
+    let elements =
+        props.forecast.list.length > 0 &&
+        props.forecast.list.map((item, index) => {
+                return (
+                    <ForecastDay
+                        timestamp={item.dt}
+                        temperature={item.main.temp}
+                        forecast={item.weather.main}
+                        key={index}
+                    />
+                );
+            });
 
     return (
         <div className="daily-forecast">
-            <ul>
-                {/* {props.forecast.list.map((item) => {
-                    <ForecastDay weekday={item.dt} temperature={item.main.temp} forecast={item.weather.main}/>
-                })} */}
-                {/* <ForecastDay weekday="Today" temperature="32" forecast="Sunny"/>
-                <ForecastDay weekday="Today" temperature="32" forecast="Sunny"/>
-                <ForecastDay weekday="Today" temperature="32" forecast="Sunny"/>
-                <ForecastDay weekday="Today" temperature="32" forecast="Sunny"/>
-                <ForecastDay weekday="Today" temperature="32" forecast="Sunny"/> */}
-            </ul>
+            <ul>{elements}</ul>
         </div>
     );
 }

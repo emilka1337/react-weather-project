@@ -13,7 +13,8 @@ import Clocks from "./Clocks";
 
 function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
-    let [forecast, setForecast] = useState({});
+    let [forecast, setForecast] = useState({list: []});
+    let [selectedWeather, setSelectedWeather] = useState(forecast.list[0])
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -43,6 +44,7 @@ function App() {
         let response = await fetch(forecastURL);
         let data = await response.json();
         setForecast(data);
+        setSelectedWeather(data.list[0]);
         console.log(data);
     };
 
@@ -50,7 +52,7 @@ function App() {
         <div className="app">
             <div className="left">
                 <CityAndDate geolocation={geolocation} />
-                <SelectedWeather />
+                <SelectedWeather info={selectedWeather}/>
                 <DailyForecast forecast={forecast} />
             </div>
 
