@@ -31,7 +31,7 @@ function defineGreeting(time) {
         return greetings[1];
     } else if (currentHours >= 12 && currentHours < 18) {
         return greetings[2];
-    } else if (currentHours >= 18 && currentHours <= 11) {
+    } else if (currentHours >= 18 && currentHours <= 23) {
         return greetings[3];
     }
 }
