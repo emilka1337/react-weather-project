@@ -4,15 +4,15 @@ function CityAndDate(props) {
     let [cityName, setCityName] = useState("Loading...");
 
     useEffect(() => {
-        fetch(
-            `http://api.openweathermap.org/geo/1.0/reverse?lat=${props.geolocation.lat}&lon=${props.geolocation.lon}&limit=5&appid=e13101adaa937ed23720689cf95cba15`
-        ).then((resolve) => {
-            resolve.json().then((data) => {
-                console.log(data);
-                console.log(data.name);
-                setCityName(data[0].name);
-            });
-        });
+        const fetchCityName = async () => {
+            const requestURL = `https://api.openweathermap.org/geo/1.0/reverse?lat=${props.geolocation.lat}&lon=${props.geolocation.lon}&limit=5&appid=e13101adaa937ed23720689cf95cba15`;
+            const response = await fetch(requestURL);
+            const data = await response.json();
+
+            setCityName(data[0].local_names.en);
+        };
+
+        fetchCityName();
     }, [props.geolocation.lat, props.geolocation.lon]);
 
     return (
