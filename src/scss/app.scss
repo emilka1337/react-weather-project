@@ -11,6 +11,10 @@
             color: $textColor;
             display: flex;
             justify-content: space-between;
+
+            h3 {
+                font-weight: 600;
+            }
         }
 
         .selected-weather {
@@ -35,6 +39,10 @@
                 align-items: center;
                 gap: 20px;
                 color: $weatherTextColor;
+
+                h2, h3 {
+                    font-weight: 400;
+                }
             }
         }
 
@@ -79,5 +87,14 @@
 
     .right {
         width: 25%;
+        padding: 40px;
+
+        .clocks {
+            color: $textColor;
+
+            h3 {
+                font-weight: 600;
+            }
+        }
     }
 }
