@@ -5,10 +5,11 @@
 // api.openweathermap.org/data/2.5/forecast?lat=40&lon=50&appid=e13101adaa937ed23720689cf95cba15&units=metric
 
 import { useEffect, useState } from "react";
+// Components
 import CityAndDate from "./CityAndDate";
-import Clocks from "./Clocks";
 import DailyForecast from "./DailyForecast";
 import SelectedWeather from "./SelectedWeather";
+import Clocks from "./Clocks";
 
 function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
@@ -27,8 +28,7 @@ function App() {
                     "Error while getting your geolocation. Open console for more info."
                 );
                 console.log(error);
-            },
-            { enableHighAccuracy: true }
+            }
         );
     }, []);
 
@@ -51,7 +51,7 @@ function App() {
             <div className="left">
                 <CityAndDate geolocation={geolocation} />
                 <SelectedWeather />
-                <DailyForecast />
+                <DailyForecast forecast={forecast} />
             </div>
 
             <div className="right">
