@@ -1,3 +1,111 @@
-body {
-    background: $darkColor !important;
+.app {
+    background: $widgetBgColor;
+    display: flex;
+    border-radius: 20px;
+
+    .left {
+        width: 75%;
+        padding: 40px 60px;
+
+        .city-and-date {
+            color: $textColor;
+            display: flex;
+            justify-content: space-between;
+
+            h3 {
+                font-weight: 600;
+                margin-top: 0;
+                font-size: 16px;
+            }
+        }
+
+        .selected-weather {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+            .selected-temperature {
+                font-size: 150px;
+                margin: 0;
+                font-weight: 400;
+                color: $weatherTextColor;
+                position: relative;
+
+                .degree {
+                    position: absolute;
+                }
+            }
+            
+            .more-info {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                color: $weatherTextColor;
+
+                h2, h3 {
+                    font-weight: 400;
+                }
+            }
+        }
+
+        .daily-forecast {
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+
+                .day {
+                    border-radius: 10px;
+                    padding: 5px 15px;
+                    text-align: center;
+                    cursor: pointer;
+
+                    &:hover {
+                        outline: 2px solid $forecastGreyColor;
+                    }
+
+                    .weekday {
+                        color: $textColor;
+                        font-size: 12px;
+                        margin: 10px 0px;
+                    }
+                    
+                    .temperature {
+                        color: $weatherTextColor;
+                        margin: 10px 0px;
+                    }
+                    
+                    .forecast {
+                        color: $forecastGreyColor;
+                        margin: 10px 0px;
+                        font-size: 14px;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+
+    .right {
+        width: 25%;
+        padding: 40px 0px;
+        padding-right: 10px;
+
+        .clocks {
+            color: $textColor;
+
+            h3 {
+                font-weight: 600;
+                margin: 5px 0px;
+
+                &.greeting {
+                    margin-top: 0;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
 }
