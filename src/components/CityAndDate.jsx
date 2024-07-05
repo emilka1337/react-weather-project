@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function CityAndDate(props) {
-    let [cityName, setCityName] = useState("Loading...");
+    let [cityName, setCityName] = useState(null);
 
     useEffect(() => {
         const fetchCityName = async () => {
@@ -9,7 +9,9 @@ function CityAndDate(props) {
             const response = await fetch(requestURL);
             const data = await response.json();
 
-            setCityName(data[0].local_names.en);
+            if (data[0]) {
+                setCityName(data[0].name);
+            }
         };
 
         fetchCityName();

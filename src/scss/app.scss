@@ -2,6 +2,7 @@
     background: $widgetBgColor;
     display: flex;
     border-radius: 20px;
+    width: 992px;
 
     .left {
         width: 75%;
@@ -52,19 +53,21 @@
             ul {
                 list-style: none;
                 margin: 0;
-                padding: 0;
+                padding: 10px;
                 display: flex;
-                justify-content: center;
+                // justify-content: center;
                 gap: 10px;
+                overflow-x: scroll;
 
                 .day {
                     border-radius: 10px;
                     padding: 5px 15px;
                     text-align: center;
                     cursor: pointer;
+                    border: 2px solid transparent;
 
                     &:hover {
-                        outline: 2px solid $forecastGreyColor;
+                        border: 2px solid $forecastGreyColor;
                     }
 
                     .weekday {
@@ -93,6 +96,7 @@
         width: 25%;
         padding: 40px 0px;
         padding-right: 10px;
+        text-align: center;
 
         .clocks {
             color: $textColor;
