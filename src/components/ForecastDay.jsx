@@ -19,9 +19,9 @@ function ForecastDay(props) {
 
     return (
         <li>
-            <div className="day">
+            <div className={props.className} onClick={() => props.changeSelectedWeather(props.index)}>
                 <h4 className="weekday">{`${WEEKDAYS[weekday]} ${formattedTime}`}</h4>
-                <h3 className="temperature">{(props.temperature).toFixed(0)}°</h3>
+                <h3 className="temperature">{props.temperature.toFixed(0)}°</h3>
                 <h4 className="forecast">{props.forecast}</h4>
             </div>
         </li>

@@ -69,6 +69,10 @@
                     &:hover {
                         border: 2px solid $forecastGreyColor;
                     }
+                    
+                    &.selected {
+                        border: 2px solid $forecastGreyColor;
+                    }
 
                     .weekday {
                         color: $textColor;

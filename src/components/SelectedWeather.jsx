@@ -1,6 +1,4 @@
 function SelectedWeather(props) {
-    console.log(props.info);
-
     return (
         <div className="selected-weather">
             <h1 className="selected-temperature">
