@@ -1,5 +1,3 @@
-const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
 function formatTime(time) {
     let minutes = time.minutes;
 
@@ -10,7 +8,8 @@ function formatTime(time) {
     return `${time.hours}:${minutes}`;
 }
 
-function ForecastDay(props) {
+function ForecastCell(props) {
+    const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let date = new Date(props.timestamp * 1000);
     let hours = date.getHours();
     let minutes = date.getMinutes();
@@ -28,4 +27,4 @@ function ForecastDay(props) {
     );
 }
 
-export default ForecastDay;
+export default ForecastCell;

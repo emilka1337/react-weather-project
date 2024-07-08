@@ -1,11 +1,12 @@
-import ForecastDay from "./ForecastDay";
+import ForecastCell from "./ForecastCell";
 
 function DailyForecast(props) {
-    let elements =
-        props.forecast.list.length > 0 &&
-        props.forecast.list.map((item, index) => {
+    let elements;
+
+    if (props.forecast.list.length > 0) {
+        elements = props.forecast.list.map((item, index) => {
             return (
-                <ForecastDay
+                <ForecastCell
                     timestamp={item.dt}
                     temperature={item.main.temp}
                     forecast={item.weather.main}
@@ -18,6 +19,7 @@ function DailyForecast(props) {
                 />
             );
         });
+    }
 
     return (
         <div className="daily-forecast">
