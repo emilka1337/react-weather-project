@@ -30,4 +30,9 @@ body {
     box-sizing: border-box
 }
 
+::selection {
+    background-color: $weatherTextColor;
+    color: $widgetBgColor
+}
+
 @import "./app.scss";

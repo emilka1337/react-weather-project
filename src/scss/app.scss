@@ -24,7 +24,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            
+
             .selected-temperature {
                 font-size: 150px;
                 margin: 0;
@@ -36,7 +36,7 @@
                     position: absolute;
                 }
             }
-            
+
             .more-info {
                 display: flex;
                 align-items: center;
@@ -44,8 +44,8 @@
                 color: $weatherTextColor;
                 margin-top: 20px;
 
-
-                h2, h3 {
+                h2,
+                h3 {
                     font-weight: 400;
                     margin-bottom: 0;
                     margin-top: 0;
@@ -61,52 +61,63 @@
         }
 
         .daily-forecast {
-            ul {
+            display: flex;
+            gap: 20px;
+            overflow-x: scroll;
+            padding: 10px 0px;
+
+            .forecast-day {
                 list-style: none;
                 margin: 0;
                 padding: 10px;
                 display: flex;
-                // justify-content: center;
+                align-items: center;
                 gap: 10px;
-                overflow-x: scroll;
-                
+                border: 2px solid $forecastGreyColor;
+                border-radius: 10px;
+
                 &::-webkit-scrollbar {
                     height: 4px;
                     border-radius: 4px;
                     background: $forecastGreyColor;
                 }
-                
+
                 &::-webkit-scrollbar-thumb {
                     border-radius: 4px;
                     background: $textColor;
                 }
 
-                .day {
+                .forecast-cell {
                     border-radius: 10px;
                     padding: 5px 15px;
                     text-align: center;
                     cursor: pointer;
                     border: 2px solid transparent;
+                    border-radius: 10px solid $forecastGreyColor;
+                     transition: 300ms;
 
                     &:hover {
-                        border: 2px solid $forecastGreyColor;
-                    }
-                    
-                    &.selected {
-                        border: 2px solid $forecastGreyColor;
+                        // border: 2px solid $forecastGreyColor;
+                        background: $weatherTextColor;
+
+                        .time, .temperature {
+                            color: $widgetBgColor;
+                        }
                     }
 
-                    .weekday {
+                    .time {
                         color: $textColor;
                         font-size: 12px;
                         margin: 10px 0px;
+                        transition: 300ms;
                     }
-                    
+
                     .temperature {
                         color: $weatherTextColor;
                         margin: 10px 0px;
+                        transition: 300ms;
                     }
-                    
+
                     .forecast {
                         color: $forecastGreyColor;
                         margin: 10px 0px;
