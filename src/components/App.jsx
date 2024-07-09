@@ -1,9 +1,3 @@
-// API request:
-// current
-// api.openweathermap.org/data/2.5/weather?lat=40&lon=50&appid=e13101adaa937ed23720689cf95cba15&units=metric
-// 5 day
-// api.openweathermap.org/data/2.5/forecast?lat=40&lon=50&appid=e13101adaa937ed23720689cf95cba15&units=metric
-
 import { useEffect, useState } from "react";
 // Components
 import CityAndDate from "./CityAndDate";
