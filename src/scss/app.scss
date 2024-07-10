@@ -94,14 +94,22 @@
                     cursor: pointer;
                     border: 2px solid transparent;
                     border-radius: 10px solid $forecastGreyColor;
-                     transition: 300ms;
+                    transition: 300ms;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
 
                     &:hover {
                         // border: 2px solid $forecastGreyColor;
                         background: $weatherTextColor;
 
-                        .time, .temperature {
+                        .time,
+                        .temperature {
                             color: $widgetBgColor;
+                        }
+
+                        .active-indicator {
+                            background: $widgetBgColor;
                         }
                     }
 
@@ -110,12 +118,19 @@
                         font-size: 12px;
                         margin: 10px 0px;
                         transition: 300ms;
+                        margin-bottom: 8px;
                     }
 
                     .temperature {
                         color: $weatherTextColor;
                         margin: 10px 0px;
                         transition: 300ms;
+                        margin-top: 0;
+                        position: relative;
+
+                        .degree {
+                            position: absolute;
+                        }
                     }
 
                     .forecast {
@@ -123,6 +138,17 @@
                         margin: 10px 0px;
                         font-size: 14px;
                         font-weight: 400;
+                    }
+
+                    .active-indicator {
+                        padding: 2px;
+                        background: $weatherTextColor;
+                        border-radius: 3px;
+                        opacity: 0;
+
+                        &.show {
+                            opacity: 1;
+                        }
                     }
                 }
             }
@@ -148,6 +174,22 @@
                     font-size: 20px;
                 }
             }
+        }
+    }
+
+    .location-error {
+        width: 992px;
+        position: absolute;
+        bottom: 0;
+        background: $widgetBgColor;
+        border-radius: 10px 10px 0px 0px;
+        padding: 0px 10px;
+        overflow: hidden;
+        height: 0;
+        transition: 400ms;
+
+        &.show {
+            height: auto;
         }
     }
 }
