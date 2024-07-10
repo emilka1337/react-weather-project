@@ -42,7 +42,6 @@ function DailyForecast(props) {
         );
 
         let separatedList = separateListByWeekdays(list);
-        console.log(separatedList);
 
         days = separatedList.map((day, index) => {
             return (
@@ -57,9 +56,9 @@ function DailyForecast(props) {
     }
 
     return (
-    <ul className="daily-forecast">
-        {days}
-    </ul>
+        <ul className="daily-forecast">
+            {days}
+        </ul>
     );
 }
 
