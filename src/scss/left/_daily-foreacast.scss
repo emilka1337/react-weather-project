@@ -13,6 +13,7 @@
         gap: 10px;
         border: 2px solid $forecastGreyColor;
         border-radius: 10px;
+        position: relative;
 
         &::-webkit-scrollbar {
             height: 4px;
@@ -104,6 +105,20 @@
                     opacity: 1;
                 }
             }
+        }
+
+    }
+
+    .scroll-button {
+        position: sticky;
+        
+
+        &.scroll-button-left {
+            left: 0;
+        }
+
+        &.scroll-button-right {
+            right: 0;
         }
     }
 }
