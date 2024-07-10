@@ -12,6 +12,7 @@ function App() {
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [locationError, setLocationError] = useState(false);
 
+    // Defines user geolocation
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -21,35 +22,40 @@ function App() {
                 });
             },
             (error) => {
-                setLocationError(error)
+                setLocationError(error);
                 console.log(error);
             },
             { enableHighAccuracy: true }
         );
     }, []);
 
+    // Fetching forecast after defining user geolocation
     useEffect(() => {
         if (!locationError && geolocation.lat !== 0 && geolocation.lon !== 0) {
             fetchForecast(geolocation.lat, geolocation.lon);
         }
     }, [geolocation, locationError]);
 
-    let fetchForecast = async (lat, lon) => {
+    // Setting main displaying weather to current weather
+    useEffect(() => {
+        setSelectedWeather(forecast.list[0]);
+    }, [forecast]);
+
+    async function fetchForecast(lat, lon) {
         let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=e13101adaa937ed23720689cf95cba15&units=metric`;
         let response = await fetch(forecastURL);
         let data = await response.json();
         setForecast(data);
-        setSelectedWeather(0);
-    };
+    }
 
     return (
         <div className="app">
             <div className="left">
                 <CityAndDate geolocation={geolocation} />
-                <SelectedWeather info={forecast.list[selectedWeather]} />
+                <SelectedWeather info={selectedWeather} />
                 <DailyForecast
                     forecast={forecast}
-                    changeSelectedWeather={setSelectedWeather}
+                    setSelectedWeather={setSelectedWeather}
                     selectedWeather={selectedWeather}
                 />
             </div>
@@ -58,7 +64,7 @@ function App() {
                 <Clocks />
             </div>
 
-            <LocationError locationError={locationError}/>
+            <LocationError locationError={locationError} />
         </div>
     );
 }

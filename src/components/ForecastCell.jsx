@@ -19,7 +19,7 @@ function ForecastCell(props) {
     let formattedTime = formatTime({ hours, minutes });
 
     function clickHandler() {
-        props.changeSelectedWeather(props.index);
+        props.setSelectedWeather(props.cell);
         setActive(true);
     }
 

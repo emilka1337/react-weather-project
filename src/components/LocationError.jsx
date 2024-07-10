@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 function LocationError(props) {
     let [errorText, setErrorText] = useState("");
-    console.log(props.locationError.code);
 
     useEffect(() => {
         if (props.locationError) {
