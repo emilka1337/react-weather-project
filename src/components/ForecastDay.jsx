@@ -5,7 +5,9 @@ function ForecastDay(props) {
 
     return (
         <li className="forecast-day">
-            <h4>{WEEKDAYS[props.weekday]}</h4>
+            <div className="weekday">
+                <h4>{WEEKDAYS[props.weekday]}</h4>
+            </div>
 
             {props.day.map((item, index) => {
                 return (
