@@ -56,7 +56,11 @@ function DailyForecast(props) {
         });
     }
 
-    return <ul className="daily-forecast">{days}</ul>;
+    return (
+    <ul className="daily-forecast">
+        {days}
+    </ul>
+    );
 }
 
 export default DailyForecast;
