@@ -19,14 +19,21 @@ function ForecastCell(props) {
     let formattedTime = formatTime({ hours, minutes });
 
     function clickHandler() {
-        props.setSelectedWeather(props.cell);
+        
+        props.setSelectedWeather(props.cellForecast);
         setActive(true);
     }
 
     return (
         <div className="forecast-cell" onClick={clickHandler}>
             <h4 className="time">{`${formattedTime}`}</h4>
-            <h3 className="temperature">{props.temperature.toFixed(0)}<span className="degree">°</span></h3>
+            <h3 className="temperature">
+                {props.cellForecast.main.temp.toFixed(0)}
+                <span className="degree">°</span>
+            </h3>
+            <h3 className="main">
+                {props.cellForecast.weather[0].main}
+            </h3>
             <div
                 className={
                     active ? "active-indicator show" : "active-indicator"
