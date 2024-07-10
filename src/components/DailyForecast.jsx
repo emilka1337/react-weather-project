@@ -1,4 +1,3 @@
-import { createContext, useState } from "react";
 import ForecastDay from "./ForecastDay";
 
 function extractWeekDayFromTimestamp(ts) {
@@ -33,8 +32,6 @@ function separateListByWeekdays(list) {
 }
 
 function DailyForecast(props) {
-    // let [active, setActive] = useState({day: 0, cell: 0});
-
     let days;
 
     if (props.forecast.list.length > 0) {
@@ -50,10 +47,10 @@ function DailyForecast(props) {
         days = separatedList.map((day, index) => {
             return (
                 <ForecastDay
-                    forecastCells={day}
+                    day={day}
                     weekday={day[0].weekday}
                     key={index}
-                    changeSelectedWeather={props.changeSelectedWeather}
+                    setSelectedWeather={props.setSelectedWeather}
                 />
             );
         });

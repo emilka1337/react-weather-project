@@ -1,0 +1,93 @@
+.daily-forecast {
+        display: flex;
+        gap: 20px;
+        overflow-x: scroll;
+        padding: 10px 0px;
+
+        .forecast-day {
+            list-style: none;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid $forecastGreyColor;
+            border-radius: 10px;
+
+            &::-webkit-scrollbar {
+                height: 4px;
+                border-radius: 4px;
+                background: $forecastGreyColor;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 4px;
+                background: $textColor;
+            }
+
+            .forecast-cell {
+                border-radius: 10px;
+                padding: 5px 15px;
+                text-align: center;
+                cursor: pointer;
+                border: 2px solid transparent;
+                border-radius: 10px solid $forecastGreyColor;
+                transition: 300ms;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                &:hover {
+                    // border: 2px solid $forecastGreyColor;
+                    background: $weatherTextColor;
+
+                    .time,
+                    .temperature {
+                        color: $widgetBgColor;
+                    }
+
+                    .active-indicator {
+                        background: $widgetBgColor;
+                    }
+                }
+
+                .time {
+                    color: $textColor;
+                    font-size: 12px;
+                    margin: 10px 0px;
+                    transition: 300ms;
+                    margin-bottom: 8px;
+                }
+
+                .temperature {
+                    color: $weatherTextColor;
+                    margin: 10px 0px;
+                    transition: 300ms;
+                    margin-top: 0;
+                    position: relative;
+
+                    .degree {
+                        position: absolute;
+                    }
+                }
+
+                .forecast {
+                    color: $forecastGreyColor;
+                    margin: 10px 0px;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+
+                .active-indicator {
+                    padding: 2px;
+                    background: $weatherTextColor;
+                    border-radius: 3px;
+                    opacity: 0;
+
+                    &.show {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }

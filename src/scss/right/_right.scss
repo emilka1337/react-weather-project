@@ -1,0 +1,21 @@
+.right {
+    width: 25%;
+    padding: 40px 0px;
+    padding-right: 10px;
+    text-align: center;
+
+    .clocks {
+        color: $textColor;
+
+        h3 {
+            font-weight: 500;
+            margin: 5px 0px;
+            font-size: 20px;
+
+            &.greeting {
+                margin-top: 0;
+                font-size: 20px;
+            }
+        }
+    }
+}
