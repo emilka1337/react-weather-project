@@ -1,3 +1,4 @@
+import { createContext, useState } from "react";
 import ForecastDay from "./ForecastDay";
 
 function extractWeekDayFromTimestamp(ts) {
@@ -32,10 +33,13 @@ function separateListByWeekdays(list) {
 }
 
 function DailyForecast(props) {
+    // let [active, setActive] = useState({day: 0, cell: 0});
+
     let days;
 
     if (props.forecast.list.length > 0) {
         let list = new Array(...props.forecast.list);
+
         list.map(
             (item) => (item.weekday = extractWeekDayFromTimestamp(item.dt))
         );

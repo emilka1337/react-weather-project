@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function formatTime(time) {
     let minutes = time.minutes;
 
@@ -9,16 +11,27 @@ function formatTime(time) {
 }
 
 function ForecastCell(props) {
+    let [active, setActive] = useState(false);
+
     let date = new Date(props.timestamp * 1000);
     let hours = date.getHours();
     let minutes = date.getMinutes();
-    let formattedTime = formatTime({hours, minutes});
+    let formattedTime = formatTime({ hours, minutes });
+
+    function clickHandler() {
+        props.changeSelectedWeather(props.index);
+        setActive(true);
+    }
 
     return (
-        <div className="forecast-cell" onClick={() => props.changeSelectedWeather(props.index)}>
+        <div className="forecast-cell" onClick={clickHandler}>
             <h4 className="time">{`${formattedTime}`}</h4>
-            <h3 className="temperature">{props.temperature.toFixed(0)}°</h3>
-            <h4 className="forecast">{props.forecast}</h4>
+            <h3 className="temperature">{props.temperature.toFixed(0)}<span className="degree">°</span></h3>
+            <div
+                className={
+                    active ? "active-indicator show" : "active-indicator"
+                }
+            ></div>
         </div>
     );
 }

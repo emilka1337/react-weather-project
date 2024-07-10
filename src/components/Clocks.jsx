@@ -21,22 +21,16 @@ function formatTime(time) {
 }
 
 function defineGreeting(time) {
-    let greetings = [
-        "Good Night.",
-        "Good Morning!",
-        "Have a nice day!",
-        "Good evening.",
-    ];
     let currentHours = time.hours;
 
     if (currentHours >= 0 && currentHours < 6) {
-        return greetings[0];
+        return "Good Night";
     } else if (currentHours >= 6 && currentHours < 12) {
-        return greetings[1];
+        return "Good Morning";
     } else if (currentHours >= 12 && currentHours < 18) {
-        return greetings[2];
+        return "Have a nice day";
     } else if (currentHours >= 18 && currentHours <= 23) {
-        return greetings[3];
+        return "Good Evening";
     }
 }
 
