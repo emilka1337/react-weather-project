@@ -5,23 +5,18 @@ function LocationError(props) {
     console.log(props.locationError.code);
 
     useEffect(() => {
-        if (props.locationError && props.locationError.code == 1) {
+        if (props.locationError) {
             setErrorText(props.locationError.message);
-        } else if (props.locationError && props.locationError.code == 2) {
-            setErrorText(props.locationError.message);
-        } else if (props.locationError && props.locationError.code == 3) {
-            setErrorText(props.locationError.message);
+            setTimeout(function () {
+                document.querySelector(".location-error").classList.add("show");
+            }, 1000);
         }
     }, [errorText, props.locationError]);
 
     return (
-        <div
-            className={
-                props.locationError ? "location-error show" : "location-error"
-            }
-        >
-            <h3>Something went wrong while getting your location :(</h3>
-            <p>{`Error message: ${errorText}`}</p>
+        <div className="location-error">
+                <h3>Something went wrong while getting your location :(</h3>
+                <p>{`Error message: ${errorText}`}</p>
         </div>
     );
 }
