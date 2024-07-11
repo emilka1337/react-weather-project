@@ -65,6 +65,10 @@ export function App() {
             let response = await fetch(forecastURL);
             let data = await response.json();
             setForecast(data);
+
+            // let date = new Date()
+            // date.setTime(date.getTime() + time * 1000);
+            document.cookie = "hasActualForecast=true; max-age=3600";
         } catch (error) {
             setError(error);
         }

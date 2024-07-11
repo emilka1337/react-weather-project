@@ -2,10 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { ErrorContext } from "./App";
 
 function CityAndDate(props) {
-    let [cityName, setCityName] = useState(null);
+    let [cityName, setCityName] = useState("Loading...");
     let [setError] = useContext(ErrorContext);
-
-    // setError(new Error("Test Error"))
 
     useEffect(() => {
         const fetchCityName = async () => {
