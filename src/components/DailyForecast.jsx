@@ -49,7 +49,6 @@ function DailyForecast(props) {
                     day={day}
                     weekday={day[0].weekday}
                     key={index}
-                    setSelectedWeather={props.setSelectedWeather}
                 />
             );
         });

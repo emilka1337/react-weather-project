@@ -7,6 +7,7 @@ import Clocks from "./Clocks";
 import ErrorAlert from "./ErrorAlert";
 
 export const ErrorContext = createContext();
+export const SetSelectedWeatherContext = createContext();
 
 export function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
@@ -75,19 +76,16 @@ export function App() {
                 <div className="left">
                     <CityAndDate geolocation={geolocation} />
                     <SelectedWeather info={selectedWeather} />
-                    <DailyForecast
-                        forecast={forecast}
-                        setSelectedWeather={setSelectedWeather}
-                        selectedWeather={selectedWeather}
-                    />
+                    <SetSelectedWeatherContext.Provider
+                        value={setSelectedWeather}
+                    >
+                        <DailyForecast forecast={forecast} />
+                    </SetSelectedWeatherContext.Provider>
                 </div>
 
                 <div className="right">
                     <Clocks />
                 </div>
-
-                {/* <ErrorAlert locationError={locationError} />
-                <ErrorAlert fetchingDataError={fetchingDataError} /> */}
                 <ErrorAlert error={error} />
             </div>
         </ErrorContext.Provider>

@@ -16,7 +16,6 @@ function ForecastDay(props) {
                         timestamp={item.dt}
                         cellForecast={item}
                         key={index}
-                        setSelectedWeather={props.setSelectedWeather}
                         index={index}
                     />
                 );
