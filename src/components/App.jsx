@@ -13,6 +13,7 @@ export function App() {
     let [forecast, setForecast] = useState({ list: [] });
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
+    let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
 
     // Defines user geolocation
     useEffect(() => {
@@ -42,6 +43,19 @@ export function App() {
     useEffect(() => {
         setSelectedWeather(forecast.list[0]);
     }, [forecast]);
+
+    // Setting interval to automatically update weather every 5 minutes
+    useEffect(() => {
+        autoRefreshIntervalID && clearInterval(autoRefreshIntervalID);
+
+        setAutoRefreshIntervalID(
+            setInterval(() => {
+                fetchForecast(geolocation.lat, geolocation.lon);
+            }, 300 * 1000)
+        );
+
+        return () => clearInterval(autoRefreshIntervalID);
+    }, [autoRefreshIntervalID, geolocation.lat, geolocation.lon]);
 
     async function fetchForecast(lat, lon) {
         try {
