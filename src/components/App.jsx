@@ -50,7 +50,7 @@ export function App() {
 
         setAutoRefreshIntervalID(
             setInterval(() => {
-                // fetchForecast(geolocation.lat, geolocation.lon);
+                fetchForecast(geolocation.lat, geolocation.lon);
             }, 300 * 1000)
         );
 
