@@ -50,12 +50,13 @@ export function App() {
 
         setAutoRefreshIntervalID(
             setInterval(() => {
-                fetchForecast(geolocation.lat, geolocation.lon);
+                // fetchForecast(geolocation.lat, geolocation.lon);
             }, 300 * 1000)
         );
 
         return () => clearInterval(autoRefreshIntervalID);
-    }, [autoRefreshIntervalID, geolocation.lat, geolocation.lon]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [geolocation.lat, geolocation.lon]);
 
     async function fetchForecast(lat, lon) {
         try {
