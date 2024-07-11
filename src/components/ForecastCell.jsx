@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef } from "react";
 
 function formatTime(time) {
     let minutes = time.minutes;
@@ -11,7 +11,7 @@ function formatTime(time) {
 }
 
 function ForecastCell(props) {
-    let [active, setActive] = useState(false);
+    let activeIndicator = useRef();
 
     let date = new Date(props.timestamp * 1000);
     let hours = date.getHours();
@@ -19,21 +19,25 @@ function ForecastCell(props) {
     let formattedTime = formatTime({ hours, minutes });
 
     function clickHandler() {
-        props.setSelectedWeather(props.cell);
-        setActive(true);
+        document
+            .querySelectorAll(".active-indicator")
+            .forEach((item) => item.classList.remove("show"));
+        activeIndicator.current.classList.add("show")
+
+        props.setSelectedWeather(props.cellForecast);
     }
 
     return (
         <div className="forecast-cell" onClick={clickHandler}>
             <h4 className="time">{`${formattedTime}`}</h4>
-            <h3 className="temperature">{props.temperature.toFixed(0)}<span className="degree">°</span></h3>
-            <div
-                className={
-                    active ? "active-indicator show" : "active-indicator"
-                }
-            ></div>
+            <h3 className="temperature">
+                {props.cellForecast.main.temp.toFixed(0)}
+                <span className="degree">°</span>
+            </h3>
+            <h3 className="main">{props.cellForecast.weather[0].main}</h3>
+            <div ref={activeIndicator} className="active-indicator"></div>
         </div>
     );
-}
+} 
 
 export default ForecastCell;

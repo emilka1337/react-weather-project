@@ -9,13 +9,12 @@ function ForecastDay(props) {
                 <h4>{WEEKDAYS[props.weekday]}</h4>
             </div>
 
-            {props.day.map((item, index) => {
+            {props.day.map((item, index) => {   
+            
                 return (
                     <ForecastCell
                         timestamp={item.dt}
-                        temperature={item.main.temp}
-                        forecast={item.weather.main}
-                        cell={item}
+                        cellForecast={item}
                         key={index}
                         setSelectedWeather={props.setSelectedWeather}
                         index={index}

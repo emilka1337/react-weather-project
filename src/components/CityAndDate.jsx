@@ -1,21 +1,29 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ErrorContext } from "./App";
 
 function CityAndDate(props) {
     let [cityName, setCityName] = useState(null);
+    let [setError] = useContext(ErrorContext);
+
+    // setError(new Error("Test Error"))
 
     useEffect(() => {
         const fetchCityName = async () => {
             const requestURL = `https://api.openweathermap.org/geo/1.0/reverse?lat=${props.geolocation.lat}&lon=${props.geolocation.lon}&limit=5&appid=e13101adaa937ed23720689cf95cba15`;
             const response = await fetch(requestURL);
-            const data = await response.json();
-
-            if (data[0]) {
-                setCityName(data[0].name);
+            if (response.ok) {
+                const data = await response.json();
+                if (data[0]) {
+                    setCityName(data[0].name);
+                }
+            } else {
+                setError(new Error("Failed to fetch city name"))
             }
+
         };
 
         fetchCityName();
-    }, [props.geolocation.lat, props.geolocation.lon]);
+    }, [props.geolocation.lat, props.geolocation.lon, setError]);
 
     return (
         <div className="city-and-date">

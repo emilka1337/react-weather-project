@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 // Components
 import CityAndDate from "./CityAndDate";
 import DailyForecast from "./DailyForecast";
 import SelectedWeather from "./SelectedWeather";
 import Clocks from "./Clocks";
-import LocationError from "./LocationError";
+import ErrorAlert from "./ErrorAlert";
 
-function App() {
+export const ErrorContext = createContext();
+
+export function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
     let [forecast, setForecast] = useState({ list: [] });
     let [selectedWeather, setSelectedWeather] = useState(0);
-    let [locationError, setLocationError] = useState(false);
+    let [error, setError] = useState(false);
+    let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
 
     // Defines user geolocation
     useEffect(() => {
@@ -22,7 +25,7 @@ function App() {
                 });
             },
             (error) => {
-                setLocationError(error);
+                setError(error);
                 console.log(error);
             },
             { enableHighAccuracy: true }
@@ -31,42 +34,62 @@ function App() {
 
     // Fetching forecast after defining user geolocation
     useEffect(() => {
-        if (!locationError && geolocation.lat !== 0 && geolocation.lon !== 0) {
+        if (!error && geolocation.lat !== 0 && geolocation.lon !== 0) {
             fetchForecast(geolocation.lat, geolocation.lon);
         }
-    }, [geolocation, locationError]);
+    }, [geolocation, error]);
 
     // Setting main displaying weather to current weather
     useEffect(() => {
         setSelectedWeather(forecast.list[0]);
     }, [forecast]);
 
+    // Setting interval to automatically update weather every 5 minutes
+    useEffect(() => {
+        autoRefreshIntervalID && clearInterval(autoRefreshIntervalID);
+
+        setAutoRefreshIntervalID(
+            setInterval(() => {
+                fetchForecast(geolocation.lat, geolocation.lon);
+            }, 300 * 1000)
+        );
+
+        return () => clearInterval(autoRefreshIntervalID);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [geolocation.lat, geolocation.lon]);
+
     async function fetchForecast(lat, lon) {
-        let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=e13101adaa937ed23720689cf95cba15&units=metric`;
-        let response = await fetch(forecastURL);
-        let data = await response.json();
-        setForecast(data);
+        try {
+            let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=e13101adaa937ed23720689cf95cba15&units=metric`;
+            let response = await fetch(forecastURL);
+            let data = await response.json();
+            setForecast(data);
+        } catch (error) {
+            setError(error);
+        }
     }
 
     return (
-        <div className="app">
-            <div className="left">
-                <CityAndDate geolocation={geolocation} />
-                <SelectedWeather info={selectedWeather} />
-                <DailyForecast
-                    forecast={forecast}
-                    setSelectedWeather={setSelectedWeather}
-                    selectedWeather={selectedWeather}
-                />
-            </div>
+        <ErrorContext.Provider value={[error, setError]}>
+            <div className="app">
+                <div className="left">
+                    <CityAndDate geolocation={geolocation} />
+                    <SelectedWeather info={selectedWeather} />
+                    <DailyForecast
+                        forecast={forecast}
+                        setSelectedWeather={setSelectedWeather}
+                        selectedWeather={selectedWeather}
+                    />
+                </div>
 
-            <div className="right">
-                <Clocks />
-            </div>
+                <div className="right">
+                    <Clocks />
+                </div>
 
-            <LocationError locationError={locationError} />
-        </div>
+                {/* <ErrorAlert locationError={locationError} />
+                <ErrorAlert fetchingDataError={fetchingDataError} /> */}
+                <ErrorAlert error={error} />
+            </div>
+        </ErrorContext.Provider>
     );
 }
-
-export default App;

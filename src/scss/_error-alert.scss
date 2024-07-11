@@ -1,4 +1,4 @@
-.location-error {
+.error-alert {
     width: 992px;
     position: absolute;
     bottom: 0;
@@ -12,14 +12,18 @@
 
     h3 {
         font-weight: 400;
-        margin-bottom: 0;
         font-size: 16px;
     }
 
     p {
-        margin-top: 5px;
+        // margin-top: 5px;
+        margin: 8px 0px;
         font-size: 14px;
         color: $textColor;
+
+        span {
+            font-weight: 500;
+        }
     }
 
     &.show {

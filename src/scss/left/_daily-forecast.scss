@@ -53,6 +53,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            padding-top: 15px;
+            padding-bottom: 15px;
 
             &:hover {
                 // border: 2px solid $forecastGreyColor;
@@ -66,12 +69,20 @@
                 .active-indicator {
                     background: $widgetBgColor;
                 }
+
+                .main {
+                    max-height: 20px;
+                }
+
+                .active-indicator {
+                    display: none;
+                }
             }
 
             .time {
                 color: $textColor;
                 font-size: 12px;
-                margin: 10px 0px;
+                margin: 0px;
                 transition: 300ms;
                 margin-bottom: 8px;
             }
@@ -88,11 +99,16 @@
                 }
             }
 
-            .forecast {
+            .main {
                 color: $forecastGreyColor;
-                margin: 10px 0px;
+                margin: 0;
                 font-size: 14px;
                 font-weight: 400;
+                max-height: 0;
+                overflow: hidden;
+                transition: 400ms;
+                position: absolute;
+                bottom: 5px;
             }
 
             .active-indicator {
@@ -106,12 +122,10 @@
                 }
             }
         }
-
     }
 
     .scroll-button {
         position: sticky;
-        
 
         &.scroll-button-left {
             left: 0;
