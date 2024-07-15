@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { SetSelectedWeatherContext } from "./App";
 
 function formatTime(time) {
     let minutes = time.minutes;
@@ -11,6 +12,7 @@ function formatTime(time) {
 }
 
 function ForecastCell(props) {
+    let setSelectedWeather = useContext(SetSelectedWeatherContext);
     let activeIndicator = useRef();
 
     let date = new Date(props.timestamp * 1000);
@@ -24,7 +26,7 @@ function ForecastCell(props) {
             .forEach((item) => item.classList.remove("show"));
         activeIndicator.current.classList.add("show")
 
-        props.setSelectedWeather(props.cellForecast);
+        setSelectedWeather(props.cellForecast);
     }
 
     return (

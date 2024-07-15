@@ -7,6 +7,17 @@ import Clocks from "./Clocks";
 import ErrorAlert from "./ErrorAlert";
 
 export const ErrorContext = createContext();
+export const SetSelectedWeatherContext = createContext();
+
+function saveForecastData(data) {
+    let date = new Date();
+    data.timeStamp = +date;
+    localStorage.setItem("forecastData", JSON.stringify(data));
+}
+
+function getSavedForecastData() {
+    return JSON.parse(localStorage.getItem("forecastData"));
+}
 
 export function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
@@ -35,8 +46,9 @@ export function App() {
     // Fetching forecast after defining user geolocation
     useEffect(() => {
         if (!error && geolocation.lat !== 0 && geolocation.lon !== 0) {
-            fetchForecast(geolocation.lat, geolocation.lon);
+            getForecast(geolocation.lat, geolocation.lon);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation, error]);
 
     // Setting main displaying weather to current weather
@@ -50,7 +62,7 @@ export function App() {
 
         setAutoRefreshIntervalID(
             setInterval(() => {
-                fetchForecast(geolocation.lat, geolocation.lon);
+                getForecast(geolocation.lat, geolocation.lon);
             }, 300 * 1000)
         );
 
@@ -58,15 +70,33 @@ export function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
-    async function fetchForecast(lat, lon) {
+    function getForecast(lat, lon) {
         try {
-            let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=e13101adaa937ed23720689cf95cba15&units=metric`;
-            let response = await fetch(forecastURL);
-            let data = await response.json();
-            setForecast(data);
+            let savedForecastData = getSavedForecastData();
+            let date = new Date();
+            let currentMilliseconds = +date;
+
+            if (
+                !savedForecastData ||
+                currentMilliseconds - savedForecastData.timeStamp > 300 * 1000
+            ) {
+                fetchForecast(lat, lon);
+                console.log("forecast from api");
+            } else {
+                setForecast(savedForecastData);
+                console.log("forecast from ls");
+            }
         } catch (error) {
             setError(error);
         }
+    }
+
+    async function fetchForecast(lat, lon) {
+        let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=e13101adaa937ed23720689cf95cba15&units=metric`;
+        let response = await fetch(forecastURL);
+        let data = await response.json();
+        setForecast(data);
+        saveForecastData(data);
     }
 
     return (
@@ -75,19 +105,16 @@ export function App() {
                 <div className="left">
                     <CityAndDate geolocation={geolocation} />
                     <SelectedWeather info={selectedWeather} />
-                    <DailyForecast
-                        forecast={forecast}
-                        setSelectedWeather={setSelectedWeather}
-                        selectedWeather={selectedWeather}
-                    />
+                    <SetSelectedWeatherContext.Provider
+                        value={setSelectedWeather}
+                    >
+                        <DailyForecast forecast={forecast} />
+                    </SetSelectedWeatherContext.Provider>
                 </div>
 
                 <div className="right">
                     <Clocks />
                 </div>
-
-                {/* <ErrorAlert locationError={locationError} />
-                <ErrorAlert fetchingDataError={fetchingDataError} /> */}
                 <ErrorAlert error={error} />
             </div>
         </ErrorContext.Provider>

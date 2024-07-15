@@ -14,6 +14,7 @@
         border: 2px solid $forecastGreyColor;
         border-radius: 10px;
         position: relative;
+        animation: scrollTease 1.5s 1s;
 
         &::-webkit-scrollbar {
             height: 4px;
@@ -134,5 +135,15 @@
         &.scroll-button-right {
             right: 0;
         }
+    }
+}
+
+@keyframes scrollTease {
+    50% {
+        transform: translateX(-50px);
+    }
+    
+    70% {
+        transform: translateX(-50px);
     }
 }
