@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { ErrorContext } from "./App";
+import Clocks from "./Clocks";
 
 function CityAndDate(props) {
     let [cityName, setCityName] = useState("Loading...");
@@ -26,7 +27,8 @@ function CityAndDate(props) {
     return (
         <div className="city-and-date">
             <h3 className="city-name">{cityName}</h3>
-            <h3 className="date">05.07.2024</h3>
+            {/* <h3 className="date">05.07.2024</h3> */}
+            <Clocks />
         </div>
     );
 }

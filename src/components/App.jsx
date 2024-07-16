@@ -3,11 +3,11 @@ import { createContext, useEffect, useState } from "react";
 import CityAndDate from "./CityAndDate";
 import DailyForecast from "./DailyForecast";
 import SelectedWeather from "./SelectedWeather";
-import Clocks from "./Clocks";
 import ErrorAlert from "./ErrorAlert";
 
 export const ErrorContext = createContext();
 export const SetSelectedWeatherContext = createContext();
+export const SettingsContext = createContext();
 
 function saveForecastData(data) {
     let date = new Date();
@@ -21,11 +21,12 @@ function getSavedForecastData() {
 
 export function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
+    // let [notificationsPermission, setNotificationsPermission] = useState("denied");
     let [forecast, setForecast] = useState({ list: [] });
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
-    let [notificationsPermission, setNotificationsPermission] = useState("denied");
+    let [appSettings, setAppSettings] = useState(localStorage.getItem("weather-app-settings") || {})
 
     // Defines user geolocation
     useEffect(() => {
@@ -72,18 +73,18 @@ export function App() {
     }, [geolocation.lat, geolocation.lon]);
 
     // Requesting notifications permission
-    useEffect(() => {
-        Notification.requestPermission()
-            .then((result) => {
-                setNotificationsPermission(result);
-                console.log(notificationsPermission);
-            })
-            .catch((error) => {
-                setError(error);
-            })
+    // useEffect(() => {
+    //     Notification.requestPermission()
+    //         .then((result) => {
+    //             setNotificationsPermission(result);
+    //             console.log(notificationsPermission);
+    //         })
+    //         .catch((error) => {
+    //             setError(error);
+    //         });
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     function getForecast(lat, lon) {
         try {
@@ -91,10 +92,7 @@ export function App() {
             let date = new Date();
             let currentMilliseconds = +date;
 
-            if (
-                !savedForecastData ||
-                currentMilliseconds - savedForecastData.timeStamp > 300 * 1000
-            ) {
+            if (!savedForecastData || currentMilliseconds - savedForecastData.timeStamp > 300 * 1000) {
                 fetchForecast(lat, lon);
             } else {
                 setForecast(savedForecastData);
@@ -113,23 +111,21 @@ export function App() {
     }
 
     return (
-        <ErrorContext.Provider value={[error, setError]}>
-            <div className="app">
-                <div className="left">
-                    <CityAndDate geolocation={geolocation} />
-                    <SelectedWeather info={selectedWeather} />
-                    <SetSelectedWeatherContext.Provider
-                        value={setSelectedWeather}
-                    >
-                        <DailyForecast forecast={forecast} notificationsPermission={notificationsPermission}/>
-                    </SetSelectedWeatherContext.Provider>
-                </div>
+        <SettingsContext.Provider value={[appSettings, setAppSettings]}>
+            <ErrorContext.Provider value={[error, setError]}>
+                <div className="app">
+                    <div className="left">
+                        <CityAndDate geolocation={geolocation} />
+                        <SelectedWeather info={selectedWeather} />
+                        <SetSelectedWeatherContext.Provider value={setSelectedWeather}>
+                            <DailyForecast forecast={forecast} />
+                        </SetSelectedWeatherContext.Provider>
+                    </div>
 
-                <div className="right">
-                    <Clocks />
+                    <div className="right"></div>
+                    <ErrorAlert error={error} />
                 </div>
-                <ErrorAlert error={error} />
-            </div>
-        </ErrorContext.Provider>
+            </ErrorContext.Provider>
+        </SettingsContext.Provider>
     );
 }
