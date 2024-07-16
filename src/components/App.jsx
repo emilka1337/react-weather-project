@@ -25,6 +25,7 @@ export function App() {
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
+    let [notificationsPermission, setNotificationsPermission] = useState();
 
     // Defines user geolocation
     useEffect(() => {
@@ -70,6 +71,32 @@ export function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
+    useEffect(() => {
+        requestNotificationsPermission();
+
+        if (notificationsPermission == "grante") {
+            new Notification("Спасибо за разрешение!", {
+                body: "Постараемся не надоедать вам :)",
+                icon: "https://icons.veryicon.com/png/o/miscellaneous/test-6/weather-91.png",
+                badge: "https://icons.veryicon.com/png/o/miscellaneous/test-6/weather-91.png",
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [notificationsPermission]);
+
+    function requestNotificationsPermission() {
+        Notification.requestPermission()
+            .then((result) => {
+                setNotificationsPermission(result);
+            })
+            .catch((error) => {
+                setError(error);
+            })
+            .finally(() => {
+                console.log(notificationsPermission);
+            });
+    }
+
     function getForecast(lat, lon) {
         try {
             let savedForecastData = getSavedForecastData();
@@ -81,10 +108,8 @@ export function App() {
                 currentMilliseconds - savedForecastData.timeStamp > 300 * 1000
             ) {
                 fetchForecast(lat, lon);
-                console.log("forecast from api");
             } else {
                 setForecast(savedForecastData);
-                console.log("forecast from ls");
             }
         } catch (error) {
             setError(error);
