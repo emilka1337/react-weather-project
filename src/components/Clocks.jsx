@@ -7,9 +7,13 @@ function getCurrentTime() {
 }
 
 function formatTime(time) {
+    let hours = time.hours;
     let minutes = time.minutes;
     let seconds = time.seconds;
 
+    if (hours < 10) {
+        hours = "0" + hours
+    }
     if (minutes < 10) {
         minutes = "0" + minutes
     }
@@ -17,7 +21,7 @@ function formatTime(time) {
         seconds = "0" + seconds
     }
 
-    return `${time.hours}:${minutes}:${seconds}`;
+    return `${hours}:${minutes}:${seconds}`;
 }
 
 function defineGreeting(time) {
