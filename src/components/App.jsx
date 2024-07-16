@@ -25,6 +25,7 @@ export function App() {
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
+    let [notificationsPermission, setNotificationsPermission] = useState("denied");
 
     // Defines user geolocation
     useEffect(() => {
@@ -70,6 +71,20 @@ export function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
+    // Requesting notifications permission
+    useEffect(() => {
+        Notification.requestPermission()
+            .then((result) => {
+                setNotificationsPermission(result);
+                console.log(notificationsPermission);
+            })
+            .catch((error) => {
+                setError(error);
+            })
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     function getForecast(lat, lon) {
         try {
             let savedForecastData = getSavedForecastData();
@@ -81,10 +96,8 @@ export function App() {
                 currentMilliseconds - savedForecastData.timeStamp > 300 * 1000
             ) {
                 fetchForecast(lat, lon);
-                console.log("forecast from api");
             } else {
                 setForecast(savedForecastData);
-                console.log("forecast from ls");
             }
         } catch (error) {
             setError(error);
@@ -108,7 +121,7 @@ export function App() {
                     <SetSelectedWeatherContext.Provider
                         value={setSelectedWeather}
                     >
-                        <DailyForecast forecast={forecast} />
+                        <DailyForecast forecast={forecast} notificationsPermission={notificationsPermission}/>
                     </SetSelectedWeatherContext.Provider>
                 </div>
 
