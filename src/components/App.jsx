@@ -25,7 +25,7 @@ export function App() {
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
-    let [notificationsPermission, setNotificationsPermission] = useState();
+    let [notificationsPermission, setNotificationsPermission] = useState("denied");
 
     // Defines user geolocation
     useEffect(() => {
@@ -71,31 +71,19 @@ export function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
+    // Requesting notifications permission
     useEffect(() => {
-        requestNotificationsPermission();
-
-        if (notificationsPermission == "grante") {
-            new Notification("Спасибо за разрешение!", {
-                body: "Постараемся не надоедать вам :)",
-                icon: "https://icons.veryicon.com/png/o/miscellaneous/test-6/weather-91.png",
-                badge: "https://icons.veryicon.com/png/o/miscellaneous/test-6/weather-91.png",
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [notificationsPermission]);
-
-    function requestNotificationsPermission() {
         Notification.requestPermission()
             .then((result) => {
                 setNotificationsPermission(result);
+                console.log(notificationsPermission);
             })
             .catch((error) => {
                 setError(error);
             })
-            .finally(() => {
-                console.log(notificationsPermission);
-            });
-    }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     function getForecast(lat, lon) {
         try {
@@ -133,7 +121,7 @@ export function App() {
                     <SetSelectedWeatherContext.Provider
                         value={setSelectedWeather}
                     >
-                        <DailyForecast forecast={forecast} />
+                        <DailyForecast forecast={forecast} notificationsPermission={notificationsPermission}/>
                     </SetSelectedWeatherContext.Provider>
                 </div>
 
