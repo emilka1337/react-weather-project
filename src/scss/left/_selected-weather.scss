@@ -9,10 +9,17 @@
         font-weight: 400;
         color: $weatherTextColor;
         position: relative;
+        margin-bottom: 0;
 
         .degree {
             position: absolute;
         }
+    }
+
+    .feels-like {
+        margin: 0;
+        font-size: 14px;
+        color: $weatherTextColor;
     }
 
     .more-info {

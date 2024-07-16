@@ -5,6 +5,12 @@ function SelectedWeather(props) {
                 {(props.info && props.info.main.temp.toFixed(0)) || "0"}
                 <span className="degree">°</span>
             </h1>
+            <p className="feels-like">
+                {`Feels like: ${
+                    (props.info && props.info.main.feels_like.toFixed(0)) || "0"
+                }`}
+                <span className="degree">°</span>
+            </p>
             <div className="more-info">
                 <h3 className="wind">
                     <svg
