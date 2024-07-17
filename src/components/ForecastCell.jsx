@@ -1,5 +1,5 @@
 import { useContext, useRef } from "react";
-import { SetSelectedWeatherContext } from "./App";
+import { SetSelectedWeatherContext, SettingsContext } from "./App";
 
 function formatTime(time) {
     let minutes = time.minutes;
@@ -14,6 +14,7 @@ function formatTime(time) {
 function ForecastCell(props) {
     let setSelectedWeather = useContext(SetSelectedWeatherContext);
     let activeIndicator = useRef();
+    let [appSettings] = useContext(SettingsContext);
 
     let date = new Date(props.timestamp * 1000);
     let hours = date.getHours();
@@ -33,7 +34,9 @@ function ForecastCell(props) {
         <div className="forecast-cell" onClick={clickHandler}>
             <h4 className="time">{`${formattedTime}`}</h4>
             <h3 className="temperature">
-                {props.cellForecast.main.temp.toFixed(0)}
+                {appSettings.temperatureScale == "celsius"
+                    ? props.cellForecast.main.temp.toFixed(0)
+                    : (props.cellForecast.main.temp * (9 / 5) + 32).toFixed(0)}
                 <span className="degree">°</span>
             </h3>
             <h3 className="main">{props.cellForecast.weather[0].main}</h3>

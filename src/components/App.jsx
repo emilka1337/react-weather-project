@@ -4,6 +4,7 @@ import CityAndDate from "./CityAndDate";
 import DailyForecast from "./DailyForecast";
 import SelectedWeather from "./SelectedWeather";
 import ErrorAlert from "./ErrorAlert";
+import Settings from "./settings/Settings";
 
 export const ErrorContext = createContext();
 export const SetSelectedWeatherContext = createContext();
@@ -21,12 +22,11 @@ function getSavedForecastData() {
 
 export function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
-    // let [notificationsPermission, setNotificationsPermission] = useState("denied");
     let [forecast, setForecast] = useState({ list: [] });
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
-    let [appSettings, setAppSettings] = useState(localStorage.getItem("weather-app-settings") || {})
+    let [appSettings, setAppSettings] = useState(JSON.parse(localStorage.getItem("weather-app-settings")) || {});
 
     // Defines user geolocation
     useEffect(() => {
@@ -72,20 +72,6 @@ export function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
-    // Requesting notifications permission
-    // useEffect(() => {
-    //     Notification.requestPermission()
-    //         .then((result) => {
-    //             setNotificationsPermission(result);
-    //             console.log(notificationsPermission);
-    //         })
-    //         .catch((error) => {
-    //             setError(error);
-    //         });
-
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
     function getForecast(lat, lon) {
         try {
             let savedForecastData = getSavedForecastData();
@@ -122,7 +108,9 @@ export function App() {
                         </SetSelectedWeatherContext.Provider>
                     </div>
 
-                    <div className="right"></div>
+                    <div className="right">
+                        <Settings />
+                    </div>
                     <ErrorAlert error={error} />
                 </div>
             </ErrorContext.Provider>
