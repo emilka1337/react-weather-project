@@ -26,7 +26,13 @@ export function App() {
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
-    let [appSettings, setAppSettings] = useState(JSON.parse(localStorage.getItem("weather-app-settings")) || {});
+    let defaultAppSettings = {
+        showFeelsLikeField: false,
+        temperatureScale: "celsius",
+    };
+    let [appSettings, setAppSettings] = useState(
+        JSON.parse(localStorage.getItem("weather-app-settings")) ?? defaultAppSettings
+    );
 
     // Defines user geolocation
     useEffect(() => {
