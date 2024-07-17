@@ -2,18 +2,61 @@
     width: 25%;
     padding: 40px 0px;
     padding-right: 10px;
-    text-align: center;
+    overflow: hidden;
 
-    .clocks {
-        color: $textColor;
+    .settings-menu-toggler-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .settings-menu-toggler {
+        background: none;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        cursor: pointer;
+        transition: 400ms;
+        display: flex;
+        transform: translateY(-5px);
 
-        h3 {
-            font-weight: 500;
-            margin: 5px 0px;
-            font-size: 18px;
+        &:hover {
+            background: #00000022;
+        }
 
-            &.greeting {
-                margin-top: 0;
+        svg {
+            width: 20px;
+            color: $textColor;
+        }
+    }
+
+    .settings-menu {
+        transition: 500ms;
+        transform: translateX(110%);
+
+        &.show {
+            transform: none;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+
+            li {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 20px;
+
+                h5 {
+                    color: $textColor;
+                    font-weight: 400;
+                    margin: 0;
+                }
+
+                button {
+                    padding: 10px;
+                }
             }
         }
     }
