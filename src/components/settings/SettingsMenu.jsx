@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { SettingsContext } from "../App";
 
 function SettingsMenu(props) {
-    let [appSettings, setAppSettings] = useContext(SettingsContext);
+    let [appSettings, setAppSettings, defaultAppSettings] = useContext(SettingsContext);
 
     const saveSettings = (settings) => {
         localStorage.setItem("weather-app-settings", JSON.stringify(settings));
@@ -39,6 +39,11 @@ function SettingsMenu(props) {
         saveSettings(newAppSettings)
     }
 
+    const resetSettingsClick = () => {
+        setAppSettings(defaultAppSettings)
+        localStorage.removeItem("weather-app-settings");
+    }
+
     return (
         <div className={props.showSettings ? "settings-menu show" : "settings-menu"}>
             <ul>
@@ -68,6 +73,12 @@ function SettingsMenu(props) {
                     >
                         <div className="circle"></div>
                     </button>
+                </li>
+                <li>
+                    <h5>
+                        Reset Settings <br /><span>(try this if something not working properly)</span>
+                    </h5>
+                    <button className="reset-button" onClick={resetSettingsClick}>Reset</button>
                 </li>
             </ul>
         </div>
