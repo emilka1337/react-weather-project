@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SettingsContext } from "../App";
 
 function SettingsMenu(props) {
     let [appSettings, setAppSettings, defaultAppSettings] = useContext(SettingsContext);
+    let [settingsResetted, setSettingsResetted] = useState(false);
 
     const saveSettings = (settings) => {
         localStorage.setItem("weather-app-settings", JSON.stringify(settings));
@@ -23,7 +24,7 @@ function SettingsMenu(props) {
         let newAppSettings = {
             ...appSettings,
             temperatureScale: newTempScaleSetting,
-        }
+        };
         setAppSettings(newAppSettings);
         saveSettings(newAppSettings);
     };
@@ -33,16 +34,18 @@ function SettingsMenu(props) {
 
         let newAppSettings = {
             ...appSettings,
-            speedUnit: newspeedUnit
-        }
+            speedUnit: newspeedUnit,
+        };
         setAppSettings(newAppSettings);
-        saveSettings(newAppSettings)
-    }
+        saveSettings(newAppSettings);
+    };
 
     const resetSettingsClick = () => {
-        setAppSettings(defaultAppSettings)
+        setAppSettings(defaultAppSettings);
         localStorage.removeItem("weather-app-settings");
-    }
+        setSettingsResetted(true);
+        setTimeout(() => setSettingsResetted(false), 3000);
+    };
 
     return (
         <div className={props.showSettings ? "settings-menu show" : "settings-menu"}>
@@ -70,8 +73,11 @@ function SettingsMenu(props) {
                         Reset Settings <br />
                         <span>(try this if something not working properly)</span>
                     </h5>
-                    <button className="reset-button" onClick={resetSettingsClick}>
-                        Reset
+                    <button
+                        className={settingsResetted ? "reset-button resetted" : "reset-button"}
+                        onClick={resetSettingsClick}
+                    >
+                        {settingsResetted ? "OK" : "Reset"}
                     </button>
                 </li>
             </ul>
