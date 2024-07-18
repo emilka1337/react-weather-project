@@ -32,9 +32,11 @@
     .settings-menu {
         transition: 500ms;
         transform: translateX(110%);
-
+        opacity: 0;
+        
         &.show {
             transform: none;
+            opacity: 1;
         }
 
         ul {
@@ -54,6 +56,9 @@
                     font-weight: 500;
                     margin: 0;
                     font-size: 14px;
+                    span {
+                        font-size: 10px;
+                    }
                 }
 
                 .toggler {
@@ -83,6 +88,20 @@
                             border-color: $textColor;
                             left: calc(100% - 15px);
                         } 
+                    }
+                }
+
+                .reset-button {
+                    color: crimson;
+                    border: 1px solid transparent;
+                    background: transparent;
+                    cursor: pointer;
+                    transition: 400ms;
+                    padding: 5px;
+                    border-radius: 5px;
+
+                    &:hover {
+                        border-color: $textColor;
                     }
                 }
             }

@@ -104,7 +104,7 @@ export function App() {
     }
 
     return (
-        <SettingsContext.Provider value={[appSettings, setAppSettings]}>
+        <SettingsContext.Provider value={[appSettings, setAppSettings, defaultAppSettings]}>
             <ErrorContext.Provider value={[error, setError]}>
                 <div className="app">
                     <div className="left">
