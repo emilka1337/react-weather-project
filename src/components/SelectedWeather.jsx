@@ -39,7 +39,13 @@ function SelectedWeather(props) {
                     >
                         <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5" />
                     </svg>
-                    {props.info && (props.info.wind.speed * 3.6).toFixed(1) + " km/h"}
+                    {
+                        props.info &&
+                        (appSettings.speedUnit == "km/h" 
+                            ? props.info.wind.speed * 3.6 
+                            : props.info.wind.speed).toFixed(1) 
+                            + (appSettings.speedUnit == "km/h" ? " km/h" : " m/s")
+                    }
                 </h3>
                 <h2 className="sky">{props.info && props.info.weather[0].main}</h2>
                 <h3 className="humidity">
