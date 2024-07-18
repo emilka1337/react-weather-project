@@ -47,38 +47,32 @@ function SettingsMenu(props) {
     return (
         <div className={props.showSettings ? "settings-menu show" : "settings-menu"}>
             <ul>
-                <li>
+                <li onClick={feelsLikeSettingClick}>
                     <h5>Show &quot;Feels like&quot; field under the main temperature</h5>
-                    <button
-                        onClick={feelsLikeSettingClick}
-                        className={appSettings.showFeelsLikeField ? "toggler toggled" : "toggler"}
-                    >
+                    <button className={appSettings.showFeelsLikeField ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
-                <li>
+                <li onClick={temperatureScaleSettingClick}>
                     <h5>Temperature in F°</h5>
-                    <button
-                        onClick={temperatureScaleSettingClick}
-                        className={appSettings.temperatureScale == "fahrenheit" ? "toggler toggled" : "toggler"}
-                    >
+                    <button className={appSettings.temperatureScale == "fahrenheit" ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
-                <li>
+                <li onClick={speedUnitSettingClick}>
                     <h5>Wind speed in m/s</h5>
-                    <button
-                        onClick={speedUnitSettingClick}
-                        className={appSettings.speedUnit == "m/s" ? "toggler toggled" : "toggler"}
-                    >
+                    <button className={appSettings.speedUnit == "m/s" ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li>
                     <h5>
-                        Reset Settings <br /><span>(try this if something not working properly)</span>
+                        Reset Settings <br />
+                        <span>(try this if something not working properly)</span>
                     </h5>
-                    <button className="reset-button" onClick={resetSettingsClick}>Reset</button>
+                    <button className="reset-button" onClick={resetSettingsClick}>
+                        Reset
+                    </button>
                 </li>
             </ul>
         </div>

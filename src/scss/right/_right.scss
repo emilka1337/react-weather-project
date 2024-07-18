@@ -50,6 +50,10 @@
                 justify-content: space-between;
                 align-items: center;
                 gap: 20px;
+                
+                &:not(:last-child) {
+                    cursor: pointer;
+                }
 
                 h5 {
                     color: $textColor;
@@ -67,7 +71,6 @@
                     border-radius: 10px;
                     padding: 5px 15px;
                     position: relative;
-                    cursor: pointer;
                     transition: 400ms;
 
                     .circle {
