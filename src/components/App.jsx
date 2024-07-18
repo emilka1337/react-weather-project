@@ -26,9 +26,10 @@ export function App() {
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
-    let defaultAppSettings = {
+    const defaultAppSettings = {
         showFeelsLikeField: false,
         temperatureScale: "celsius",
+        speedUnit: "km/h"
     };
     let [appSettings, setAppSettings] = useState(
         JSON.parse(localStorage.getItem("weather-app-settings")) ?? defaultAppSettings
