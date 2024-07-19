@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SettingsContext } from "../App";
 
 function SettingsMenu(props) {
     let [appSettings, setAppSettings, defaultAppSettings] = useContext(SettingsContext);
+    let [settingsResetted, setSettingsResetted] = useState(false);
 
     const saveSettings = (settings) => {
         localStorage.setItem("weather-app-settings", JSON.stringify(settings));
@@ -23,7 +24,7 @@ function SettingsMenu(props) {
         let newAppSettings = {
             ...appSettings,
             temperatureScale: newTempScaleSetting,
-        }
+        };
         setAppSettings(newAppSettings);
         saveSettings(newAppSettings);
     };
@@ -33,52 +34,51 @@ function SettingsMenu(props) {
 
         let newAppSettings = {
             ...appSettings,
-            speedUnit: newspeedUnit
-        }
+            speedUnit: newspeedUnit,
+        };
         setAppSettings(newAppSettings);
-        saveSettings(newAppSettings)
-    }
+        saveSettings(newAppSettings);
+    };
 
     const resetSettingsClick = () => {
-        setAppSettings(defaultAppSettings)
+        setAppSettings(defaultAppSettings);
         localStorage.removeItem("weather-app-settings");
-    }
+        setSettingsResetted(true);
+        setTimeout(() => setSettingsResetted(false), 3000);
+    };
 
     return (
         <div className={props.showSettings ? "settings-menu show" : "settings-menu"}>
             <ul>
-                <li>
-                    <h5>Show &quot;Feels like&quot; field under the main temperature</h5>
-                    <button
-                        onClick={feelsLikeSettingClick}
-                        className={appSettings.showFeelsLikeField ? "toggler toggled" : "toggler"}
-                    >
+                <li onClick={feelsLikeSettingClick}>
+                    <h5>&quot;Feels like&quot; field</h5>
+                    <button className={appSettings.showFeelsLikeField ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
-                <li>
+                <li onClick={temperatureScaleSettingClick}>
                     <h5>Temperature in F°</h5>
-                    <button
-                        onClick={temperatureScaleSettingClick}
-                        className={appSettings.temperatureScale == "fahrenheit" ? "toggler toggled" : "toggler"}
-                    >
+                    <button className={appSettings.temperatureScale == "fahrenheit" ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
-                <li>
+                <li onClick={speedUnitSettingClick}>
                     <h5>Wind speed in m/s</h5>
-                    <button
-                        onClick={speedUnitSettingClick}
-                        className={appSettings.speedUnit == "m/s" ? "toggler toggled" : "toggler"}
-                    >
+                    <button className={appSettings.speedUnit == "m/s" ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li>
                     <h5>
-                        Reset Settings <br /><span>(try this if something not working properly)</span>
+                        Reset Settings <br />
+                        <span>(try this if something not working properly)</span>
                     </h5>
-                    <button className="reset-button" onClick={resetSettingsClick}>Reset</button>
+                    <button
+                        className={settingsResetted ? "reset-button resetted" : "reset-button"}
+                        onClick={resetSettingsClick}
+                    >
+                        {settingsResetted ? "OK" : "Reset"}
+                    </button>
                 </li>
             </ul>
         </div>
