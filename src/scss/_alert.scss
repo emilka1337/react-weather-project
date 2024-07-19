@@ -1,4 +1,4 @@
-.error-alert {
+.alert {
     width: 992px;
     position: absolute;
     bottom: 0;
@@ -24,6 +24,13 @@
         span {
             font-weight: 500;
         }
+    }
+
+    button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        @include button;
     }
 
     &.show {
