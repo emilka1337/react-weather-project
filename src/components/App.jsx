@@ -3,10 +3,12 @@ import { createContext, useEffect, useState } from "react";
 import CityAndDate from "./CityAndDate";
 import DailyForecast from "./DailyForecast";
 import SelectedWeather from "./SelectedWeather";
-import ErrorAlert from "./ErrorAlert";
+import ErrorAlert from "./alerts/ErrorAlert";
 import Settings from "./settings/Settings";
+import WarningAlert from "./alerts/WarningAlert";
 
 export const ErrorContext = createContext();
+export const WarningContext = createContext();
 export const SetSelectedWeatherContext = createContext();
 export const SettingsContext = createContext();
 
@@ -25,11 +27,12 @@ export function App() {
     let [forecast, setForecast] = useState({ list: [] });
     let [selectedWeather, setSelectedWeather] = useState(0);
     let [error, setError] = useState(false);
+    let [warning, setWarning] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
     const defaultAppSettings = {
         showFeelsLikeField: false,
         temperatureScale: "celsius",
-        speedUnit: "km/h"
+        speedUnit: "km/h",
     };
     let [appSettings, setAppSettings] = useState(
         JSON.parse(localStorage.getItem("weather-app-settings")) ?? defaultAppSettings
@@ -84,14 +87,16 @@ export function App() {
             let savedForecastData = getSavedForecastData();
             let date = new Date();
             let currentMilliseconds = +date;
-
+            
             if (!savedForecastData || currentMilliseconds - savedForecastData.timeStamp > 300 * 1000) {
                 fetchForecast(lat, lon);
             } else {
                 setForecast(savedForecastData);
             }
-        } catch (error) {
-            setError(error);
+        } catch {
+            let savedForecastData = getSavedForecastData();
+            setForecast(savedForecastData);
+            setWarning({text: "Failed to load weather data. Old data will be displayed instead. Try to reload page."});
         }
     }
 
@@ -106,20 +111,24 @@ export function App() {
     return (
         <SettingsContext.Provider value={[appSettings, setAppSettings, defaultAppSettings]}>
             <ErrorContext.Provider value={[error, setError]}>
-                <div className="app">
-                    <div className="left">
-                        <CityAndDate geolocation={geolocation} />
-                        <SelectedWeather info={selectedWeather} />
-                        <SetSelectedWeatherContext.Provider value={setSelectedWeather}>
-                            <DailyForecast forecast={forecast} />
-                        </SetSelectedWeatherContext.Provider>
-                    </div>
+                <WarningContext.Provider value={[warning, setWarning]}>
+                    <div className="app">
+                        <div className="left">
+                            <CityAndDate geolocation={geolocation} />
+                            <SelectedWeather info={selectedWeather} />
+                            <SetSelectedWeatherContext.Provider value={setSelectedWeather}>
+                                <DailyForecast forecast={forecast} />
+                            </SetSelectedWeatherContext.Provider>
+                        </div>
 
-                    <div className="right">
-                        <Settings />
+                        <div className="right">
+                            <Settings />
+                        </div>
+                        
+                        <ErrorAlert error={error} />
+                        <WarningAlert warning={warning} />
                     </div>
-                    <ErrorAlert error={error} />
-                </div>
+                </WarningContext.Provider>
             </ErrorContext.Provider>
         </SettingsContext.Provider>
     );
