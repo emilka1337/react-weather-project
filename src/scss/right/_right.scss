@@ -8,7 +8,7 @@
         display: flex;
         justify-content: flex-end;
     }
-    
+
     .settings-menu-toggler {
         background: none;
         border: none;
@@ -20,7 +20,7 @@
         transform: translateY(-5px);
 
         &:hover {
-            background: #00000022;
+            background: $hoverBgColor;
         }
 
         svg {
@@ -33,7 +33,7 @@
         transition: 500ms;
         transform: translateX(110%);
         opacity: 0;
-        
+
         &.show {
             transform: none;
             opacity: 1;
@@ -52,15 +52,16 @@
                 padding: 10px;
                 padding-right: 5px;
                 border-radius: 10px;
+                transition: 200ms;
 
                 &:not(:last-child) {
                     cursor: pointer;
                 }
 
                 &:not(:last-child):hover {
-                    background: #00000011;
+                    background: $hoverBgColor;
                 }
-                
+
                 h5 {
                     color: $textColor;
                     font-weight: 500;
@@ -70,10 +71,10 @@
                         font-size: 10px;
                     }
                 }
-                
+
                 .toggler {
                     // background: #A3A1A1;
-                    border: 1px solid #A3A1A1;
+                    border: 1px solid #a3a1a1;
                     border-radius: 10px;
                     padding: 5px 15px;
                     position: relative;
@@ -91,13 +92,13 @@
                     }
 
                     &.toggled {
-                        background: #A3A1A1;
+                        background: #a3a1a1;
 
                         .circle {
                             background: $textColor;
                             border-color: $textColor;
                             left: calc(100% - 15px);
-                        } 
+                        }
                     }
                 }
 
@@ -115,8 +116,11 @@
                     }
 
                     &.resetted {
-                        border-color: green;
                         color: green;
+
+                        &:hover {
+                            border-color: green;
+                        }
                     }
                 }
             }

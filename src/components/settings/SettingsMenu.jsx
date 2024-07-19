@@ -51,7 +51,7 @@ function SettingsMenu(props) {
         <div className={props.showSettings ? "settings-menu show" : "settings-menu"}>
             <ul>
                 <li onClick={feelsLikeSettingClick}>
-                    <h5>Show &quot;Feels like&quot; field under the main temperature</h5>
+                    <h5>&quot;Feels like&quot; field</h5>
                     <button className={appSettings.showFeelsLikeField ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
