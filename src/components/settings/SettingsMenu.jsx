@@ -40,6 +40,15 @@ function SettingsMenu(props) {
         saveSettings(newAppSettings);
     };
 
+    const showSecondsInClocksClick = () => {
+        let newAppSettings = {
+            ...appSettings,
+            showSecondsInClocks: !appSettings.showSecondsInClocks,
+        };
+        setAppSettings(newAppSettings);
+        saveSettings(newAppSettings);
+    }
+
     const resetSettingsClick = () => {
         setAppSettings(defaultAppSettings);
         localStorage.removeItem("weather-app-settings");
@@ -68,7 +77,7 @@ function SettingsMenu(props) {
                         <div className="circle"></div>
                     </button>
                 </li>
-                <li onClick={speedUnitSettingClick}>
+                <li onClick={showSecondsInClocksClick}>
                     <h5>Show seconds in clocks</h5>
                     <button className={appSettings.showSecondsInClocks ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>

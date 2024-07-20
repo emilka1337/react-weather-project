@@ -21,7 +21,12 @@ function formatTime(time, showSeconds) {
         seconds = "0" + seconds;
     }
 
-    return showSeconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
+    if (showSeconds) {
+        return `${hours}:${minutes}:${seconds}`;
+    } else {
+        return `${hours}:${minutes}`;
+    }
+    // return showSeconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
 }
 
 function defineGreeting(time) {
@@ -48,7 +53,7 @@ function Clocks() {
         let timeInterval = setInterval(setTime, 1000);
         return () => clearInterval(timeInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [appSettings]);
 
     function setTime() {
         let time = getCurrentTime();
