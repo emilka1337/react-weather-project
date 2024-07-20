@@ -68,6 +68,12 @@ function SettingsMenu(props) {
                         <div className="circle"></div>
                     </button>
                 </li>
+                <li onClick={speedUnitSettingClick}>
+                    <h5>Show seconds in clocks</h5>
+                    <button className={appSettings.showSecondsInClocks ? "toggler toggled" : "toggler"}>
+                        <div className="circle"></div>
+                    </button>
+                </li>
                 <li>
                     <h5>
                         Reset Settings <br />

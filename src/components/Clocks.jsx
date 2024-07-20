@@ -1,27 +1,27 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { SettingsContext } from "./App";
 
 function getCurrentTime() {
     let date = new Date();
     return { hours: date.getHours(), minutes: date.getMinutes(), seconds: date.getSeconds() };
 }
 
-function formatTime(time) {
+function formatTime(time, showSeconds) {
     let hours = time.hours;
     let minutes = time.minutes;
     let seconds = time.seconds;
 
     if (hours < 10) {
-        hours = "0" + hours
+        hours = "0" + hours;
     }
     if (minutes < 10) {
-        minutes = "0" + minutes
+        minutes = "0" + minutes;
     }
     if (seconds < 10) {
-        seconds = "0" + seconds
+        seconds = "0" + seconds;
     }
 
-    return `${hours}:${minutes}:${seconds}`;
+    return showSeconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
 }
 
 function defineGreeting(time) {
@@ -41,16 +41,18 @@ function defineGreeting(time) {
 function Clocks() {
     let [currentTime, setCurrentTime] = useState("...");
     let [greeting, setGreeting] = useState("...");
+    let [appSettings] = useContext(SettingsContext);
 
     useEffect(() => {
-        setTime()
+        setTime();
         let timeInterval = setInterval(setTime, 1000);
         return () => clearInterval(timeInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function setTime() {
         let time = getCurrentTime();
-        let timeFormatted = formatTime(time);
+        let timeFormatted = formatTime(time, appSettings.showSecondsInClocks);
         setCurrentTime(timeFormatted);
 
         let definedGreeting = defineGreeting(time);

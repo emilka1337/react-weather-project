@@ -6,7 +6,7 @@ import SelectedWeather from "./SelectedWeather";
 import ErrorAlert from "./alerts/ErrorAlert";
 import Settings from "./settings/Settings";
 import WarningAlert from "./alerts/WarningAlert";
-
+// Contexts
 export const ErrorContext = createContext();
 export const WarningContext = createContext();
 export const SetSelectedWeatherContext = createContext();
@@ -33,6 +33,7 @@ export function App() {
         showFeelsLikeField: false,
         temperatureScale: "celsius",
         speedUnit: "km/h",
+        showSecondsInClocks: true
     };
     let [appSettings, setAppSettings] = useState(
         JSON.parse(localStorage.getItem("weather-app-settings")) ?? defaultAppSettings
@@ -82,7 +83,11 @@ export function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
-    function getForecast(lat, lon) {
+    // Checks if new settings added in new app releases and adds it to all settings
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => updateSettingsIfNewSettingsAdded(), [])
+
+    let getForecast = (lat, lon) => {
         try {
             let savedForecastData = getSavedForecastData();
             let date = new Date();
@@ -100,12 +105,25 @@ export function App() {
         }
     }
 
-    async function fetchForecast(lat, lon) {
+    let fetchForecast = async (lat, lon) => {
         let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=e13101adaa937ed23720689cf95cba15&units=metric`;
         let response = await fetch(forecastURL);
         let data = await response.json();
         setForecast(data);
         saveForecastData(data);
+    }
+
+    let updateSettingsIfNewSettingsAdded = () => {
+        if (localStorage.getItem("weather-app-settings")) {
+            for (let i in defaultAppSettings) {
+                if (appSettings[i] == undefined) {
+                    setAppSettings({
+                        ...appSettings, i: defaultAppSettings[i]
+                    })
+                    localStorage.setItem("weather-app-settings", JSON.stringify(appSettings));
+                }
+            }
+        }
     }
 
     return (
