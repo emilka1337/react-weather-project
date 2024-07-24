@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 // Components
 import CityAndDate from "./CityAndDate";
-import DailyForecast from "./DailyForecast";
+import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./SelectedWeather";
 import ErrorAlert from "./alerts/ErrorAlert";
 import Settings from "./settings/Settings";

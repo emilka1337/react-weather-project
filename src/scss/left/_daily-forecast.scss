@@ -71,7 +71,7 @@
                     background: $widgetBgColor;
                 }
 
-                .main {
+                .main, .wind-speed {
                     max-height: 20px;
                 }
 
@@ -94,13 +94,24 @@
                 transition: 300ms;
                 margin-top: 0;
                 position: relative;
+                display: none;
+
+                &.show {
+                    display: block;
+                }
 
                 .degree {
                     position: absolute;
                 }
             }
 
-            .main {
+            .temperature-container, .wind-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .main, .wind-speed {
                 color: $forecastGreyColor;
                 margin: 0;
                 font-size: 14px;
@@ -110,6 +121,19 @@
                 transition: 400ms;
                 position: absolute;
                 bottom: 5px;
+                display: none;
+
+                &.show {
+                    display: block;
+                }
+            }
+
+            .wind-direction {
+                display: none;
+
+                &.show {
+                    display: inline-block;
+                }
             }
 
             .active-indicator {
