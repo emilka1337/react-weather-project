@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 // Components
 import CityAndDate from "./CityAndDate";
-import DailyForecast from "./DailyForecast";
+import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./SelectedWeather";
 import ErrorAlert from "./alerts/ErrorAlert";
 import Settings from "./settings/Settings";
@@ -102,6 +102,7 @@ export function App() {
             }
         } catch {
             let savedForecastData = getSavedForecastData();
+            console.log(savedForecastData);
             setForecast(savedForecastData);
             setWarning({
                 text: "Failed to load weather data. Old data will be displayed instead. Try to reload page.",
@@ -110,7 +111,7 @@ export function App() {
     };
 
     let fetchForecast = async (lat, lon) => {
-        let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=e13101adaa937ed23720689cf95cba15&units=metric`;
+        let forecastURL = `${import.meta.env.VITE_BASE_URL}/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric`;
         let response = await fetch(forecastURL);
         let data = await response.json();
         setForecast(data);

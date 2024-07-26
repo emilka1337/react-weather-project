@@ -8,7 +8,10 @@ function CityAndDate(props) {
 
     useEffect(() => {
         const fetchCityName = async () => {
-            const requestURL = `https://api.openweathermap.org/geo/1.0/reverse?lat=${props.geolocation.lat}&lon=${props.geolocation.lon}&limit=5&appid=e13101adaa937ed23720689cf95cba15`;
+            const requestURL = `${import.meta.env.VITE_BASE_URL}geo/1.0/reverse?lat=${props.geolocation.lat}&lon=${
+                props.geolocation.lon
+            }&limit=5&appid=${import.meta.env.VITE_API_KEY}
+`;
             const response = await fetch(requestURL);
             if (response.ok) {
                 const data = await response.json();

@@ -9,6 +9,7 @@ function SettingsMenu(props) {
         localStorage.setItem("weather-app-settings", JSON.stringify(settings));
     };
 
+    //#region Settings click event listeners
     const feelsLikeSettingClick = () => {
         let newSettings = {
             ...appSettings,
@@ -47,7 +48,7 @@ function SettingsMenu(props) {
         };
         setAppSettings(newAppSettings);
         saveSettings(newAppSettings);
-    }
+    };
 
     const resetSettingsClick = () => {
         setAppSettings(defaultAppSettings);
@@ -55,7 +56,8 @@ function SettingsMenu(props) {
         setSettingsResetted(true);
         setTimeout(() => setSettingsResetted(false), 3000);
     };
-
+    //#endregion
+    
     return (
         <div className={props.showSettings ? "settings-menu show" : "settings-menu"}>
             <ul>

@@ -1,6 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import ForecastDay from "./ForecastDay";
-import { ErrorContext } from "./App";
+import { ErrorContext } from "../App";
+
+export const ForecastModeContext = createContext();
 
 function extractWeekDayFromTimestamp(ts) {
     return new Date(ts * 1000).getDay();
@@ -60,6 +62,7 @@ function DailyForecast(props) {
     let [notificationShowed, setNotificationShowed] = useState(false);
     let [separatedList, setSeparatedList] = useState([]);
     let [notificationsPermission, setNotificationsPermission] = useState("denied");
+    let [forecastMode, setForecastMode] = useState("wind");
 
     let [setError] = useContext(ErrorContext);
 
@@ -94,12 +97,29 @@ function DailyForecast(props) {
         }
     }, [notificationShowed, notificationsPermission, separatedList]);
 
+    const temperatureButtonClick = () => setForecastMode("temperature")
+    const windButtonClick = () => setForecastMode("wind")
+
     return (
-        <ul className="daily-forecast">
-            {separatedList.map((day, index) => {
-                return <ForecastDay day={day} weekday={day[0].weekday} key={index} />;
-            })}
-        </ul>
+        <>
+            <nav className="forecast-mode-toggle-panel">
+                <ul>
+                    <li>
+                        <button onClick={temperatureButtonClick}>Temperature</button>
+                    </li>
+                    <li>
+                        <button onClick={windButtonClick}>Wind</button>
+                    </li>
+                </ul>
+            </nav>
+            <ul className="daily-forecast">
+                <ForecastModeContext.Provider value={forecastMode}>
+                    {separatedList.map((day, index) => {
+                        return <ForecastDay day={day} weekday={day[0].weekday} key={index} />;
+                    })}
+                </ForecastModeContext.Provider>
+            </ul>
+        </>
     );
 }
 
