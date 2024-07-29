@@ -2,7 +2,9 @@
     display: flex;
     gap: 20px;
     overflow-x: scroll;
-    padding: 10px 0px;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 10px;
 
     .forecast-day {
         list-style: none;
@@ -11,7 +13,7 @@
         display: flex;
         align-items: stretch;
         gap: 10px;
-        border: 2px solid $forecastGreyColor;
+        border: 1px solid $forecastGreyColor;
         border-radius: 10px;
         position: relative;
         animation: scrollTease 1.5s 1s;
@@ -75,6 +77,10 @@
                     max-height: 20px;
                 }
 
+                .wind-direction {
+                    color: $widgetBgColor;
+                }
+
                 .active-indicator {
                     display: none;
                 }
@@ -127,9 +133,17 @@
                     display: block;
                 }
             }
-
+            
+            .wind-speed {
+                font-size: 12px;
+            }
+            
             .wind-direction {
                 display: none;
+                margin-bottom: 10px;
+                width: 24px;
+                height: 24px;
+                color: $textColor;
 
                 &.show {
                     display: inline-block;
