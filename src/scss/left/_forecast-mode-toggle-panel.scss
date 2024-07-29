@@ -1,0 +1,31 @@
+.forecast-mode-toggle-panel ul {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    // justify-content: flex-end;
+    gap: 10px;
+
+    .forecast-mode-toggler {
+        background: transparent;
+        border: 1px solid $widgetBgColor;
+        // border: none;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 400ms;
+        font-size: 12px;
+        
+        &:hover,
+        &.active {
+            border: 1px solid $forecastGreyColor;
+            // background: $forecastGreyColor;
+            // color: $widgetBgColor;
+        }
+
+        svg {
+            width: 16px;
+        }
+    }
+}
