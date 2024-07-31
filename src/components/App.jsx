@@ -22,6 +22,15 @@ function getSavedForecastData() {
     return JSON.parse(localStorage.getItem("forecastData"));
 }
 
+class DefaultAppSettings {
+    constructor() {
+        this.showFeelsLikeField = false;
+        this.temperatureScale = "celsius";
+        this.speedUnit = "km/h";
+        this.showSecondsInClocks = false;
+    }
+}
+
 export function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
     let [forecast, setForecast] = useState({ list: [] });
@@ -29,12 +38,7 @@ export function App() {
     let [error, setError] = useState(false);
     let [warning, setWarning] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
-    const defaultAppSettings = {
-        showFeelsLikeField: false,
-        temperatureScale: "celsius",
-        speedUnit: "km/h",
-        showSecondsInClocks: false,
-    };
+    const defaultAppSettings = new DefaultAppSettings;
     let [appSettings, setAppSettings] = useState(
         JSON.parse(localStorage.getItem("weather-app-settings")) ?? defaultAppSettings
     );
@@ -121,7 +125,7 @@ export function App() {
     let updateSettingsIfNewSettingsAdded = () => {
         if (localStorage.getItem("weather-app-settings")) {
             for (let i in defaultAppSettings) {
-                if (appSettings[i] == undefined) {
+                if (appSettings[i] === undefined) {
                     setAppSettings({
                         ...appSettings,
                         i: defaultAppSettings[i],
