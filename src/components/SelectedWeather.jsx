@@ -45,7 +45,7 @@ function SelectedWeather(props) {
                         props.info &&
                         (appSettings.speedUnit == "km/h" 
                             ? props.info.wind.speed * 3.6 
-                            : props.info.wind.speed).toFixed(1) 
+                            : props.info.wind.speed).toFixed(0) 
                             + (appSettings.speedUnit == "km/h" ? " km/h" : " m/s")
                     }
                 </h3>

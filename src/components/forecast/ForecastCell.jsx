@@ -31,6 +31,16 @@ function ForecastCell(props) {
         setSelectedWeather(props.cellForecast);
     }
 
+    function defineWindArrowScale(windSpeed) {
+        if (windSpeed <= 4) {
+            return 0.5
+        } else if (windSpeed > 4 && windSpeed < 8) {
+            return windSpeed / 8
+        } else if (windSpeed > 8) {
+            return 1.2
+        }
+    }
+
     return (
         <div className="forecast-cell" onClick={clickHandler}>
             <h4 className="time">{`${formattedTime}`}</h4>
@@ -51,7 +61,11 @@ function ForecastCell(props) {
                     fill="currentColor"
                     className={forecastMode == "wind" ? "wind-direction show" : "wind-direction"}
                     viewBox="0 0 16 16"
-                    style={{ transform: `rotate(${props.cellForecast.wind.deg}deg)` }}
+                    style={{
+                        transform: `rotate(${props.cellForecast.wind.deg}deg) scale(${defineWindArrowScale(
+                            props.cellForecast.wind.speed
+                        )})`,
+                    }}
                 >
                     <path
                         fillRule="evenodd"
@@ -62,8 +76,7 @@ function ForecastCell(props) {
                     {
                         appSettings.speedUnit == "km/h"
                             ? (props.cellForecast.wind.speed * 3.6).toFixed() + " km/h"
-                            : (props.cellForecast.wind.speed).toFixed(1) + "m/s"
-                        // props.cellForecast.wind.speed
+                            : props.cellForecast.wind.speed.toFixed(1) + "m/s"
                     }
                 </h3>
             </div>
