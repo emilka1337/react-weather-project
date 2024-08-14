@@ -17,3 +17,15 @@
         color: $textColor;
     }
 }
+
+@mixin buttonDark {
+    @include button;
+
+    &:hover {
+        background: $hoverDarkBgColor !important;
+    }
+
+    svg {
+        color: $darkTextColor !important;
+    }
+}

@@ -24,6 +24,7 @@ function getSavedForecastData() {
 
 class DefaultAppSettings {
     constructor() {
+        this.darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false;
         this.showFeelsLikeField = false;
         this.temperatureScale = "celsius";
         this.speedUnit = "km/h";
@@ -140,21 +141,21 @@ export function App() {
         <SettingsContext.Provider value={[appSettings, setAppSettings, defaultAppSettings]}>
             <ErrorContext.Provider value={[error, setError]}>
                 <WarningContext.Provider value={[warning, setWarning]}>
-                    <div className="app">
-                        <div className="left">
-                            <CityAndDate geolocation={geolocation} />
-                            <SelectedWeather info={selectedWeather} />
-                            <SetSelectedWeatherContext.Provider value={setSelectedWeather}>
-                                <DailyForecast forecast={forecast} />
-                            </SetSelectedWeatherContext.Provider>
+                    <div className={appSettings.darkMode ? "app dark" : "app"}>
+                        <div className="widget">
+                            <div className="left">
+                                <CityAndDate geolocation={geolocation} />
+                                <SelectedWeather info={selectedWeather} />
+                                <SetSelectedWeatherContext.Provider value={setSelectedWeather}>
+                                    <DailyForecast forecast={forecast} />
+                                </SetSelectedWeatherContext.Provider>
+                            </div>
+                            <div className="right">
+                                <Settings />
+                            </div>
+                            <ErrorAlert error={error} />
+                            <WarningAlert warning={warning} />
                         </div>
-
-                        <div className="right">
-                            <Settings />
-                        </div>
-
-                        <ErrorAlert error={error} />
-                        <WarningAlert warning={warning} />
                     </div>
                 </WarningContext.Provider>
             </ErrorContext.Provider>
