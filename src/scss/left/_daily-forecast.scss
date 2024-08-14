@@ -6,6 +6,17 @@
     padding: 0;
     padding-bottom: 10px;
 
+    &::-webkit-scrollbar {
+        height: 4px;
+        border-radius: 4px;
+        background: $forecastGreyColor;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: $textColor;
+    }
+
     .forecast-day {
         list-style: none;
         margin: 0;
@@ -17,17 +28,6 @@
         border-radius: 10px;
         position: relative;
         animation: scrollTease 1.5s 1s;
-
-        &::-webkit-scrollbar {
-            height: 4px;
-            border-radius: 4px;
-            background: $forecastGreyColor;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            border-radius: 4px;
-            background: $textColor;
-        }
 
         .weekday {
             background: $widgetBgColor;
@@ -73,7 +73,8 @@
                     background: $widgetBgColor;
                 }
 
-                .main, .wind-speed {
+                .main,
+                .wind-speed {
                     max-height: 20px;
                 }
 
@@ -111,13 +112,15 @@
                 }
             }
 
-            .temperature-container, .wind-container {
+            .temperature-container,
+            .wind-container {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
 
-            .main, .wind-speed {
+            .main,
+            .wind-speed {
                 color: $forecastGreyColor;
                 margin: 0;
                 font-size: 14px;
@@ -133,11 +136,11 @@
                     display: block;
                 }
             }
-            
+
             .wind-speed {
                 font-size: 12px;
             }
-            
+
             .wind-direction {
                 display: none;
                 margin-bottom: 10px;
@@ -180,7 +183,7 @@
     50% {
         transform: translateX(-50px);
     }
-    
+
     70% {
         transform: translateX(-50px);
     }
