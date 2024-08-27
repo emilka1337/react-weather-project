@@ -23,12 +23,12 @@ function getSavedForecastData() {
 }
 
 class DefaultAppSettings {
-    constructor() {
-        this.darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false;
-        this.showFeelsLikeField = false;
-        this.temperatureScale = "celsius";
-        this.speedUnit = "km/h";
-        this.showSecondsInClocks = false;
+    constructor(darkMode, showFeelsLikeField, temperatureScale, speedUnit, showSecondsInClocks) {
+        this.darkMode = darkMode ?? window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false;
+        this.showFeelsLikeField = showFeelsLikeField ?? false;
+        this.temperatureScale = temperatureScale ?? "celsius";
+        this.speedUnit = speedUnit ?? "km/h";
+        this.showSecondsInClocks = showSecondsInClocks ?? false;
     }
 }
 
@@ -44,8 +44,11 @@ export function App() {
         JSON.parse(localStorage.getItem("weather-app-settings")) ?? defaultAppSettings
     );
 
-    // Defines user geolocation
     useEffect(() => {
+        // Checks if new settings added in new app releases and adds it to all settings
+        updateSettingsIfNewSettingsAdded();
+        
+        // Defines user geolocation
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 setGeolocation({
@@ -88,12 +91,6 @@ export function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
-    // Checks if new settings added in new app releases and adds it to all settings
-    useEffect(() => {
-        updateSettingsIfNewSettingsAdded();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     let getForecast = (lat, lon) => {
         try {
             let savedForecastData = getSavedForecastData();
@@ -118,6 +115,7 @@ export function App() {
     let fetchForecast = async (lat, lon) => {
         let forecastURL = `${import.meta.env.VITE_BASE_URL}/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric`;
         let response = await fetch(forecastURL);
+        console.log(response);
         let data = await response.json();
         setForecast(data);
         saveForecastData(data);
