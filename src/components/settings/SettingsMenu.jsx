@@ -8,39 +8,29 @@ function SettingsMenu(props) {;
     const dispatch = useDispatch();
     const settings = useSelector(state => state.settings.settings)
 
-    // const saveSettings = (settings) => {
-    //     localStorage.setItem("weather-app-settings", JSON.stringify(settings));
-    // };
-
     //#region Settings click event listeners
     const darkModeSettingClick = () => {
         dispatch(toggleDarkMode())
-        // saveSettings(settings);
     }
 
     const feelsLikeSettingClick = () => {
         dispatch(toggleFeelsLikeField())
-        // saveSettings(settings);
     };
 
     const temperatureScaleSettingClick = () => {
         dispatch(toggleTemperatureScale())
-        // saveSettings(settings);
     };
 
     const speedUnitSettingClick = () => {
-        // saveSettings(settings);
         dispatch(toggleSpeedUnit()) 
     };
 
     const showSecondsInClocksClick = () => {
         dispatch(toggleSecondsInClock())
-        // saveSettings(settings);
     };
 
     const resetSettingsClick = () => {
         dispatch(resetSettings());
-        // localStorage.removeItem("weather-app-settings");
         setSettingsResetted(true);
         setTimeout(() => setSettingsResetted(false), 3000);
     };
