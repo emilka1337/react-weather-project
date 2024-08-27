@@ -6,11 +6,11 @@ import SelectedWeather from "./SelectedWeather";
 import ErrorAlert from "./alerts/ErrorAlert";
 import Settings from "./settings/Settings";
 import WarningAlert from "./alerts/WarningAlert";
+import { useSelector } from "react-redux";
 // Contexts
 export const ErrorContext = createContext();
 export const WarningContext = createContext();
 export const SetSelectedWeatherContext = createContext();
-export const SettingsContext = createContext();
 
 function saveForecastData(data) {
     let date = new Date();
@@ -22,16 +22,6 @@ function getSavedForecastData() {
     return JSON.parse(localStorage.getItem("forecastData"));
 }
 
-class DefaultAppSettings {
-    constructor() {
-        this.darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false;
-        this.showFeelsLikeField = false;
-        this.temperatureScale = "celsius";
-        this.speedUnit = "km/h";
-        this.showSecondsInClocks = false;
-    }
-}
-
 export function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
     let [forecast, setForecast] = useState({ list: [] });
@@ -39,13 +29,14 @@ export function App() {
     let [error, setError] = useState(false);
     let [warning, setWarning] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
-    const defaultAppSettings = new DefaultAppSettings;
-    let [appSettings, setAppSettings] = useState(
-        JSON.parse(localStorage.getItem("weather-app-settings")) ?? defaultAppSettings
-    );
 
-    // Defines user geolocation
+    const settings = useSelector((state) => state.settings.settings);
+
     useEffect(() => {
+        // Checks if new settings added in new app releases and adds it to all settings
+        // updateSettingsIfNewSettingsAdded();
+
+        // Defines user geolocation
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 setGeolocation({
@@ -88,19 +79,16 @@ export function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
-    // Checks if new settings added in new app releases and adds it to all settings
-    useEffect(() => {
-        updateSettingsIfNewSettingsAdded();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     let getForecast = (lat, lon) => {
         try {
             let savedForecastData = getSavedForecastData();
             let date = new Date();
             let currentMilliseconds = +date;
 
-            if (!savedForecastData || currentMilliseconds - savedForecastData.timeStamp > 300 * 1000) {
+            if (
+                !savedForecastData ||
+                currentMilliseconds - savedForecastData.timeStamp > 300 * 1000
+            ) {
                 fetchForecast(lat, lon);
             } else {
                 setForecast(savedForecastData);
@@ -116,49 +104,53 @@ export function App() {
     };
 
     let fetchForecast = async (lat, lon) => {
-        let forecastURL = `${import.meta.env.VITE_BASE_URL}/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric`;
+        let forecastURL = `${
+            import.meta.env.VITE_BASE_URL
+        }/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${
+            import.meta.env.VITE_API_KEY
+        }&units=metric`;
         let response = await fetch(forecastURL);
         let data = await response.json();
         setForecast(data);
         saveForecastData(data);
     };
 
-    let updateSettingsIfNewSettingsAdded = () => {
-        if (localStorage.getItem("weather-app-settings")) {
-            for (let i in defaultAppSettings) {
-                if (appSettings[i] === undefined) {
-                    setAppSettings({
-                        ...appSettings,
-                        i: defaultAppSettings[i],
-                    });
-                    localStorage.setItem("weather-app-settings", JSON.stringify(appSettings));
-                }
-            }
-        }
-    };
+    // let updateSettingsIfNewSettingsAdded = () => {
+    //     if (localStorage.getItem("weather-app-settings")) {
+    //         for (let i in defaultAppSettings) {
+    //             if (appSettings[i] === undefined) {
+    //                 setAppSettings({
+    //                     ...appSettings,
+    //                     i: defaultAppSettings[i],
+    //                 });
+    //                 localStorage.setItem("weather-app-settings", JSON.stringify(appSettings));
+    //             }
+    //         }
+    //     }
+    // };
 
     return (
-        <SettingsContext.Provider value={[appSettings, setAppSettings, defaultAppSettings]}>
-            <ErrorContext.Provider value={[error, setError]}>
-                <WarningContext.Provider value={[warning, setWarning]}>
-                    <div className={appSettings.darkMode ? "app dark" : "app"}>
-                        <div className="widget">
-                            <div className="left">
-                                <CityAndDate geolocation={geolocation} />
-                                <SelectedWeather info={selectedWeather} />
-                                <SetSelectedWeatherContext.Provider value={setSelectedWeather}>
-                                    <DailyForecast forecast={forecast} />
-                                </SetSelectedWeatherContext.Provider>
-                            </div>
-                            <div className="right">
-                                <Settings />
-                            </div>
-                            <ErrorAlert error={error} />
-                            <WarningAlert warning={warning} />
+        <ErrorContext.Provider value={[error, setError]}>
+            <WarningContext.Provider value={[warning, setWarning]}>
+                <div className={settings.darkMode ? "app dark" : "app"}>
+                    <div className="widget">
+                        <div className="left">
+                            <CityAndDate geolocation={geolocation} />
+                            <SelectedWeather info={selectedWeather} />
+                            <SetSelectedWeatherContext.Provider
+                                value={setSelectedWeather}
+                            >
+                                <DailyForecast forecast={forecast} />
+                            </SetSelectedWeatherContext.Provider>
                         </div>
+                        <div className="right">
+                            <Settings />
+                        </div>
+                        <ErrorAlert error={error} />
+                        <WarningAlert warning={warning} />
                     </div>
-                </WarningContext.Provider>
-            </ErrorContext.Provider>
-        </SettingsContext.Provider>
+                </div>
+            </WarningContext.Provider>
+        </ErrorContext.Provider>
     );
 }
