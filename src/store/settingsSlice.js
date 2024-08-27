@@ -3,13 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 const settingsSlice = createSlice({
     name: "settings",
     initialState: {
-        settings: {
-            darkMode: window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false,
-            showFeelsLikeField: false,
-            temperatureInF: false,
-            speedUnitinMS: false,
-            showSecondsInClocks: false,
-        }
+        settings:
+            JSON.parse(localStorage.getItem("weather-app-settings"))
+            ??
+            {
+                darkMode: window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false,
+                showFeelsLikeField: false,
+                temperatureInF: false,
+                speedUnitinMS: false,
+                showSecondsInClocks: false,
+            }
     },
     reducers: {
         toggleDarkMode(state, action) {
@@ -33,5 +36,5 @@ const settingsSlice = createSlice({
     }
 })
 
-export const {toggleDarkMode, toggleFeelsLikeField, toggleTemperatureScale, toggleSpeedUnit, toggleSecondsInClock, resetSettings} = settingsSlice.actions
+export const { toggleDarkMode, toggleFeelsLikeField, toggleTemperatureScale, toggleSpeedUnit, toggleSecondsInClock, resetSettings } = settingsSlice.actions
 export default settingsSlice.reducer
