@@ -70,7 +70,6 @@ function DailyForecast(props) {
         Notification.requestPermission()
             .then((result) => {
                 setNotificationsPermission(result);
-                console.log(notificationsPermission);
             })
             .catch((error) => {
                 setError(error);

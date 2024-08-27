@@ -1,27 +1,29 @@
-import { useContext } from "react";
-import { SettingsContext } from "./App";
+import { useContext } from "react";import { useSelector } from "react-redux";
 
 function SelectedWeather(props) {
-    let [appSettings] = useContext(SettingsContext);
+    const settings = useSelector(state => state.settings.settings)
 
     return (
         <div className="selected-weather">
             <h1 className="selected-temperature">
                 {(props.info &&
-                    (appSettings.temperatureScale == "celsius"
+                    (settings.temperatureInF == false
                         ? props.info.main.temp.toFixed(0)
                         : (props.info.main.temp * (9 / 5) + 32).toFixed(0))) ||
                     "0"}
                 <span className="degree">°</span>
             </h1>
 
-            {appSettings.showFeelsLikeField && (
+            {settings.showFeelsLikeField && (
                 <p className="feels-like">
                     {`Feels like: ${
                         (props.info &&
-                            (appSettings.temperatureScale == "celsius"
+                            (settings.temperatureInF == false
                                 ? props.info.main.feels_like.toFixed(0)
-                                : (props.info.main.feels_like * (9 / 5) + 32).toFixed(0))) ||
+                                : (
+                                      props.info.main.feels_like * (9 / 5) +
+                                      32
+                                  ).toFixed(0))) ||
                         "0"
                     }`}
                     <span className="degree">°</span>
@@ -40,16 +42,19 @@ function SelectedWeather(props) {
                     >
                         <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5m-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2M0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5" />
                     </svg>
-                    
-                    {
-                        props.info &&
-                        (appSettings.speedUnit == "km/h" 
-                            ? props.info.wind.speed * 3.6 
-                            : props.info.wind.speed).toFixed(0) 
-                            + (appSettings.speedUnit == "km/h" ? " km/h" : " m/s")
-                    }
+
+                    {props.info &&
+                        (settings.speedUnitinMS == false
+                            ? props.info.wind.speed * 3.6
+                            : props.info.wind.speed
+                        ).toFixed(0) +
+                            (settings.speedUnitinMS == false
+                                ? " km/h"
+                                : " m/s")}
                 </h3>
-                <h2 className="sky">{props.info && props.info.weather[0].main}</h2>
+                <h2 className="sky">
+                    {props.info && props.info.weather[0].main}
+                </h2>
                 <h3 className="humidity">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

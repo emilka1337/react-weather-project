@@ -1,67 +1,46 @@
-import { useContext, useState } from "react";
-import { SettingsContext } from "../App";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleDarkMode, toggleFeelsLikeField, toggleSecondsInClock, toggleSpeedUnit, toggleTemperatureScale, resetSettings } from "../../store/settingsSlice";
 
-function SettingsMenu(props) {
-    let [appSettings, setAppSettings, defaultAppSettings] = useContext(SettingsContext);
+function SettingsMenu(props) {;
     let [settingsResetted, setSettingsResetted] = useState(false);
 
-    const saveSettings = (settings) => {
-        localStorage.setItem("weather-app-settings", JSON.stringify(settings));
-    };
+    const dispatch = useDispatch();
+    const settings = useSelector(state => state.settings.settings)
+
+    // const saveSettings = (settings) => {
+    //     localStorage.setItem("weather-app-settings", JSON.stringify(settings));
+    // };
 
     //#region Settings click event listeners
     const darkModeSettingClick = () => {
-        let newSettings = {
-            ...appSettings,
-            darkMode: !appSettings.darkMode,
-        };
-        setAppSettings(newSettings);
-        saveSettings(newSettings);
+        dispatch(toggleDarkMode())
+        // saveSettings(settings);
     }
 
     const feelsLikeSettingClick = () => {
-        let newSettings = {
-            ...appSettings,
-            showFeelsLikeField: !appSettings.showFeelsLikeField,
-        };
-        setAppSettings(newSettings);
-        saveSettings(newSettings);
+        dispatch(toggleFeelsLikeField())
+        // saveSettings(settings);
     };
 
     const temperatureScaleSettingClick = () => {
-        let newTempScaleSetting = appSettings.temperatureScale == "celsius" ? "fahrenheit" : "celsius";
-
-        let newAppSettings = {
-            ...appSettings,
-            temperatureScale: newTempScaleSetting,
-        };
-        setAppSettings(newAppSettings);
-        saveSettings(newAppSettings);
+        dispatch(toggleTemperatureScale())
+        // saveSettings(settings);
     };
 
     const speedUnitSettingClick = () => {
-        let newspeedUnit = appSettings.speedUnit == "m/s" ? "km/h" : "m/s";
-
-        let newAppSettings = {
-            ...appSettings,
-            speedUnit: newspeedUnit,
-        };
-        setAppSettings(newAppSettings);
-        saveSettings(newAppSettings);
+        // saveSettings(settings);
+        dispatch(toggleSpeedUnit()) 
     };
 
     const showSecondsInClocksClick = () => {
-        let newAppSettings = {
-            ...appSettings,
-            showSecondsInClocks: !appSettings.showSecondsInClocks,
-        };
-        setAppSettings(newAppSettings);
-        saveSettings(newAppSettings);
+        dispatch(toggleSecondsInClock())
+        // saveSettings(settings);
     };
 
     const resetSettingsClick = () => {
-        setAppSettings(defaultAppSettings);
-        localStorage.removeItem("weather-app-settings");
+        dispatch(resetSettings());
+        // localStorage.removeItem("weather-app-settings");
         setSettingsResetted(true);
         setTimeout(() => setSettingsResetted(false), 3000);
     };
@@ -72,31 +51,31 @@ function SettingsMenu(props) {
             <ul>
                 <li onClick={darkModeSettingClick}>
                     <h5>Dark mode</h5>
-                    <button className={appSettings.darkMode ? "toggler toggled" : "toggler"}>
+                    <button className={settings.darkMode ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li onClick={feelsLikeSettingClick}>
                     <h5>&quot;Feels like&quot; field</h5>
-                    <button className={appSettings.showFeelsLikeField ? "toggler toggled" : "toggler"}>
+                    <button className={settings.showFeelsLikeField ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li onClick={temperatureScaleSettingClick}>
                     <h5>Temperature in F°</h5>
-                    <button className={appSettings.temperatureScale == "fahrenheit" ? "toggler toggled" : "toggler"}>
+                    <button className={settings.temperatureInF == true ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li onClick={speedUnitSettingClick}>
                     <h5>Wind speed in m/s</h5>
-                    <button className={appSettings.speedUnit == "m/s" ? "toggler toggled" : "toggler"}>
+                    <button className={settings.speedUnitinMS == true ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li onClick={showSecondsInClocksClick}>
                     <h5>Show seconds in clocks</h5>
-                    <button className={appSettings.showSecondsInClocks ? "toggler toggled" : "toggler"}>
+                    <button className={settings.showSecondsInClocks ? "toggler toggled" : "toggler"}>
                         <div className="circle"></div>
                     </button>
                 </li>

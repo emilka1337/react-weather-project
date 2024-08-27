@@ -1,9 +1,13 @@
 import { useState, useEffect, useContext } from "react";
-import { SettingsContext } from "./App";
+import { useSelector } from "react-redux";
 
 function getCurrentTime() {
     let date = new Date();
-    return { hours: date.getHours(), minutes: date.getMinutes(), seconds: date.getSeconds() };
+    return {
+        hours: date.getHours(),
+        minutes: date.getMinutes(),
+        seconds: date.getSeconds(),
+    };
 }
 
 function formatTime(time, showSeconds) {
@@ -26,7 +30,6 @@ function formatTime(time, showSeconds) {
     } else {
         return `${hours}:${minutes}`;
     }
-    // return showSeconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
 }
 
 function defineGreeting(time) {
@@ -46,18 +49,19 @@ function defineGreeting(time) {
 function Clocks() {
     let [currentTime, setCurrentTime] = useState("...");
     let [greeting, setGreeting] = useState("...");
-    let [appSettings] = useContext(SettingsContext);
+
+    const settings = useSelector((state) => state.settings.settings);
 
     useEffect(() => {
         setTime();
         let timeInterval = setInterval(setTime, 1000);
         return () => clearInterval(timeInterval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [appSettings]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [settings]);
 
     function setTime() {
         let time = getCurrentTime();
-        let timeFormatted = formatTime(time, appSettings.showSecondsInClocks);
+        let timeFormatted = formatTime(time, settings.showSecondsInClocks);
         setCurrentTime(timeFormatted);
 
         let definedGreeting = defineGreeting(time);
