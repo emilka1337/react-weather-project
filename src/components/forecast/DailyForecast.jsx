@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import ForecastDay from "./ForecastDay";
-import { ErrorContext } from "../App";
 
 export const ForecastModeContext = createContext();
 
@@ -58,13 +57,11 @@ function showTomorrowforecastNotification(tomorrowForecast) {
     });
 }
 
-function DailyForecast(props) {
+const DailyForecast = React.memo(function(props) {
     let [notificationShowed, setNotificationShowed] = useState(false);
     let [separatedList, setSeparatedList] = useState([]);
     let [notificationsPermission, setNotificationsPermission] = useState("denied");
     let [forecastMode, setForecastMode] = useState("temperature");
-
-    let [setError] = useContext(ErrorContext);
 
     useEffect(() => {
         Notification.requestPermission()
@@ -72,7 +69,7 @@ function DailyForecast(props) {
                 setNotificationsPermission(result);
             })
             .catch((error) => {
-                setError(error);
+                // setError(error);
             });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,6 +146,6 @@ function DailyForecast(props) {
             </ul>
         </>
     );
-}
+})
 
 export default DailyForecast;

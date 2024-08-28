@@ -3,13 +3,12 @@ import { createContext, useEffect, useState } from "react";
 import CityAndDate from "./CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./SelectedWeather";
-import ErrorAlert from "./alerts/ErrorAlert";
+// import ErrorAlert from "./alerts/ErrorAlert";
 import Settings from "./settings/Settings";
-import WarningAlert from "./alerts/WarningAlert";
+// import WarningAlert from "./alerts/WarningAlert";
 import { useSelector } from "react-redux";
+// import { addError } from "../store/alertsSlice";
 // Contexts
-export const ErrorContext = createContext();
-export const WarningContext = createContext();
 export const SetSelectedWeatherContext = createContext();
 
 function saveForecastData(data) {
@@ -26,11 +25,10 @@ export function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
     let [forecast, setForecast] = useState({ list: [] });
     let [selectedWeather, setSelectedWeather] = useState(0);
-    let [error, setError] = useState(false);
-    let [warning, setWarning] = useState(false);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
 
     const settings = useSelector((state) => state.settings.settings);
+    // const dispatch = useDispatch();
 
     useEffect(() => {
         // Checks if new settings added in new app releases and adds it to all settings
@@ -45,7 +43,7 @@ export function App() {
                 });
             },
             (error) => {
-                setError(error);
+                // dispatch(addError({ error }));
                 console.log(error);
             },
             { enableHighAccuracy: true }
@@ -54,11 +52,11 @@ export function App() {
 
     // Fetching forecast after defining user geolocation
     useEffect(() => {
-        if (!error && geolocation.lat !== 0 && geolocation.lon !== 0) {
+        if (geolocation.lat !== 0 && geolocation.lon !== 0) {
             getForecast(geolocation.lat, geolocation.lon);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [geolocation, error]);
+    }, [geolocation]);
 
     // Setting main displaying weather to current weather
     useEffect(() => {
@@ -76,7 +74,7 @@ export function App() {
         );
 
         return () => clearInterval(autoRefreshIntervalID);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
     let getForecast = (lat, lon) => {
@@ -97,9 +95,6 @@ export function App() {
             let savedForecastData = getSavedForecastData();
             console.log(savedForecastData);
             setForecast(savedForecastData);
-            setWarning({
-                text: "Failed to load weather data. Old data will be displayed instead. Try to reload page.",
-            });
         }
     };
 
@@ -130,27 +125,23 @@ export function App() {
     // };
 
     return (
-        <ErrorContext.Provider value={[error, setError]}>
-            <WarningContext.Provider value={[warning, setWarning]}>
-                <div className={settings.darkMode ? "app dark" : "app"}>
-                    <div className="widget">
-                        <div className="left">
-                            <CityAndDate geolocation={geolocation} />
-                            <SelectedWeather info={selectedWeather} />
-                            <SetSelectedWeatherContext.Provider
-                                value={setSelectedWeather}
-                            >
-                                <DailyForecast forecast={forecast} />
-                            </SetSelectedWeatherContext.Provider>
-                        </div>
-                        <div className="right">
-                            <Settings />
-                        </div>
-                        <ErrorAlert error={error} />
-                        <WarningAlert warning={warning} />
-                    </div>
+        <div className={settings.darkMode ? "app dark" : "app"}>
+            <div className="widget">
+                <div className="left">
+                    <CityAndDate geolocation={geolocation} />
+                    <SelectedWeather info={selectedWeather} />
+                    <SetSelectedWeatherContext.Provider
+                        value={setSelectedWeather}
+                    >
+                        <DailyForecast forecast={forecast} />
+                    </SetSelectedWeatherContext.Provider>
                 </div>
-            </WarningContext.Provider>
-        </ErrorContext.Provider>
+                <div className="right">
+                    <Settings />
+                </div>
+            </div>
+            {/* <ErrorAlert /> */}
+            {/* <WarningAlert /> */}
+        </div>
     );
 }
