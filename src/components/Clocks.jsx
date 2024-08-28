@@ -1,5 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import Greeting from "./Greeting";
 
 function getCurrentTime() {
     let date = new Date();
@@ -32,23 +33,8 @@ function formatTime(time, showSeconds) {
     }
 }
 
-function defineGreeting(time) {
-    let currentHours = time.hours;
-
-    if (currentHours >= 0 && currentHours < 6) {
-        return "Good Night";
-    } else if (currentHours >= 6 && currentHours < 12) {
-        return "Good Morning";
-    } else if (currentHours >= 12 && currentHours < 18) {
-        return "Have a nice day";
-    } else if (currentHours >= 18 && currentHours <= 23) {
-        return "Good Evening";
-    }
-}
-
 function Clocks() {
     let [currentTime, setCurrentTime] = useState("...");
-    let [greeting, setGreeting] = useState("...");
 
     const settings = useSelector((state) => state.settings.settings);
 
@@ -59,18 +45,17 @@ function Clocks() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [settings]);
 
-    function setTime() {
+    // console.log("clocks rendered");
+
+    const setTime = () => {
         let time = getCurrentTime();
         let timeFormatted = formatTime(time, settings.showSecondsInClocks);
         setCurrentTime(timeFormatted);
-
-        let definedGreeting = defineGreeting(time);
-        setGreeting(definedGreeting);
-    }
+    };
 
     return (
         <div className="clocks">
-            <h3 className="greeting">{greeting}</h3>
+            <Greeting time={getCurrentTime().hours}/>
             <h3 className="time">{currentTime}</h3>
         </div>
     );
