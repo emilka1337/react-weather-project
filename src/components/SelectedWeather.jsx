@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import { useSelector } from "react-redux";
 
 function SelectedWeather() {
@@ -7,7 +8,7 @@ function SelectedWeather() {
         (state) => state.selectedWeather.selectedWeather
     );
 
-    const getSelectedTemperatureValue = useCallback(() => {
+    const getSelectedTemperatureValue = () => {
         if (settings.temperatureInF === false) {
             return selectedWeather.main.temp.toFixed(0);
         } else if (settings.temperatureInF == true) {
@@ -15,15 +16,9 @@ function SelectedWeather() {
         } else {
             return 0;
         }
+    };
 
-        // return (
-        //     (settings.temperatureInF === false
-        //         ? selectedWeather.main.temp.toFixed(0)
-        //         : (selectedWeather.main.temp * (9 / 5) + 32).toFixed(0)) || "0"
-        // );
-    });
-
-    const getFeelsLikeValue = useCallback(() => {
+    const getFeelsLikeValue = () => {
         if (settings.temperatureInF === false) {
             return selectedWeather.main.feels_like.toFixed(0);
         } else if (settings.temperatureInF == true) {
@@ -31,17 +26,9 @@ function SelectedWeather() {
         } else {
             return 0;
         }
+    };
 
-        // return `Feels like: ${
-        //     (settings.temperatureInF == false
-        //         ? selectedWeather.main.feels_like.toFixed(0)
-        //         : (selectedWeather.main.feels_like * (9 / 5) + 32).toFixed(
-        //               0
-        //           )) || "0"
-        // }`;
-    });
-
-    const getWindSpeedValue = useCallback(() => {
+    const getWindSpeedValue = () => {
         let windSpeed = "";
 
         if (settings.speedUnitinMS === false) {
@@ -53,19 +40,7 @@ function SelectedWeather() {
         windSpeed += settings.speedUnitinMS == false ? " km/h" : " m/s";
 
         return windSpeed;
-
-        // return (
-        //     (settings.speedUnitinMS == false
-        //         ? selectedWeather.wind.speed * 3.6
-        //         : selectedWeather.wind.speed
-        //     ).toFixed(0) + (settings.speedUnitinMS == false ? " km/h" : " m/s")
-        // );
-    });
-
-    // const selectedTemperatureValue = useMemo(getSelectedTemperatureValue, [
-    //     selectedWeather,
-    // ]);
-    // console.log(selectedTemperatureValue);
+    };
 
     if (selectedWeather) {
         return (
@@ -77,7 +52,7 @@ function SelectedWeather() {
 
                 {settings.showFeelsLikeField && (
                     <p className="feels-like">
-                        {getFeelsLikeValue()}
+                        {`Feels like: ${getFeelsLikeValue()}`}
                         <span className="degree">°</span>
                     </p>
                 )}
