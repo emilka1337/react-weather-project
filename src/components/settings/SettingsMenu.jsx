@@ -36,9 +36,8 @@ function SettingsMenu(props) {
     };
 
     const resetAppClick = () => {
-        resetSettingsClick();
         localStorage.clear();
-        window.location.reload();
+        window.location.reload(true);
     }
     //#endregion
 
@@ -78,7 +77,7 @@ function SettingsMenu(props) {
                 <li>
                     <h5>
                         Reset Settings <br />
-                        <span>(try this if something not working properly)</span>
+                        <span>(Try this if something not working properly)</span>
                     </h5>
                     <button
                         className={settingsResetted ? "reset-button resetted" : "reset-button"}
@@ -90,7 +89,7 @@ function SettingsMenu(props) {
                 <li>
                     <h5>
                         Reset App <br />
-                        <span>(Resets app settings, clears local storage and reloads the page)</span>
+                        <span>(Resets app settings, clears app local storage and reloads the page)</span>
                     </h5>
                     <button
                         className={settingsResetted ? "reset-button resetted" : "reset-button"}

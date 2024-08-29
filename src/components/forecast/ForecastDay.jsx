@@ -11,13 +11,15 @@ function ForecastDay(props) {
             </div>
 
             {props.day.map((item, index) => {   
+                const isDefaultActive = props.index == 0 && index == 0
             
                 return (
                     <ForecastCell
                         timestamp={item.dt}
                         cellForecast={item}
-                        key={index}
+                        isDefaultActive={isDefaultActive}
                         index={index}
+                        key={index}
                     />
                 );
             })}

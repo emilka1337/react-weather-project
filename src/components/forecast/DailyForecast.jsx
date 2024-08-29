@@ -140,7 +140,7 @@ function DailyForecast(props) {
             <ul className="daily-forecast">
                 <ForecastModeContext.Provider value={forecastMode}>
                     {separatedList.map((day, index) => {
-                        return <ForecastDay day={day} weekday={day[0].weekday} key={index} />;
+                        return <ForecastDay day={day} weekday={day[0].weekday} key={index} index={index}/>;
                     })}
                 </ForecastModeContext.Provider>
             </ul>

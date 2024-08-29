@@ -108,7 +108,14 @@ function ForecastCell(props) {
                         : props.cellForecast.wind.speed.toFixed(1) + "m/s"}
                 </h3>
             </div>
-            <div ref={activeIndicator} className="active-indicator"></div>
+            <div
+                ref={activeIndicator}
+                className={
+                    props.isDefaultActive
+                        ? "active-indicator show"
+                        : "active-indicator"
+                }
+            ></div>
         </div>
     );
 }
