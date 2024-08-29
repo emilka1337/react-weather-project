@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 
-const Greeting = React.memo(function Greeting({time}) {
+function Greeting({time}) {
     const greeting = useMemo(() => {
         if (time >= 0 && time < 6) {
             return "Good Night";
@@ -16,6 +16,6 @@ const Greeting = React.memo(function Greeting({time}) {
     return (
         <h3 className="greeting">{greeting}</h3>
     )
-})
+}
 
-export default Greeting;
+export default React.memo(Greeting);

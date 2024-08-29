@@ -7,7 +7,7 @@ const saveCityName = (cityName) =>
 const loadLastSavedCityName = () =>
     JSON.parse(localStorage.getItem("last-saved-city-name"));
 
-const CityAndDate = React.memo(function CityAndDate(props) {
+function CityAndDate(props) {
     let [cityName, setCityName] = useState("Loading...");
 
     useEffect(() => {
@@ -44,6 +44,6 @@ const CityAndDate = React.memo(function CityAndDate(props) {
             <Clocks />
         </div>
     );
-});
+};
 
-export default CityAndDate;
+export default React.memo(CityAndDate);

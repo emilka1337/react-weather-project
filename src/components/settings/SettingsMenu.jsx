@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDarkMode, toggleFeelsLikeField, toggleSecondsInClock, toggleSpeedUnit, toggleTemperatureScale, resetSettings } from "../../store/settingsSlice";
 
-const SettingsMenu = (function SettingsMenu(props) {;
+function SettingsMenu(props) {
     let [settingsResetted, setSettingsResetted] = useState(false);
 
     const dispatch = useDispatch();
@@ -34,6 +34,12 @@ const SettingsMenu = (function SettingsMenu(props) {;
         setSettingsResetted(true);
         setTimeout(() => setSettingsResetted(false), 3000);
     };
+
+    const resetAppClick = () => {
+        resetSettingsClick();
+        localStorage.clear();
+        window.location.reload();
+    }
     //#endregion
 
     return (
@@ -81,9 +87,21 @@ const SettingsMenu = (function SettingsMenu(props) {;
                         {settingsResetted ? "OK" : "Reset"}
                     </button>
                 </li>
+                <li>
+                    <h5>
+                        Reset App <br />
+                        <span>(Resets app settings, clears local storage and reloads the page)</span>
+                    </h5>
+                    <button
+                        className={settingsResetted ? "reset-button resetted" : "reset-button"}
+                        onClick={resetAppClick}
+                    >
+                        {settingsResetted ? "OK" : "Reset"}
+                    </button>
+                </li>
             </ul>
         </div>
     );
-})
+}
 
-export default SettingsMenu;
+export default React.memo(SettingsMenu);

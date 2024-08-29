@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function SettingsMenuToggler(props) {
     let [icon, setIcon] = useState();
-
     
     useEffect(() => {
         if (props.showSettings == true) {
@@ -30,4 +29,4 @@ function SettingsMenuToggler(props) {
     );
 }
 
-export default SettingsMenuToggler;
+export default React.memo(SettingsMenuToggler);

@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import React, { useContext, useRef } from "react";
 // import { SetSelectedWeatherContext } from "../App";
 
 import { ForecastModeContext } from "./DailyForecast";
@@ -113,4 +113,4 @@ function ForecastCell(props) {
     );
 }
 
-export default ForecastCell;
+export default React.memo(ForecastCell);

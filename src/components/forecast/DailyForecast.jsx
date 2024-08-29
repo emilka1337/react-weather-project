@@ -57,7 +57,7 @@ function showTomorrowforecastNotification(tomorrowForecast) {
     });
 }
 
-const DailyForecast = React.memo(function(props) {
+function DailyForecast(props) {
     let [notificationShowed, setNotificationShowed] = useState(false);
     let [separatedList, setSeparatedList] = useState([]);
     let [notificationsPermission, setNotificationsPermission] = useState("denied");
@@ -146,6 +146,6 @@ const DailyForecast = React.memo(function(props) {
             </ul>
         </>
     );
-})
+}
 
-export default DailyForecast;
+export default React.memo(DailyForecast);

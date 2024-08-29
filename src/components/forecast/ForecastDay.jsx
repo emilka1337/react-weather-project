@@ -1,7 +1,7 @@
 import React from "react";
 import ForecastCell from "./ForecastCell";
 
-const ForecastDay = React.memo(function ForecastDay(props) {
+function ForecastDay(props) {
     const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     return (
@@ -23,6 +23,6 @@ const ForecastDay = React.memo(function ForecastDay(props) {
             })}
         </li>
     );
-})
+}
 
-export default ForecastDay;
+export default React.memo(ForecastDay);

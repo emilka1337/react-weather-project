@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector } from "react-redux";
 
 function SelectedWeather(props) {
@@ -75,4 +76,4 @@ function SelectedWeather(props) {
     );
 }
 
-export default SelectedWeather;
+export default React.memo(SelectedWeather);
