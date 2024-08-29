@@ -45,8 +45,6 @@ function Clocks() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [settings]);
 
-    // console.log("clocks rendered");
-
     const setTime = () => {
         let time = getCurrentTime();
         let timeFormatted = formatTime(time, settings.showSecondsInClocks);

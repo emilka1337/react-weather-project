@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDarkMode, toggleFeelsLikeField, toggleSecondsInClock, toggleSpeedUnit, toggleTemperatureScale, resetSettings } from "../../store/settingsSlice";
 
-function SettingsMenu(props) {;
+const SettingsMenu = (function SettingsMenu(props) {;
     let [settingsResetted, setSettingsResetted] = useState(false);
 
     const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function SettingsMenu(props) {;
         setTimeout(() => setSettingsResetted(false), 3000);
     };
     //#endregion
-    
+
     return (
         <div className={props.showSettings ? "settings-menu show" : "settings-menu"}>
             <ul>
@@ -84,6 +84,6 @@ function SettingsMenu(props) {;
             </ul>
         </div>
     );
-}
+})
 
 export default SettingsMenu;

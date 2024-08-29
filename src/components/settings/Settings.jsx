@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import SettingsMenuToggler from "./SettingsMenuToggler";
 import SettingsMenu from "./SettingsMenu";
 
-function Settings() {
+const Settings = React.memo(function Settings() {
     let [showSettings, setShowSetting] = useState(false);
 
     return (
@@ -11,6 +11,6 @@ function Settings() {
             <SettingsMenu showSettings={showSettings}/>
         </>
     );
-}
+})
 
 export default Settings;
