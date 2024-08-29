@@ -1,9 +1,9 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, Suspense, useEffect, useState } from "react";
 // Components
 import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./SelectedWeather";
-import Settings from "./settings/Settings";
+const Settings = React.lazy(() => import("./settings/Settings"));
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWeather } from "../store/selectedWeatherSlice";
 // Contexts
@@ -118,7 +118,9 @@ function App() {
                     <DailyForecast forecast={forecast} />
                 </div>
                 <div className="right">
-                    <Settings />
+                    <Suspense>
+                        <Settings />
+                    </Suspense>
                 </div>
             </div>
         </div>
