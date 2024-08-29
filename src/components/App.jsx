@@ -1,13 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, Suspense, useEffect, useState } from "react";
 // Components
-import CityAndDate from "./CityAndDate";
+import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./SelectedWeather";
-// import ErrorAlert from "./alerts/ErrorAlert";
-import Settings from "./settings/Settings";
-// import WarningAlert from "./alerts/WarningAlert";
-import { useSelector } from "react-redux";
-// import { addError } from "../store/alertsSlice";
+const Settings = React.lazy(() => import("./settings/Settings"));
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedWeather } from "../store/selectedWeatherSlice";
 // Contexts
 export const SetSelectedWeatherContext = createContext();
 
@@ -21,20 +19,19 @@ function getSavedForecastData() {
     return JSON.parse(localStorage.getItem("forecastData"));
 }
 
-export function App() {
+function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
     let [forecast, setForecast] = useState({ list: [] });
-    let [selectedWeather, setSelectedWeather] = useState(0);
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
 
     const settings = useSelector((state) => state.settings.settings);
-    // const dispatch = useDispatch();
+    const selectedWeather = useSelector(
+        (state) => state.selectedWeather.selectedWeather
+    );
+    const dispatch = useDispatch();
 
+    // Defines user geolocation
     useEffect(() => {
-        // Checks if new settings added in new app releases and adds it to all settings
-        // updateSettingsIfNewSettingsAdded();
-
-        // Defines user geolocation
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 setGeolocation({
@@ -60,7 +57,9 @@ export function App() {
 
     // Setting main displaying weather to current weather
     useEffect(() => {
-        setSelectedWeather(forecast.list[0]);
+        if (forecast.list[0]) {
+            dispatch(setSelectedWeather(forecast.list[0]));
+        }
     }, [forecast]);
 
     // Setting interval to automatically update weather every 5 minutes
@@ -74,7 +73,7 @@ export function App() {
         );
 
         return () => clearInterval(autoRefreshIntervalID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation.lat, geolocation.lon]);
 
     let getForecast = (lat, lon) => {
@@ -110,38 +109,22 @@ export function App() {
         saveForecastData(data);
     };
 
-    // let updateSettingsIfNewSettingsAdded = () => {
-    //     if (localStorage.getItem("weather-app-settings")) {
-    //         for (let i in defaultAppSettings) {
-    //             if (appSettings[i] === undefined) {
-    //                 setAppSettings({
-    //                     ...appSettings,
-    //                     i: defaultAppSettings[i],
-    //                 });
-    //                 localStorage.setItem("weather-app-settings", JSON.stringify(appSettings));
-    //             }
-    //         }
-    //     }
-    // };
-
     return (
         <div className={settings.darkMode ? "app dark" : "app"}>
             <div className="widget">
                 <div className="left">
                     <CityAndDate geolocation={geolocation} />
                     <SelectedWeather info={selectedWeather} />
-                    <SetSelectedWeatherContext.Provider
-                        value={setSelectedWeather}
-                    >
-                        <DailyForecast forecast={forecast} />
-                    </SetSelectedWeatherContext.Provider>
+                    <DailyForecast forecast={forecast} />
                 </div>
                 <div className="right">
-                    <Settings />
+                    <Suspense>
+                        <Settings />
+                    </Suspense>
                 </div>
             </div>
-            {/* <ErrorAlert /> */}
-            {/* <WarningAlert /> */}
         </div>
     );
 }
+
+export default App;

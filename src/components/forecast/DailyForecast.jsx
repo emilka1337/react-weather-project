@@ -57,7 +57,7 @@ function showTomorrowforecastNotification(tomorrowForecast) {
     });
 }
 
-const DailyForecast = React.memo(function(props) {
+function DailyForecast(props) {
     let [notificationShowed, setNotificationShowed] = useState(false);
     let [separatedList, setSeparatedList] = useState([]);
     let [notificationsPermission, setNotificationsPermission] = useState("denied");
@@ -140,12 +140,12 @@ const DailyForecast = React.memo(function(props) {
             <ul className="daily-forecast">
                 <ForecastModeContext.Provider value={forecastMode}>
                     {separatedList.map((day, index) => {
-                        return <ForecastDay day={day} weekday={day[0].weekday} key={index} />;
+                        return <ForecastDay day={day} weekday={day[0].weekday} key={index} index={index}/>;
                     })}
                 </ForecastModeContext.Provider>
             </ul>
         </>
     );
-})
+}
 
-export default DailyForecast;
+export default React.memo(DailyForecast);

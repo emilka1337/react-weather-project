@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Clocks from "./Clocks";
 
-const CityAndDate = React.memo(function CityAndDate(props) {
+const saveCityName = (cityName) =>
+    localStorage.setItem("last-saved-city-name", JSON.stringify(cityName));
+
+const loadLastSavedCityName = () =>
+    JSON.parse(localStorage.getItem("last-saved-city-name"));
+
+function CityAndDate(props) {
     let [cityName, setCityName] = useState("Loading...");
 
     useEffect(() => {
@@ -32,18 +38,12 @@ const CityAndDate = React.memo(function CityAndDate(props) {
             });
     };
 
-    const saveCityName = (cityName) =>
-        localStorage.setItem("last-saved-city-name", JSON.stringify(cityName));
-
-    const loadLastSavedCityName = () =>
-        JSON.parse(localStorage.getItem("last-saved-city-name"));
-
     return (
         <div className="city-and-date">
             <h3 className="city-name">{cityName}</h3>
             <Clocks />
         </div>
     );
-});
+};
 
-export default CityAndDate;
+export default React.memo(CityAndDate);

@@ -1,25 +1,27 @@
-import { useContext, useRef } from "react";
-import { SetSelectedWeatherContext } from "../App";
+import React, { useContext, useRef } from "react";
+// import { SetSelectedWeatherContext } from "../App";
 
 import { ForecastModeContext } from "./DailyForecast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedWeather } from "../../store/selectedWeatherSlice";
 
 function formatTime(time) {
     let minutes = time.minutes;
-
+    
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
-
+    
     return `${time.hours}:${minutes}`;
 }
 
 function ForecastCell(props) {
-    let setSelectedWeather = useContext(SetSelectedWeatherContext);
+    // let setSelectedWeather = useContext(SetSelectedWeatherContext);
     let activeIndicator = useRef();
     let forecastMode = useContext(ForecastModeContext);
-
+    
     const settings = useSelector(state => state.settings.settings)
+    const dispatch = useDispatch()
 
     let date = new Date(props.timestamp * 1000);
     let hours = date.getHours();
@@ -30,7 +32,8 @@ function ForecastCell(props) {
         document.querySelectorAll(".active-indicator").forEach((item) => item.classList.remove("show"));
         activeIndicator.current.classList.add("show");
 
-        setSelectedWeather(props.cellForecast);
+        // setSelectedWeather(props.cellForecast);
+        dispatch(setSelectedWeather(props.cellForecast));
     }
 
     function defineWindArrowScale(windSpeed) {
@@ -105,9 +108,16 @@ function ForecastCell(props) {
                         : props.cellForecast.wind.speed.toFixed(1) + "m/s"}
                 </h3>
             </div>
-            <div ref={activeIndicator} className="active-indicator"></div>
+            <div
+                ref={activeIndicator}
+                className={
+                    props.isDefaultActive
+                        ? "active-indicator show"
+                        : "active-indicator"
+                }
+            ></div>
         </div>
     );
 }
 
-export default ForecastCell;
+export default React.memo(ForecastCell);

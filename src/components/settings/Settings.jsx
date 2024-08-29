@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import SettingsMenuToggler from "./SettingsMenuToggler";
 import SettingsMenu from "./SettingsMenu";
 
@@ -13,4 +13,4 @@ function Settings() {
     );
 }
 
-export default Settings;
+export default React.memo(Settings);

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDarkMode, toggleFeelsLikeField, toggleSecondsInClock, toggleSpeedUnit, toggleTemperatureScale, resetSettings } from "../../store/settingsSlice";
 
-function SettingsMenu(props) {;
+function SettingsMenu(props) {
     let [settingsResetted, setSettingsResetted] = useState(false);
 
     const dispatch = useDispatch();
@@ -34,8 +34,13 @@ function SettingsMenu(props) {;
         setSettingsResetted(true);
         setTimeout(() => setSettingsResetted(false), 3000);
     };
+
+    const resetAppClick = () => {
+        localStorage.clear();
+        window.location.reload(true);
+    }
     //#endregion
-    
+
     return (
         <div className={props.showSettings ? "settings-menu show" : "settings-menu"}>
             <ul>
@@ -72,11 +77,23 @@ function SettingsMenu(props) {;
                 <li>
                     <h5>
                         Reset Settings <br />
-                        <span>(try this if something not working properly)</span>
+                        <span>(Try this if something not working properly)</span>
                     </h5>
                     <button
                         className={settingsResetted ? "reset-button resetted" : "reset-button"}
                         onClick={resetSettingsClick}
+                    >
+                        {settingsResetted ? "OK" : "Reset"}
+                    </button>
+                </li>
+                <li>
+                    <h5>
+                        Reset App <br />
+                        <span>(Resets app settings, clears app local storage and reloads the page)</span>
+                    </h5>
+                    <button
+                        className={settingsResetted ? "reset-button resetted" : "reset-button"}
+                        onClick={resetAppClick}
                     >
                         {settingsResetted ? "OK" : "Reset"}
                     </button>
@@ -86,4 +103,4 @@ function SettingsMenu(props) {;
     );
 }
 
-export default SettingsMenu;
+export default React.memo(SettingsMenu);

@@ -7,9 +7,12 @@ const settingsMiddleware = (store) => {
         return (action) => {
             next(action);
 
-            if (action.type.startsWith('settings/')) {
+            if (action.type.startsWith('settings/') && action.type != "settings/resetSettings") {
+                console.log(action.type);
                 const currentSettings = store.getState();
                 saveSettings(currentSettings.settings.settings)
+            } else if (action.type == "settings/resetSettings") {
+                localStorage.removeItem("weather-app-settings");
             }
         }
     }

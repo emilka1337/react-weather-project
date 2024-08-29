@@ -31,7 +31,7 @@ const settingsSlice = createSlice({
             state.settings.showSecondsInClocks = !state.settings.showSecondsInClocks;
         },
         resetSettings(state, action) {
-            state.settings = settingsSlice.getInitialState().settings
+            state.settings = settingsSlice.getInitialState().settings;
         }
     }
 })
