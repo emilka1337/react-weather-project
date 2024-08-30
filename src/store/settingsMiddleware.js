@@ -8,9 +8,8 @@ const settingsMiddleware = (store) => {
             next(action);
 
             if (action.type.startsWith('settings/') && action.type != "settings/resetSettings") {
-                console.log(action.type);
                 const currentSettings = store.getState();
-                saveSettings(currentSettings.settings.settings)
+                saveSettings(currentSettings.settings)
             } else if (action.type == "settings/resetSettings") {
                 localStorage.removeItem("weather-app-settings");
             }
