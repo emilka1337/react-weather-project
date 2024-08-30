@@ -92,10 +92,10 @@ function SettingsMenu(props) {
                         <span>(Resets app settings, clears app local storage and reloads the page)</span>
                     </h5>
                     <button
-                        className={settingsResetted ? "reset-button resetted" : "reset-button"}
+                        className="reset-button"
                         onClick={resetAppClick}
                     >
-                        {settingsResetted ? "OK" : "Reset"}
+                        "Reset"
                     </button>
                 </li>
             </ul>
