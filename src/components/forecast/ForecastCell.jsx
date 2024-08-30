@@ -15,8 +15,17 @@ function formatTime(time) {
     return `${time.hours}:${minutes}`;
 }
 
+function defineWindArrowScale(windSpeed) {
+    if (windSpeed <= 4) {
+        return 0.5;
+    } else if (windSpeed > 4 && windSpeed < 8) {
+        return windSpeed / 8;
+    } else if (windSpeed > 8) {
+        return 1.2;
+    }
+}
+
 function ForecastCell(props) {
-    // let setSelectedWeather = useContext(SetSelectedWeatherContext);
     let activeIndicator = useRef();
     let forecastMode = useContext(ForecastModeContext);
     
@@ -28,22 +37,10 @@ function ForecastCell(props) {
     let minutes = date.getMinutes();
     let formattedTime = formatTime({ hours, minutes });
 
-    function clickHandler() {
+    const clickHandler = () => {
         document.querySelectorAll(".active-indicator").forEach((item) => item.classList.remove("show"));
         activeIndicator.current.classList.add("show");
-
-        // setSelectedWeather(props.cellForecast);
         dispatch(setSelectedWeather(props.cellForecast));
-    }
-
-    function defineWindArrowScale(windSpeed) {
-        if (windSpeed <= 4) {
-            return 0.5
-        } else if (windSpeed > 4 && windSpeed < 8) {
-            return windSpeed / 8
-        } else if (windSpeed > 8) {
-            return 1.2
-        }
     }
 
     return (
