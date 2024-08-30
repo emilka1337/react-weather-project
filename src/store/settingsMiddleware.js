@@ -8,7 +8,6 @@ const settingsMiddleware = (store) => {
             next(action);
 
             if (action.type.startsWith('settings/') && action.type != "settings/resetSettings") {
-                console.log(action.type);
                 const currentSettings = store.getState();
                 saveSettings(currentSettings.settings.settings)
             } else if (action.type == "settings/resetSettings") {
