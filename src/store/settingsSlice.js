@@ -30,8 +30,6 @@ const settingsSlice = createSlice({
             state.showSecondsInClocks = !state.showSecondsInClocks;
         },
         resetSettings(state, action) {
-            console.log(initialState)
-
             for (let key in initialState) {
                 state[key] = initialState[key]
             }

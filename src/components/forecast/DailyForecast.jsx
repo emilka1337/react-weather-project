@@ -1,8 +1,8 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ForecastDay from "./ForecastDay";
 import ForecastModeTogglePanel from "./ForecastModeTogglePanel";
 
-export const ForecastModeContext = createContext();
+// export const ForecastModeContext = createContext();
 
 function extractWeekDayFromTimestamp(ts) {
     return new Date(ts * 1000).getDay();
@@ -20,9 +20,7 @@ function countElementsInArrayOfArrays(arr) {
 
 function separateListByWeekdays(list) {
     let newList = new Array(...list);
-    newList.map(
-        (item) => (item.weekday = extractWeekDayFromTimestamp(item.dt))
-    );
+    newList.map((item) => (item.weekday = extractWeekDayFromTimestamp(item.dt)));
 
     let result = [];
     let currentWeekday = newList[0].weekday;
@@ -41,15 +39,9 @@ function separateListByWeekdays(list) {
 }
 
 function defineTomorrowForecast(tomorrowWeatherArray) {
-    const minTemp = Math.min(
-        ...tomorrowWeatherArray.map((item) => item.main.temp)
-    );
-    const maxTemp = Math.max(
-        ...tomorrowWeatherArray.map((item) => item.main.temp)
-    );
-    const maxWind = Math.max(
-        ...tomorrowWeatherArray.map((item) => item.wind.speed)
-    );
+    const minTemp = Math.min(...tomorrowWeatherArray.map((item) => item.main.temp));
+    const maxTemp = Math.max(...tomorrowWeatherArray.map((item) => item.main.temp));
+    const maxWind = Math.max(...tomorrowWeatherArray.map((item) => item.wind.speed));
 
     return { minTemp, maxTemp, maxWind };
 }
@@ -69,9 +61,7 @@ function showTomorrowforecastNotification(tomorrowForecast) {
 function DailyForecast(props) {
     let [notificationShowed, setNotificationShowed] = useState(false);
     let [separatedList, setSeparatedList] = useState([]);
-    let [notificationsPermission, setNotificationsPermission] =
-        useState("denied");
-    let [forecastMode, setForecastMode] = useState("temperature");
+    let [notificationsPermission, setNotificationsPermission] = useState("denied");
 
     useEffect(() => {
         Notification.requestPermission()
@@ -107,29 +97,20 @@ function DailyForecast(props) {
         }
     }, [notificationShowed, notificationsPermission, separatedList]);
 
-    const temperatureButtonClick = useCallback(() => setForecastMode("temperature"));
-    const windButtonClick = useCallback(() => setForecastMode("wind"));
-
     return (
         <>
-            <ForecastModeTogglePanel
-                forecastMode={forecastMode}
-                temperatureButtonClick={temperatureButtonClick}
-                windButtonClick={windButtonClick}
-            />
+            <ForecastModeTogglePanel />
             <ul className="daily-forecast">
-                <ForecastModeContext.Provider value={forecastMode}>
-                    {separatedList.map((day, index) => {
-                        return (
-                            <ForecastDay
-                                day={day}
-                                weekday={day[0].weekday}
-                                key={index}
-                                index={index}
-                            />
-                        );
-                    })}
-                </ForecastModeContext.Provider>
+                {separatedList.map((day, index) => {
+                    return (
+                        <ForecastDay
+                            day={day}
+                            weekday={day[0].weekday}
+                            key={index}
+                            index={index}
+                        />
+                    );
+                })}
             </ul>
         </>
     );

@@ -1,7 +1,4 @@
-import React, { useContext, useRef } from "react";
-// import { SetSelectedWeatherContext } from "../App";
-
-import { ForecastModeContext } from "./DailyForecast";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWeather } from "../../store/selectedWeatherSlice";
 
@@ -27,13 +24,14 @@ function defineWindArrowScale(windSpeed) {
 
 function ForecastCell(props) {
     let activeIndicator = useRef();
-    let forecastMode = useContext(ForecastModeContext);
+    // let forecastMode = useContext(ForecastModeContext);
+    const dispatch = useDispatch();
 
     const temperatureInF = useSelector(
         (state) => state.settings.temperatureInF
     );
     const speedUnitinMS = useSelector((state) => state.settings.speedUnitinMS);
-    const dispatch = useDispatch();
+    const forecastMode = useSelector((state) => state.forecastMode);
 
     let date = new Date(props.timestamp * 1000);
     let hours = date.getHours();
