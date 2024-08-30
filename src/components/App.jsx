@@ -1,13 +1,11 @@
 import React, { createContext, Suspense, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedWeather } from "../store/selectedWeatherSlice";
 // Components
 import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./SelectedWeather";
 const Settings = React.lazy(() => import("./settings/Settings"));
-import { useDispatch, useSelector } from "react-redux";
-import { setSelectedWeather } from "../store/selectedWeatherSlice";
-// Contexts
-export const SetSelectedWeatherContext = createContext();
 
 function saveForecastData(data) {
     let date = new Date();
@@ -24,10 +22,8 @@ function App() {
     let [forecast, setForecast] = useState({ list: [] });
     let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
 
-    const settings = useSelector((state) => state.settings.settings);
-    const selectedWeather = useSelector(
-        (state) => state.selectedWeather.selectedWeather
-    );
+    const darkMode = useSelector((state) => state.settings.darkMode);
+    const selectedWeather = useSelector((state) => state.selectedWeather);
     const dispatch = useDispatch();
 
     // Defines user geolocation
@@ -110,7 +106,7 @@ function App() {
     };
 
     return (
-        <div className={settings.darkMode ? "app dark" : "app"}>
+        <div className={darkMode ? "app dark" : "app"}>
             <div className="widget">
                 <div className="left">
                     <CityAndDate geolocation={geolocation} />
@@ -126,5 +122,7 @@ function App() {
         </div>
     );
 }
+
+App.whyDidYouRender = true;
 
 export default App;

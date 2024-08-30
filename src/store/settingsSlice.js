@@ -1,40 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = JSON.parse(localStorage.getItem("weather-app-settings")) ?? {
+    darkMode: window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false,
+    showFeelsLikeField: false,
+    temperatureInF: false,
+    speedUnitinMS: false,
+    showSecondsInClocks: false,
+}
+
 const settingsSlice = createSlice({
     name: "settings",
     initialState: {
-        settings:
-            JSON.parse(localStorage.getItem("weather-app-settings"))
-            ??
-            {
-                darkMode: window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false,
-                showFeelsLikeField: false,
-                temperatureInF: false,
-                speedUnitinMS: false,
-                showSecondsInClocks: false,
-            }
+        ...initialState
     },
     reducers: {
         toggleDarkMode(state, action) {
-            state.settings.darkMode = !state.settings.darkMode;
+            state.darkMode = !state.darkMode;
         },
         toggleFeelsLikeField(state, action) {
-            state.settings.showFeelsLikeField = !state.settings.showFeelsLikeField;
+            state.showFeelsLikeField = !state.showFeelsLikeField;
         },
         toggleTemperatureScale(state, action) {
-            state.settings.temperatureInF = !state.settings.temperatureInF;
+            state.temperatureInF = !state.temperatureInF;
         },
         toggleSpeedUnit(state, action) {
-            state.settings.speedUnitinMS = !state.settings.speedUnitinMS;
+            state.speedUnitinMS = !state.speedUnitinMS;
         },
         toggleSecondsInClock(state, action) {
-            state.settings.showSecondsInClocks = !state.settings.showSecondsInClocks;
+            state.showSecondsInClocks = !state.showSecondsInClocks;
         },
         resetSettings(state, action) {
-            state.settings = settingsSlice.getInitialState().settings;
+            console.log(initialState)
+
+            for (let key in initialState) {
+                state[key] = initialState[key]
+            }
         }
     }
 })
+
 
 export const { toggleDarkMode, toggleFeelsLikeField, toggleTemperatureScale, toggleSpeedUnit, toggleSecondsInClock, resetSettings } = settingsSlice.actions
 export default settingsSlice.reducer

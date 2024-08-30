@@ -36,18 +36,20 @@ function formatTime(time, showSeconds) {
 function Clocks() {
     let [currentTime, setCurrentTime] = useState("...");
 
-    const settings = useSelector((state) => state.settings.settings);
+    const showSecondsInClocks = useSelector(
+        (state) => state.settingsюshowSecondsInClocks
+    );
 
     useEffect(() => {
         setTime();
         let timeInterval = setInterval(setTime, 1000);
         return () => clearInterval(timeInterval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [settings]);
+    }, []);
 
     const setTime = () => {
         let time = getCurrentTime();
-        let timeFormatted = formatTime(time, settings.showSecondsInClocks);
+        let timeFormatted = formatTime(time, showSecondsInClocks);
         setCurrentTime(timeFormatted);
     };
 

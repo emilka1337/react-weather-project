@@ -6,7 +6,7 @@ function SettingsMenu(props) {
     let [settingsResetted, setSettingsResetted] = useState(false);
 
     const dispatch = useDispatch();
-    const settings = useSelector(state => state.settings.settings)
+    const settings = useSelector(state => state.settings)
 
     //#region Settings click event listeners
     const darkModeSettingClick = () => {

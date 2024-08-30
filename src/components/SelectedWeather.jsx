@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function SelectedWeather() {
-    const settings = useSelector((state) => state.settings.settings);
+    const settings = useSelector((state) => state.settings);
     const selectedWeather = useSelector(
         (state) => state.selectedWeather.selectedWeather
     );
