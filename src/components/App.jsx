@@ -5,6 +5,7 @@ import { setSelectedWeather } from "../store/selectedWeatherSlice";
 import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./SelectedWeather";
+
 const Settings = React.lazy(() => import("./settings/Settings"));
 
 function saveForecastData(data) {
@@ -57,20 +58,6 @@ function App() {
             dispatch(setSelectedWeather(forecast.list[0]));
         }
     }, [forecast]);
-
-    // Setting interval to automatically update weather every 5 minutes
-    useEffect(() => {
-        autoRefreshIntervalID && clearInterval(autoRefreshIntervalID);
-
-        setAutoRefreshIntervalID(
-            setInterval(() => {
-                getForecast(geolocation.lat, geolocation.lon);
-            }, 300 * 1000)
-        );
-
-        return () => clearInterval(autoRefreshIntervalID);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [geolocation.lat, geolocation.lon]);
 
     let getForecast = (lat, lon) => {
         try {
