@@ -24,7 +24,6 @@ function defineWindArrowScale(windSpeed) {
 
 function ForecastCell(props) {
     let activeIndicator = useRef();
-    // let forecastMode = useContext(ForecastModeContext);
     const dispatch = useDispatch();
 
     const temperatureInF = useSelector(

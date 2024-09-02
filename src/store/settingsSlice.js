@@ -26,7 +26,7 @@ const settingsSlice = createSlice({
         toggleSpeedUnit(state, action) {
             state.speedUnitinMS = !state.speedUnitinMS;
         },
-        toggleSecondsInClock(state, action) {
+        toggleSecondsInClocks(state, action) {
             state.showSecondsInClocks = !state.showSecondsInClocks;
         },
         resetSettings(state, action) {
@@ -38,5 +38,5 @@ const settingsSlice = createSlice({
 })
 
 
-export const { toggleDarkMode, toggleFeelsLikeField, toggleTemperatureScale, toggleSpeedUnit, toggleSecondsInClock, resetSettings } = settingsSlice.actions
+export const { toggleDarkMode, toggleFeelsLikeField, toggleTemperatureScale, toggleSpeedUnit, toggleSecondsInClocks, resetSettings } = settingsSlice.actions
 export default settingsSlice.reducer

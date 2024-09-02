@@ -2,13 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const selectedWeatherSlice = createSlice({
     name: "selectedWeather",
-    initialState: {
-        selectedWeather: 0
-    },
+    initialState: 0,
     reducers: {
-        setSelectedWeather(state, action) {
-            state.selectedWeather = action.payload;
-        }
+        setSelectedWeather: (state, action) => action.payload
     }
 })
 

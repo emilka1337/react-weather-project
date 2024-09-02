@@ -4,9 +4,12 @@ import { setSelectedWeather } from "../store/selectedWeatherSlice";
 // Components
 import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
-import SelectedWeather from "./SelectedWeather";
+import SelectedWeather from "./selected-weather/SelectedWeather";
+import { setGeolocation } from "../store/geolocationSlice";
 
 const Settings = React.lazy(() => import("./settings/Settings"));
+
+export const ForecastContext = createContext();
 
 function saveForecastData(data) {
     let date = new Date();
@@ -19,25 +22,24 @@ function getSavedForecastData() {
 }
 
 function App() {
-    let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
     let [forecast, setForecast] = useState({ list: [] });
-    let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
 
     const darkMode = useSelector((state) => state.settings.darkMode);
-    const selectedWeather = useSelector((state) => state.selectedWeather);
+    const geolocation = useSelector((state) => state.geolocation);
     const dispatch = useDispatch();
 
     // Defines user geolocation
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                setGeolocation({
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                });
+                dispatch(
+                    setGeolocation({
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                    })
+                );
             },
             (error) => {
-                // dispatch(addError({ error }));
                 console.log(error);
             },
             { enableHighAccuracy: true }
@@ -94,22 +96,22 @@ function App() {
 
     return (
         <div className={darkMode ? "app dark" : "app"}>
-            <div className="widget">
-                <div className="left">
-                    <CityAndDate geolocation={geolocation} />
-                    <SelectedWeather info={selectedWeather} />
-                    <DailyForecast forecast={forecast} />
+            <ForecastContext.Provider value={[forecast, setForecast]}>
+                <div className="widget">
+                    <div className="left">
+                        <CityAndDate geolocation={geolocation} />
+                        <SelectedWeather />
+                        <DailyForecast />
+                    </div>
+                    <div className="right">
+                        <Suspense>
+                            <Settings />
+                        </Suspense>
+                    </div>
                 </div>
-                <div className="right">
-                    <Suspense>
-                        <Settings />
-                    </Suspense>
-                </div>
-            </div>
+            </ForecastContext.Provider>
         </div>
     );
 }
-
-App.whyDidYouRender = true;
 
 export default App;
