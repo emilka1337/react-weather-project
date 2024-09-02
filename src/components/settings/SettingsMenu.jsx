@@ -95,7 +95,7 @@ function SettingsMenu(props) {
                         className="reset-button"
                         onClick={resetAppClick}
                     >
-                        "Reset"
+                        Reset
                     </button>
                 </li>
             </ul>
