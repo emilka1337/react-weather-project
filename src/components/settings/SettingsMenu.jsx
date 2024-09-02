@@ -1,32 +1,39 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleDarkMode, toggleFeelsLikeField, toggleSecondsInClocks, toggleSpeedUnit, toggleTemperatureScale, resetSettings } from "../../store/settingsSlice";
+import {
+    toggleDarkMode,
+    toggleFeelsLikeField,
+    toggleSecondsInClocks,
+    toggleSpeedUnit,
+    toggleTemperatureScale,
+    resetSettings,
+} from "../../store/settingsSlice";
 
 function SettingsMenu(props) {
     let [settingsResetted, setSettingsResetted] = useState(false);
 
     const dispatch = useDispatch();
-    const settings = useSelector(state => state.settings)
+    const settings = useSelector((state) => state.settings);
 
     //#region Settings click event listeners
     const darkModeSettingClick = () => {
-        dispatch(toggleDarkMode())
-    }
+        dispatch(toggleDarkMode());
+    };
 
     const feelsLikeSettingClick = () => {
-        dispatch(toggleFeelsLikeField())
+        dispatch(toggleFeelsLikeField());
     };
 
     const temperatureScaleSettingClick = () => {
-        dispatch(toggleTemperatureScale())
+        dispatch(toggleTemperatureScale());
     };
 
     const speedUnitSettingClick = () => {
-        dispatch(toggleSpeedUnit()) 
+        dispatch(toggleSpeedUnit());
     };
 
     const showSecondsInClocksClick = () => {
-        dispatch(toggleSecondsInClocks())
+        dispatch(toggleSecondsInClocks());
     };
 
     const resetSettingsClick = () => {
@@ -38,7 +45,7 @@ function SettingsMenu(props) {
     const resetAppClick = () => {
         localStorage.clear();
         window.location.reload(true);
-    }
+    };
     //#endregion
 
     return (
@@ -52,25 +59,43 @@ function SettingsMenu(props) {
                 </li>
                 <li onClick={feelsLikeSettingClick}>
                     <h5>&quot;Feels like&quot; field</h5>
-                    <button className={settings.showFeelsLikeField ? "toggler toggled" : "toggler"}>
+                    <button
+                        className={
+                            settings.showFeelsLikeField ? "toggler toggled" : "toggler"
+                        }
+                    >
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li onClick={temperatureScaleSettingClick}>
                     <h5>Temperature in F°</h5>
-                    <button className={settings.temperatureInF == true ? "toggler toggled" : "toggler"}>
+                    <button
+                        className={
+                            settings.temperatureInF == true
+                                ? "toggler toggled"
+                                : "toggler"
+                        }
+                    >
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li onClick={speedUnitSettingClick}>
                     <h5>Wind speed in m/s</h5>
-                    <button className={settings.speedUnitinMS == true ? "toggler toggled" : "toggler"}>
+                    <button
+                        className={
+                            settings.speedUnitinMS == true ? "toggler toggled" : "toggler"
+                        }
+                    >
                         <div className="circle"></div>
                     </button>
                 </li>
                 <li onClick={showSecondsInClocksClick}>
                     <h5>Show seconds in clocks</h5>
-                    <button className={settings.showSecondsInClocks ? "toggler toggled" : "toggler"}>
+                    <button
+                        className={
+                            settings.showSecondsInClocks ? "toggler toggled" : "toggler"
+                        }
+                    >
                         <div className="circle"></div>
                     </button>
                 </li>
@@ -80,7 +105,9 @@ function SettingsMenu(props) {
                         <span>(Try this if something not working properly)</span>
                     </h5>
                     <button
-                        className={settingsResetted ? "reset-button resetted" : "reset-button"}
+                        className={
+                            settingsResetted ? "reset-button resetted" : "reset-button"
+                        }
                         onClick={resetSettingsClick}
                     >
                         {settingsResetted ? "OK" : "Reset"}
@@ -89,12 +116,12 @@ function SettingsMenu(props) {
                 <li>
                     <h5>
                         Reset App <br />
-                        <span>(Resets app settings, clears app local storage and reloads the page)</span>
+                        <span>
+                            (Resets app settings, clears app local storage and reloads the
+                            page)
+                        </span>
                     </h5>
-                    <button
-                        className="reset-button"
-                        onClick={resetAppClick}
-                    >
+                    <button className="reset-button" onClick={resetAppClick}>
                         Reset
                     </button>
                 </li>
