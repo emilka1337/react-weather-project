@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ForecastDay from "./ForecastDay";
 import ForecastModeTogglePanel from "./ForecastModeTogglePanel";
+import { ForecastContext } from "../App";
 
 // export const ForecastModeContext = createContext();
 
@@ -58,10 +59,12 @@ function showTomorrowforecastNotification(tomorrowForecast) {
     });
 }
 
-function DailyForecast(props) {
+function DailyForecast() {
     let [notificationShowed, setNotificationShowed] = useState(false);
     let [separatedList, setSeparatedList] = useState([]);
     let [notificationsPermission, setNotificationsPermission] = useState("denied");
+
+    const [forecast] = useContext(ForecastContext);
 
     useEffect(() => {
         Notification.requestPermission()
@@ -76,10 +79,10 @@ function DailyForecast(props) {
     }, []);
 
     useEffect(() => {
-        if (props.forecast.list.length > 0 && separatedList.length < 5) {
-            setSeparatedList(separateListByWeekdays(props.forecast.list));
+        if (forecast.list.length > 0 && separatedList.length < 5) {
+            setSeparatedList(separateListByWeekdays(forecast.list));
         }
-    }, [props.forecast.list, separatedList]);
+    }, [forecast.list, separatedList]);
 
     useEffect(() => {
         if (

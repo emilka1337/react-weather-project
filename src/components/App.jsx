@@ -9,6 +9,8 @@ import { setGeolocation } from "../store/geolocationSlice";
 
 const Settings = React.lazy(() => import("./settings/Settings"));
 
+export const ForecastContext = createContext();
+
 function saveForecastData(data) {
     let date = new Date();
     data.timeStamp = +date;
@@ -23,7 +25,7 @@ function App() {
     let [forecast, setForecast] = useState({ list: [] });
 
     const darkMode = useSelector((state) => state.settings.darkMode);
-    const geolocation = useSelector((state) => state.geolocation)
+    const geolocation = useSelector((state) => state.geolocation);
     const dispatch = useDispatch();
 
     // Defines user geolocation
@@ -94,18 +96,20 @@ function App() {
 
     return (
         <div className={darkMode ? "app dark" : "app"}>
-            <div className="widget">
-                <div className="left">
-                    <CityAndDate geolocation={geolocation} />
-                    <SelectedWeather />
-                    <DailyForecast forecast={forecast} />
+            <ForecastContext.Provider value={[forecast, setForecast]}>
+                <div className="widget">
+                    <div className="left">
+                        <CityAndDate geolocation={geolocation} />
+                        <SelectedWeather />
+                        <DailyForecast />
+                    </div>
+                    <div className="right">
+                        <Suspense>
+                            <Settings />
+                        </Suspense>
+                    </div>
                 </div>
-                <div className="right">
-                    <Suspense>
-                        <Settings />
-                    </Suspense>
-                </div>
-            </div>
+            </ForecastContext.Provider>
         </div>
     );
 }
