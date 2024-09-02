@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Greeting from "./Greeting";
 
@@ -34,18 +34,17 @@ function formatTime(time, showSeconds) {
 }
 
 function Clocks() {
-    let [currentTime, setCurrentTime] = useState("...");
+    let [currentTime, setCurrentTime] = useState()
 
     const showSecondsInClocks = useSelector(
-        (state) => state.settingsюshowSecondsInClocks
+        state => state.settings.showSecondsInClocks
     );
 
     useEffect(() => {
         setTime();
         let timeInterval = setInterval(setTime, 1000);
         return () => clearInterval(timeInterval);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [showSecondsInClocks]);
 
     const setTime = () => {
         let time = getCurrentTime();
@@ -61,4 +60,4 @@ function Clocks() {
     );
 }
 
-export default Clocks;
+export default React.memo(Clocks);

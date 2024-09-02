@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleDarkMode, toggleFeelsLikeField, toggleSecondsInClock, toggleSpeedUnit, toggleTemperatureScale, resetSettings } from "../../store/settingsSlice";
+import { toggleDarkMode, toggleFeelsLikeField, toggleSecondsInClocks, toggleSpeedUnit, toggleTemperatureScale, resetSettings } from "../../store/settingsSlice";
 
 function SettingsMenu(props) {
     let [settingsResetted, setSettingsResetted] = useState(false);
@@ -26,7 +26,7 @@ function SettingsMenu(props) {
     };
 
     const showSecondsInClocksClick = () => {
-        dispatch(toggleSecondsInClock())
+        dispatch(toggleSecondsInClocks())
     };
 
     const resetSettingsClick = () => {
