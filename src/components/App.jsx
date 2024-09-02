@@ -24,7 +24,7 @@ function App() {
     // let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
 
     const darkMode = useSelector((state) => state.settings.darkMode);
-    const selectedWeather = useSelector((state) => state.selectedWeather);
+    // const selectedWeather = useSelector((state) => state.selectedWeather);
     const dispatch = useDispatch();
 
     // Defines user geolocation
@@ -97,7 +97,7 @@ function App() {
             <div className="widget">
                 <div className="left">
                     <CityAndDate geolocation={geolocation} />
-                    <SelectedWeather info={selectedWeather} />
+                    <SelectedWeather />
                     <DailyForecast forecast={forecast} />
                 </div>
                 <div className="right">
