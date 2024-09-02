@@ -6,7 +6,7 @@ function SelectedWeather() {
     const temperatureInF = useSelector((state) => state.settings.temperatureInF);
     const speedUnitinMS = useSelector((state) => state.settings.speedUnitinMS);
     const showFeelsLikeField = useSelector((state) => state.settings.showFeelsLikeField);
-    const selectedWeather = useSelector((state) => state.selectedWeather.selectedWeather);
+    const selectedWeather = useSelector((state) => state.selectedWeather);
 
     const getSelectedTemperatureValue = () => {
         if (temperatureInF === false) {
