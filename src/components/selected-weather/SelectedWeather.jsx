@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useSelector } from "react-redux";
+import Loading from "./Loading"
+
 
 function SelectedWeather() {
     const settings = useSelector((state) => state.settings);
@@ -92,6 +94,8 @@ function SelectedWeather() {
                 </div>
             </div>
         );
+    } else {
+        return <Loading />
     }
 }
 

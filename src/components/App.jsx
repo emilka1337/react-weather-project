@@ -4,7 +4,7 @@ import { setSelectedWeather } from "../store/selectedWeatherSlice";
 // Components
 import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
-import SelectedWeather from "./SelectedWeather";
+import SelectedWeather from "./selected-weather/SelectedWeather";
 
 const Settings = React.lazy(() => import("./settings/Settings"));
 
@@ -21,7 +21,7 @@ function getSavedForecastData() {
 function App() {
     let [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
     let [forecast, setForecast] = useState({ list: [] });
-    let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
+    // let [autoRefreshIntervalID, setAutoRefreshIntervalID] = useState();
 
     const darkMode = useSelector((state) => state.settings.darkMode);
     const selectedWeather = useSelector((state) => state.selectedWeather);

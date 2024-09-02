@@ -10,12 +10,19 @@
                 color: $darkTextColor !important;
             }
 
-            .selected-temperature {
-                color: $weatherDarkTextColor !important;
-            }
+            .selected-weather {
+                .selected-temperature {
+                    color: $weatherDarkTextColor !important;
+                }
 
-            .feels-like {
-                color: $weatherDarkTextColor !important;
+                .feels-like {
+                    color: $weatherDarkTextColor !important;
+                }
+
+            }
+            
+            .loader {
+                border-color: $weatherDarkTextColor $widgetDarkBgColor;
             }
 
             .more-info {
