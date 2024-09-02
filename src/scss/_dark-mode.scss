@@ -37,11 +37,17 @@
 
             .daily-forecast {
                 &::-webkit-scrollbar {
-                    background: $textColor;
+                    // background: $textColor;
+                    background: $widgetDarkBgColor;
                 }
 
                 &::-webkit-scrollbar-thumb {
-                    background: $appDarkBgColor;
+                    // background: $appDarkBgColor;
+                    background: $widgetDarkBgColor;
+                }
+
+                &:hover::-webkit-scrollbar-thumb {
+                    background: $weatherDarkTextColor;
                 }
             }
 
@@ -77,7 +83,7 @@
 
             .settings-menu {
                 ul li {
-                    &:not(:last-child):hover{
+                    &:not(:last-child):hover {
                         background: $hoverDarkBgColor !important;
                     }
 
