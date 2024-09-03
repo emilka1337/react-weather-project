@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import ForecastDay from "./ForecastDay";
 import ForecastModeTogglePanel from "./ForecastModeTogglePanel";
-import { ForecastContext } from "../App";
+import { useSelector } from "react-redux";
+// import { ForecastContext } from "../App";
 
 // export const ForecastModeContext = createContext();
 
@@ -20,7 +21,7 @@ function countElementsInArrayOfArrays(arr) {
 }
 
 function separateListByWeekdays(list) {
-    let newList = new Array(...list);
+    let newList = structuredClone(list);
     newList.map((item) => (item.weekday = extractWeekDayFromTimestamp(item.dt)));
 
     let result = [];
@@ -64,7 +65,8 @@ function DailyForecast() {
     let [separatedList, setSeparatedList] = useState([]);
     let [notificationsPermission, setNotificationsPermission] = useState("denied");
 
-    const [forecast] = useContext(ForecastContext);
+    const forecast = useSelector((state) => state.forecast);
+    
 
     useEffect(() => {
         Notification.requestPermission()
@@ -82,7 +84,7 @@ function DailyForecast() {
         if (forecast.list.length > 0 && separatedList.length < 5) {
             setSeparatedList(separateListByWeekdays(forecast.list));
         }
-    }, [forecast.list, separatedList]);
+    }, [forecast]);
 
     useEffect(() => {
         if (

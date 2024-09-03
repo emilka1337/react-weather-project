@@ -1,15 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const forecastSlice = createSlice({
-    name: "forecastSlice",
+    name: "forecast",
     initialState: {
         list: []
     },
     reducers: {
-        setForecast(state, action) {
-            console.log(action.payload);
-            state.list = action.payload.list
-        }
+        setForecast: (state, action) => action.payload.payload
     }
 })
 
