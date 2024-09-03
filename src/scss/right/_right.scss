@@ -17,6 +17,7 @@
         transition: 500ms;
         transform: translateX(110%);
         opacity: 0;
+        // overflow-y: scroll;
 
         &.show {
             transform: none;

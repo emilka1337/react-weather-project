@@ -6,10 +6,12 @@ import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./selected-weather/SelectedWeather";
 import { setGeolocation } from "../store/geolocationSlice";
+import { fetchForecast } from "../store/forecastThunks";
+import { setForecast } from "../store/forecastSlice";
 
 const Settings = React.lazy(() => import("./settings/Settings"));
 
-export const ForecastContext = createContext();
+// export const ForecastContext = createContext();
 
 function saveForecastData(data) {
     let date = new Date();
@@ -22,11 +24,9 @@ function getSavedForecastData() {
 }
 
 function App() {
-    let [forecast, setForecast] = useState({ list: [] });
-
+    const dispatch = useDispatch();
     const darkMode = useSelector((state) => state.settings.darkMode);
     const geolocation = useSelector((state) => state.geolocation);
-    const dispatch = useDispatch();
 
     // Defines user geolocation
     useEffect(() => {
@@ -54,13 +54,6 @@ function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [geolocation]);
 
-    // Setting main displaying weather to current weather
-    useEffect(() => {
-        if (forecast.list[0]) {
-            dispatch(setSelectedWeather(forecast.list[0]));
-        }
-    }, [forecast]);
-
     let getForecast = (lat, lon) => {
         try {
             let savedForecastData = getSavedForecastData();
@@ -71,45 +64,36 @@ function App() {
                 !savedForecastData ||
                 currentMilliseconds - savedForecastData.timeStamp > 300 * 1000
             ) {
-                fetchForecast(lat, lon);
+                const data = dispatch(fetchForecast({ lat, lon }));
+                data.then((data) => {
+                    saveForecastData(data);
+                    dispatch(setForecast(data))
+                });
             } else {
-                setForecast(savedForecastData);
+                dispatch(setForecast(savedForecastData));
             }
         } catch {
             let savedForecastData = getSavedForecastData();
-            console.log(savedForecastData);
             setForecast(savedForecastData);
         }
     };
 
-    let fetchForecast = async (lat, lon) => {
-        let forecastURL = `${
-            import.meta.env.VITE_BASE_URL
-        }/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${
-            import.meta.env.VITE_API_KEY
-        }&units=metric`;
-        let response = await fetch(forecastURL);
-        let data = await response.json();
-        setForecast(data);
-        saveForecastData(data);
-    };
-
     return (
         <div className={darkMode ? "app dark" : "app"}>
-            <ForecastContext.Provider value={[forecast, setForecast]}>
-                <div className="widget">
-                    <div className="left">
-                        <CityAndDate geolocation={geolocation} />
-                        <SelectedWeather />
-                        <DailyForecast />
-                    </div>
-                    <div className="right">
-                        <Suspense>
-                            <Settings />
-                        </Suspense>
-                    </div>
+            {/* <ForecastContext.Provider value={[forecast, setForecast]}> */}
+            <div className="widget">
+                <div className="left">
+                    <CityAndDate geolocation={geolocation} />
+                    <SelectedWeather />
+                    <DailyForecast />
                 </div>
-            </ForecastContext.Provider>
+                <div className="right">
+                    <Suspense>
+                        <Settings />
+                    </Suspense>
+                </div>
+            </div>
+            {/* </ForecastContext.Provider> */}
         </div>
     );
 }
