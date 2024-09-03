@@ -6,12 +6,10 @@ import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
 import SelectedWeather from "./selected-weather/SelectedWeather";
 import { setGeolocation } from "../store/geolocationSlice";
-import { fetchForecast } from "../store/forecastThunks";
 import { setForecast } from "../store/forecastSlice";
+import { fetchForecast } from "../store/forecastThunk";
 
 const Settings = React.lazy(() => import("./settings/Settings"));
-
-// export const ForecastContext = createContext();
 
 function saveForecastData(data) {
     let date = new Date();
@@ -80,7 +78,6 @@ function App() {
 
     return (
         <div className={darkMode ? "app dark" : "app"}>
-            {/* <ForecastContext.Provider value={[forecast, setForecast]}> */}
             <div className="widget">
                 <div className="left">
                     <CityAndDate geolocation={geolocation} />
@@ -93,7 +90,6 @@ function App() {
                     </Suspense>
                 </div>
             </div>
-            {/* </ForecastContext.Provider> */}
         </div>
     );
 }
