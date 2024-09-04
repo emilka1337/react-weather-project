@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { Suspense, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWeather } from "../../store/selectedWeatherSlice";
 import TemperatureContainer from "./TemperatureContainer";
-import WindContainer from "./WindContainer";
+
+const WindContainer = React.lazy(() => import("./WindContainer"));
 
 function formatTime(time) {
     let minutes = time.minutes;
@@ -42,12 +43,14 @@ function ForecastCell({ timestamp, cellForecast, isDefaultActive }) {
                     main={cellForecast.weather[0].main}
                 />
             )}
-            {forecastMode == "wind" && (
-                <WindContainer
-                    speed={cellForecast.wind.speed}
-                    degree={cellForecast.wind.deg}
-                />
-            )}
+            <Suspense>
+                {forecastMode == "wind" && (
+                    <WindContainer
+                        speed={cellForecast.wind.speed}
+                        degree={cellForecast.wind.deg}
+                    />
+                )}
+            </Suspense>
             <div
                 ref={activeIndicator}
                 className={isDefaultActive ? "active-indicator show" : "active-indicator"}
