@@ -15,10 +15,10 @@ function formatTime(time) {
 }
 
 function ForecastCell({ timestamp, cellForecast, isDefaultActive }) {
-    let activeIndicator = useRef();
+    const forecastMode = useSelector((state) => state.forecastMode);
 
     const dispatch = useDispatch();
-    const forecastMode = useSelector((state) => state.forecastMode);
+    let activeIndicator = useRef();
 
     const date = new Date(timestamp * 1000);
     const hours = date.getHours();
