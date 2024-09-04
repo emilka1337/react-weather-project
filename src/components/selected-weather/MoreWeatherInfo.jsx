@@ -1,3 +1,6 @@
+import React from "react";
+import { useSelector } from "react-redux";
+
 const icons = {
     wind: (
         <svg
@@ -26,20 +29,39 @@ const icons = {
     ),
 };
 
-function MoreWeatherInfo({windSpeed, humidity}) {
+function MoreWeatherInfo() {
+    const windSpeed = useSelector((state) => state.selectedWeather.wind.speed);
+    const speedUnitinMS = useSelector((state) => state.settings.speedUnitinMS);
+    const humidity = useSelector((state) => state.selectedWeather.main.humidity);
+    const sky = useSelector((state) => state.selectedWeather?.weather[0].main);
+
+    const getWindSpeedValue = () => {
+        let tempWindSpeed = "";
+
+        if (speedUnitinMS === false) {
+            tempWindSpeed += (windSpeed * 3.6).toFixed(0);
+        } else if (speedUnitinMS === true) {
+            tempWindSpeed += windSpeed.toFixed(0);
+        }
+
+        tempWindSpeed += speedUnitinMS == false ? " km/h" : " m/s";
+
+        return tempWindSpeed;
+    };
+
     return (
         <div className="more-info">
             <h3 className="wind">
                 {icons.wind}
-                {windSpeed}
+                {getWindSpeedValue()}
             </h3>
-            <h2 className="sky">{selectedWeather?.weather[0].main}</h2>
+            <h2 className="sky">{sky}</h2>
             <h3 className="humidity">
                 {icons.humidity}
-                {humidity}
+                {humidity}%
             </h3>
         </div>
     );
 }
 
-export default MoreWeatherInfo;
+export default React.memo(MoreWeatherInfo);
