@@ -4,7 +4,7 @@ const initialState = JSON.parse(localStorage.getItem("weather-app-settings")) ??
     darkMode: window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false,
     showFeelsLikeField: false,
     temperatureInF: false,
-    speedUnitinMS: false,
+    speedUnitInMS: false,
     showSecondsInClocks: false,
 }
 
@@ -24,7 +24,7 @@ const settingsSlice = createSlice({
             state.temperatureInF = !state.temperatureInF;
         },
         toggleSpeedUnit(state, action) {
-            state.speedUnitinMS = !state.speedUnitinMS;
+            state.speedUnitInMS = !state.speedUnitInMS;
         },
         toggleSecondsInClocks(state, action) {
             state.showSecondsInClocks = !state.showSecondsInClocks;

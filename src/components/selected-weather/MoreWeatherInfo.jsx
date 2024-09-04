@@ -31,20 +31,20 @@ const icons = {
 
 function MoreWeatherInfo() {
     const windSpeed = useSelector((state) => state.selectedWeather.wind.speed);
-    const speedUnitinMS = useSelector((state) => state.settings.speedUnitinMS);
+    const speedUnitInMS = useSelector((state) => state.settings.speedUnitInMS);
     const humidity = useSelector((state) => state.selectedWeather.main.humidity);
     const sky = useSelector((state) => state.selectedWeather?.weather[0].main);
 
     const getWindSpeedValue = () => {
         let tempWindSpeed = "";
 
-        if (speedUnitinMS === false) {
+        if (speedUnitInMS === false) {
             tempWindSpeed += (windSpeed * 3.6).toFixed(0);
-        } else if (speedUnitinMS === true) {
+        } else if (speedUnitInMS === true) {
             tempWindSpeed += windSpeed.toFixed(0);
         }
 
-        tempWindSpeed += speedUnitinMS == false ? " km/h" : " m/s";
+        tempWindSpeed += speedUnitInMS == false ? " km/h" : " m/s";
 
         return tempWindSpeed;
     };
