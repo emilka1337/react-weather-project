@@ -22,7 +22,9 @@
             }
             
             .loader {
-                border-color: $weatherDarkTextColor $widgetDarkBgColor;
+                .circle {
+                    color: $weatherDarkTextColor !important;
+                }
             }
 
             .more-info {
