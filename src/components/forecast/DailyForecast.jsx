@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ForecastDay from "./ForecastDay";
 import ForecastModeTogglePanel from "./ForecastModeTogglePanel";
 import { useSelector } from "react-redux";
-// import { ForecastContext } from "../App";
-
-// export const ForecastModeContext = createContext();
 
 function extractWeekDayFromTimestamp(ts) {
     return new Date(ts * 1000).getDay();
@@ -40,10 +37,10 @@ function separateListByWeekdays(list) {
     return result;
 }
 
-function defineTomorrowForecast(tomorrowWeatherArray) {
-    const minTemp = Math.min(...tomorrowWeatherArray.map((item) => item.main.temp));
-    const maxTemp = Math.max(...tomorrowWeatherArray.map((item) => item.main.temp));
-    const maxWind = Math.max(...tomorrowWeatherArray.map((item) => item.wind.speed));
+function getForecastByDay(forecastDay) {
+    const minTemp = Math.min(...forecastDay.map((item) => item.main.temp));
+    const maxTemp = Math.max(...forecastDay.map((item) => item.main.temp));
+    const maxWind = Math.max(...forecastDay.map((item) => item.wind.speed));
 
     return { minTemp, maxTemp, maxWind };
 }
@@ -62,11 +59,10 @@ function showTomorrowforecastNotification(tomorrowForecast) {
 
 function DailyForecast() {
     let [notificationShowed, setNotificationShowed] = useState(false);
-    let [separatedList, setSeparatedList] = useState([]);
     let [notificationsPermission, setNotificationsPermission] = useState("denied");
+    let [separatedForecastList, setseparatedForecastList] = useState([]);
 
     const forecast = useSelector((state) => state.forecast);
-    
 
     useEffect(() => {
         Notification.requestPermission()
@@ -81,8 +77,8 @@ function DailyForecast() {
     }, []);
 
     useEffect(() => {
-        if (forecast.list.length > 0 && separatedList.length < 5) {
-            setSeparatedList(separateListByWeekdays(forecast.list));
+        if (forecast.list.length > 0 && separatedForecastList.length < 5) {
+            setseparatedForecastList(separateListByWeekdays(forecast.list));
         }
     }, [forecast]);
 
@@ -90,9 +86,9 @@ function DailyForecast() {
         if (
             notificationsPermission == "granted" &&
             notificationShowed === false &&
-            separatedList.length > 0
+            separatedForecastList.length > 0
         ) {
-            let tomorrowForecast = defineTomorrowForecast(separatedList[1]);
+            let tomorrowForecast = getForecastByDay(separatedForecastList[1]);
             setNotificationShowed(true);
             setTimeout(function () {
                 showTomorrowforecastNotification(tomorrowForecast);
@@ -100,25 +96,27 @@ function DailyForecast() {
 
             console.log("notification");
         }
-    }, [notificationShowed, notificationsPermission, separatedList]);
+    }, [notificationShowed, notificationsPermission, separatedForecastList]);
 
-    return (
-        <>
-            <ForecastModeTogglePanel />
-            <ul className="daily-forecast">
-                {separatedList.map((day, index) => {
-                    return (
-                        <ForecastDay
-                            day={day}
-                            weekday={day[0].weekday}
-                            key={index}
-                            index={index}
-                        />
-                    );
-                })}
-            </ul>
-        </>
-    );
+    if (separatedForecastList.length > 0) {
+        return (
+            <>
+                <ForecastModeTogglePanel />
+                <ul className="daily-forecast">
+                    {separatedForecastList.map((day, index) => {
+                        return (
+                            <ForecastDay
+                                day={day}
+                                weekday={day[0].weekday}
+                                key={index}
+                                index={index}
+                            />
+                        );
+                    })}
+                </ul>
+            </>
+        );
+    }
 }
 
 export default React.memo(DailyForecast);

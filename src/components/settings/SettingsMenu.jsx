@@ -83,7 +83,7 @@ function SettingsMenu(props) {
                     <h5>Wind speed in m/s</h5>
                     <button
                         className={
-                            settings.speedUnitinMS == true ? "toggler toggled" : "toggler"
+                            settings.speedUnitInMS == true ? "toggler toggled" : "toggler"
                         }
                     >
                         <div className="circle"></div>
