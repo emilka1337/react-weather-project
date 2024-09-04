@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function SelectedTemperature() {
-    const temperature = useSelector((state) => state.selectedWeather.main.temp);
+    const temperature = useSelector((state) => state.selectedWeather.selectedTemperature);
     const temperatureInF = useSelector((state) => state.settings.temperatureInF);
 
     const getSelectedTemperatureValue = () => {

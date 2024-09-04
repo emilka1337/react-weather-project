@@ -8,7 +8,6 @@ import MoreWeatherInfo from "./MoreWeatherInfo";
 
 function SelectedWeather() {
     const dispatch = useDispatch();
-    const selectedWeather = useSelector((state) => state.selectedWeather);
     const showFeelsLikeField = useSelector((state) => state.settings.showFeelsLikeField);
     const forecast = useSelector((state) => state.forecast);
 
@@ -19,7 +18,7 @@ function SelectedWeather() {
         }
     }, [forecast]);
 
-    if (selectedWeather) {
+    if (forecast.list.length > 0) {
         return (
             <div className="selected-weather">
                 <SelectedTemperature />

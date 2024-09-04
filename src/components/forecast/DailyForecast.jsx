@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ForecastDay from "./ForecastDay";
 import ForecastModeTogglePanel from "./ForecastModeTogglePanel";
 import { useSelector } from "react-redux";
@@ -63,7 +63,7 @@ function DailyForecast() {
     let [separatedForecastList, setseparatedForecastList] = useState([]);
 
     const forecast = useSelector((state) => state.forecast);
-    
+
     useEffect(() => {
         Notification.requestPermission()
             .then((result) => {
@@ -98,23 +98,25 @@ function DailyForecast() {
         }
     }, [notificationShowed, notificationsPermission, separatedForecastList]);
 
-    return (
-        <>
-            <ForecastModeTogglePanel />
-            <ul className="daily-forecast">
-                {separatedForecastList.map((day, index) => {
-                    return (
-                        <ForecastDay
-                            day={day}
-                            weekday={day[0].weekday}
-                            key={index}
-                            index={index}
-                        />
-                    );
-                })}
-            </ul>
-        </>
-    );
+    if (separatedForecastList.length > 0) {
+        return (
+            <>
+                <ForecastModeTogglePanel />
+                <ul className="daily-forecast">
+                    {separatedForecastList.map((day, index) => {
+                        return (
+                            <ForecastDay
+                                day={day}
+                                weekday={day[0].weekday}
+                                key={index}
+                                index={index}
+                            />
+                        );
+                    })}
+                </ul>
+            </>
+        );
+    }
 }
 
 export default React.memo(DailyForecast);

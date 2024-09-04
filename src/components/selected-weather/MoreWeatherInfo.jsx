@@ -30,10 +30,10 @@ const icons = {
 };
 
 function MoreWeatherInfo() {
-    const windSpeed = useSelector((state) => state.selectedWeather.wind.speed);
+    const windSpeed = useSelector((state) => state.selectedWeather.selectedWind);
     const speedUnitInMS = useSelector((state) => state.settings.speedUnitInMS);
-    const humidity = useSelector((state) => state.selectedWeather.main.humidity);
-    const sky = useSelector((state) => state.selectedWeather?.weather[0].main);
+    const humidity = useSelector((state) => state.selectedWeather.selectedHumidity);
+    const sky = useSelector((state) => state.selectedWeather.selectedMain);
 
     const getWindSpeedValue = () => {
         let tempWindSpeed = "";
