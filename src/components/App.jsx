@@ -1,6 +1,5 @@
-import React, { createContext, Suspense, useEffect, useState } from "react";
+import React, { createContext, Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedWeather } from "../store/selectedWeatherSlice";
 // Components
 import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
@@ -80,7 +79,7 @@ function App() {
         <div className={darkMode ? "app dark" : "app"}>
             <div className="widget">
                 <div className="left">
-                    <CityAndDate geolocation={geolocation} />
+                    <CityAndDate />
                     <SelectedWeather />
                     <DailyForecast />
                 </div>
