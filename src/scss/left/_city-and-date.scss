@@ -2,11 +2,37 @@
     color: $textColor;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
 
-    h3 {
-        font-weight: 500;
-        margin-top: 0;
-        font-size: 18px;
+    .city {
+        display: flex;
+        
+        h3 {
+            font-weight: 500;
+            margin: 0;
+            font-size: 18px;
+            cursor: default;
+        }
+
+        .edit-city {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            opacity: 0;
+            margin-left: 3px;
+            transition: 300ms;
+            transform: translateY(1px);
+
+            svg {
+                width: 14px;
+                height: 14px;
+                color: $textColor;
+            }
+        }
+
+        &:hover .edit-city {
+            opacity: 1;
+        }
     }
 
     .clocks {
@@ -16,12 +42,12 @@
         text-align: center;
         overflow: hidden;
 
-        .greeting, .time {
+        .greeting,
+        .time {
             transition: 400ms;
             margin: 0;
             animation: clocks-transform 10s infinite;
         }
-
     }
 }
 

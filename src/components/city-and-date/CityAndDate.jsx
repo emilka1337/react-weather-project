@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Clocks from "./Clocks";
-import axios from "axios";
 import City from "./City";
 
 function CityAndDate() {

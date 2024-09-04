@@ -8,6 +8,10 @@
         .left {
             .city-and-date {
                 color: $darkTextColor !important;
+
+                svg {
+                    color: $darkTextColor !important;
+                }
             }
 
             .selected-weather {
