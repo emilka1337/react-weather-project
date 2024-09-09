@@ -7,6 +7,7 @@ import forecastModeSlice from "./forecastModeSlice";
 import geolocationSlice from "./geolocationSlice";
 import forecastSlice from "./forecastSlice";
 import selectedCitySlice from "./selectedCitySlice";
+import starredCitiesSlice from "./starredCitiesSlice";
 
 const store = configureStore({
     reducer: {
@@ -16,7 +17,8 @@ const store = configureStore({
         forecastMode: forecastModeSlice,
         geolocation: geolocationSlice,
         forecast: forecastSlice,
-        selectedCity: selectedCitySlice
+        selectedCity: selectedCitySlice,
+        starredCities: starredCitiesSlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(settingsMiddleware),
 })

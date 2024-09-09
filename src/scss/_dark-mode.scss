@@ -20,7 +20,7 @@
                         background: $weatherDarkTextColor;
                     }
 
-                    ul {
+                    .cities-list {
                         button {
                             color: $darkTextColor !important;
 
@@ -28,6 +28,10 @@
                                 background: $hoverDarkBgColor !important;
                             }
                         }
+                    }
+
+                    .starred-cities-list svg {
+                        color: #FFE234 !important;
                     }
                 }
             }
