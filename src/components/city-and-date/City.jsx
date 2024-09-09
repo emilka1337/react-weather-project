@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedCity } from "../../store/selectedCitySlice";
 
 const CitySearch = React.lazy(() => import("./CitySearch"));
 
@@ -11,9 +12,11 @@ const loadLastSavedCityName = () =>
     JSON.parse(localStorage.getItem("last-saved-city-name"));
 
 function City() {
-    let [cityName, setCityName] = useState("Loading...");
     let [showCitySearch, setShowCitySearch] = useState(false);
     const geolocation = useSelector((state) => state.geolocation);
+    const cityName = useSelector(state => state.selectedCity)
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         fetchCityNameByCoords(geolocation.lat, geolocation.lon);
@@ -32,12 +35,14 @@ function City() {
             .get(requestURL)
             .then((response) => {
                 saveCityName(response.data[0].name);
-                setCityName(response.data[0].name);
+                dispatch(setSelectedCity(response.data[0].name));
+                // setCityName(response.data[0].name);
             })
             .catch(() => {
                 let cityName =
                     loadLastSavedCityName() ?? "Sorry, something went wrong :(";
-                setCityName(cityName);
+                    dispatch(setSelectedCity(cityName));
+                // setCityName(cityName);
             });
     };
 

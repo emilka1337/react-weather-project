@@ -24,6 +24,7 @@ function App() {
     const dispatch = useDispatch();
     const darkMode = useSelector((state) => state.settings.darkMode);
     const geolocation = useSelector((state) => state.geolocation);
+    const cityName = useSelector(state => state.selectedCity)
 
     // Defines user geolocation
     useEffect(() => {
@@ -54,12 +55,12 @@ function App() {
     let getForecast = (lat, lon) => {
         try {
             let savedForecastData = getSavedForecastData();
-            let date = new Date();
-            let currentMilliseconds = +date;
+            let currentMilliseconds = Date.now();
 
             if (
                 !savedForecastData ||
-                currentMilliseconds - savedForecastData.timeStamp > 300 * 1000
+                currentMilliseconds - savedForecastData.timeStamp > 300 * 1000 ||
+                savedForecastData.payload.city.name != cityName
             ) {
                 const data = dispatch(fetchForecast({ lat, lon }));
                 data.then((data) => {
@@ -70,8 +71,7 @@ function App() {
                 dispatch(setForecast(savedForecastData));
             }
         } catch {
-            let savedForecastData = getSavedForecastData();
-            setForecast(savedForecastData);
+            setForecast(getSavedForecastData());
         }
     };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import CitiesList from "./CitiesList";
 
 function CitySearch({ showCitySearch }) {
     const [inputValue, setInputValue] = useState("");
@@ -29,29 +30,15 @@ function CitySearch({ showCitySearch }) {
         return () => clearTimeout(timeoutID);
     }, [inputValue]);
 
-    useEffect(() => {
-        console.log(citiesList);
-    }, [citiesList]);
-
     return (
         <section className={showCitySearch ? "city-search show" : "city-search"}>
-            <h5>Search</h5>
             <input
                 type="text"
-                placeholder="Type here..."
+                placeholder="Search city..."
                 value={inputValue}
                 onChange={handleInputChange}
             />
-            <ul>
-                {citiesList?.data.length > 0 &&
-                    citiesList.data.map((item, index) => {
-                        return (
-                            <li key={index}>
-                                <button>{item.name}</button>
-                            </li>
-                        );
-                    })}
-            </ul>
+            <CitiesList citiesList={citiesList}/>
         </section>
     );
 }
