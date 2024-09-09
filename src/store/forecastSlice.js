@@ -6,7 +6,9 @@ const forecastSlice = createSlice({
         list: []
     },
     reducers: {
-        setForecast: (state, action) => action.payload.payload
+        setForecast: (state, action) => {
+            return action.payload.payload
+        }
     }
 })
 

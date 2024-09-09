@@ -77,7 +77,7 @@ function DailyForecast() {
     }, []);
 
     useEffect(() => {
-        if (forecast.list.length > 0 && separatedForecastList.length < 5) {
+        if (forecast.list.length > 0) {
             setseparatedForecastList(separateListByWeekdays(forecast.list));
         }
     }, [forecast]);

@@ -1,6 +1,5 @@
-import React, { createContext, Suspense, useEffect, useState } from "react";
+import React, { createContext, Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedWeather } from "../store/selectedWeatherSlice";
 // Components
 import CityAndDate from "./city-and-date/CityAndDate";
 import DailyForecast from "./forecast/DailyForecast";
@@ -25,6 +24,7 @@ function App() {
     const dispatch = useDispatch();
     const darkMode = useSelector((state) => state.settings.darkMode);
     const geolocation = useSelector((state) => state.geolocation);
+    const cityName = useSelector(state => state.selectedCity)
 
     // Defines user geolocation
     useEffect(() => {
@@ -55,12 +55,12 @@ function App() {
     let getForecast = (lat, lon) => {
         try {
             let savedForecastData = getSavedForecastData();
-            let date = new Date();
-            let currentMilliseconds = +date;
+            let currentMilliseconds = Date.now();
 
             if (
                 !savedForecastData ||
-                currentMilliseconds - savedForecastData.timeStamp > 300 * 1000
+                currentMilliseconds - savedForecastData.timeStamp > 300 * 1000 ||
+                savedForecastData.payload.city.name != cityName
             ) {
                 const data = dispatch(fetchForecast({ lat, lon }));
                 data.then((data) => {
@@ -71,8 +71,7 @@ function App() {
                 dispatch(setForecast(savedForecastData));
             }
         } catch {
-            let savedForecastData = getSavedForecastData();
-            setForecast(savedForecastData);
+            setForecast(getSavedForecastData());
         }
     };
 
@@ -80,7 +79,7 @@ function App() {
         <div className={darkMode ? "app dark" : "app"}>
             <div className="widget">
                 <div className="left">
-                    <CityAndDate geolocation={geolocation} />
+                    <CityAndDate />
                     <SelectedWeather />
                     <DailyForecast />
                 </div>

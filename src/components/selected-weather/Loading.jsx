@@ -1,7 +1,11 @@
 function Loading() {
     return (
         <div className="loading">
-            <div className="loader"></div>
+            {/* <div className="loader"></div> */}
+            <div className="loader">
+                <div className="circle"></div>
+                <div className="circle"></div>
+            </div>
         </div>
     );
 }

@@ -8,6 +8,28 @@
         .left {
             .city-and-date {
                 color: $darkTextColor !important;
+
+                svg {
+                    color: $darkTextColor !important;
+                }
+
+                .city-search {
+                    background: $appDarkBgColor;
+
+                    input {
+                        background: $weatherDarkTextColor;
+                    }
+
+                    ul {
+                        button {
+                            color: $darkTextColor !important;
+
+                            &:hover {
+                                background: $hoverDarkBgColor !important;
+                            }
+                        }
+                    }
+                }
             }
 
             .selected-weather {
@@ -18,11 +40,12 @@
                 .feels-like {
                     color: $weatherDarkTextColor !important;
                 }
-
             }
-            
+
             .loader {
-                border-color: $weatherDarkTextColor $widgetDarkBgColor;
+                .circle {
+                    color: $weatherDarkTextColor !important;
+                }
             }
 
             .more-info {
