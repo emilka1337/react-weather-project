@@ -14,13 +14,12 @@ function CitiesList({ citiesList }) {
 
     const addToFavorites = (city) => {
         dispatch(addCityToStarredCities(city));
-    }
+    };
 
     return (
         <ul className="cities-list">
-            <h5>Search</h5>
-            {citiesList?.data.length > 0 &&
-                citiesList.data.map((city, index) => {
+            {citiesList?.data.length > 0 && <h5>Search</h5>}
+            {citiesList.data.map((city, index) => {
                     return (
                         <li key={index}>
                             <button

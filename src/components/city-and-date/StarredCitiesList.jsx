@@ -18,7 +18,7 @@ function StarredCitiesList() {
 
     return (
         <ul className="cities-list starred-cities-list">
-            <h5>Starred</h5>
+            {starredCities.length > 0 && <h5>Starred</h5>}
             {starredCities.map((city, index) => {
                 return (
                     <li key={index}>

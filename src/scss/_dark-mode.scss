@@ -27,11 +27,11 @@
                             &:hover {
                                 background: $hoverDarkBgColor !important;
                             }
-
-                            // &:nth-child(2) svg {
-                            //     color: #FFE234 !important;
-                            // }
                         }
+                    }
+
+                    .starred-cities-list svg {
+                        color: #FFE234 !important;
                     }
                 }
             }
