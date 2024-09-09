@@ -20,13 +20,17 @@
                         background: $weatherDarkTextColor;
                     }
 
-                    ul {
+                    .cities-list {
                         button {
                             color: $darkTextColor !important;
 
                             &:hover {
                                 background: $hoverDarkBgColor !important;
                             }
+
+                            // &:nth-child(2) svg {
+                            //     color: #FFE234 !important;
+                            // }
                         }
                     }
                 }

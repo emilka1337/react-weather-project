@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CitiesList from "./CitiesList";
+import StarredCitiesList from "./StarredCitiesList";
 
 function CitySearch({ showCitySearch }) {
     const [inputValue, setInputValue] = useState("");
@@ -38,7 +39,8 @@ function CitySearch({ showCitySearch }) {
                 value={inputValue}
                 onChange={handleInputChange}
             />
-            <CitiesList citiesList={citiesList}/>
+            <StarredCitiesList />
+            <CitiesList citiesList={citiesList} />
         </section>
     );
 }
