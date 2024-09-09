@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectedCity } from "../../store/selectedCitySlice";
 import { setGeolocation } from "../../store/geolocationSlice";
 import { removeCityFromStarredCities } from "../../store/starredCitiesSlice";
+import React from "react";
 
 function StarredCitiesList() {
     const starredCities = useSelector((state) => state.starredCities);
@@ -45,4 +46,4 @@ function StarredCitiesList() {
     );
 }
 
-export default StarredCitiesList;
+export default React.memo(StarredCitiesList);

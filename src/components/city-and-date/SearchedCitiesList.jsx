@@ -4,7 +4,7 @@ import { setSelectedCity } from "../../store/selectedCitySlice";
 import { setGeolocation } from "../../store/geolocationSlice";
 import { addCityToStarredCities } from "../../store/starredCitiesSlice";
 
-function CitiesList({ citiesList }) {
+function SearchedCitiesList({ citiesList }) {
     const dispatch = useDispatch();
 
     const handleCityClick = (city) => {
@@ -45,4 +45,4 @@ function CitiesList({ citiesList }) {
     );
 }
 
-export default React.memo(CitiesList);
+export default React.memo(SearchedCitiesList);
