@@ -30,9 +30,11 @@ const settingsSlice = createSlice({
             state.showSecondsInClocks = !state.showSecondsInClocks;
         },
         resetSettings(state, action) {
-            for (let key in initialState) {
-                state[key] = initialState[key]
-            }
+            state.darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false;
+            state.showFeelsLikeField = false;
+            state.temperatureInF = false;
+            state.speedUnitInMS = false;
+            state.showSecondsInClocks = false;
         }
     }
 })
