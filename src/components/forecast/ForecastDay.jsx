@@ -12,7 +12,6 @@ function ForecastDay(props) {
 
             {props.day.map((item, index) => {   
                 const isDefaultActive = props.index == 0 && index == 0
-                console.log(item);
             
                 return (
                     <ForecastCell
