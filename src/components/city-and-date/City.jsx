@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedCity } from "../../store/selectedCitySlice";
 import EditCityToggler from "./EditCityToggler";
+import ky from "ky";
 
 const CitySearch = React.lazy(() => import("./CitySearch"));
 
@@ -36,18 +36,16 @@ function City() {
             import.meta.env.VITE_API_KEY
         }`;
 
-        axios
-            .get(requestURL)
-            .then((response) => {
-                saveCityName(response.data[0].name);
-                dispatch(setSelectedCity(response.data[0].name));
-                // setCityName(response.data[0].name);
+        ky.get(requestURL)
+            .json()
+            .then((data) => {
+                saveCityName(data[0].name);
+                dispatch(setSelectedCity(data[0].name));
             })
             .catch(() => {
                 let cityName =
                     loadLastSavedCityName() ?? "Sorry, something went wrong :(";
                 dispatch(setSelectedCity(cityName));
-                // setCityName(cityName);
             });
     };
 
