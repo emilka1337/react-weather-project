@@ -18,8 +18,8 @@ function SearchedCitiesList({ citiesList }) {
 
     return (
         <ul className="cities-list">
-            {citiesList?.data.length > 0 && <h5>Search</h5>}
-            {citiesList.data.map((city, index) => {
+            {citiesList.length > 0 && <h5>Search</h5>}
+            {citiesList.map((city, index) => {
                     return (
                         <li key={index}>
                             <button

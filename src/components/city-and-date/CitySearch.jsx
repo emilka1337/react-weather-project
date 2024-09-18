@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import SearchedCitiesList from "./SearchedCitiesList";
 import StarredCitiesList from "./StarredCitiesList";
+import ky from "ky";
 
 function CitySearch({ showCitySearch }) {
     const [inputValue, setInputValue] = useState("");
-    const [citiesList, setCitiesList] = useState({ data: [] });
+    const [citiesList, setCitiesList] = useState([]);
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -20,11 +20,9 @@ function CitySearch({ showCitySearch }) {
                     import.meta.env.VITE_API_KEY
                 }`;
 
-                inputValue && axios.get(requestURL).then((data) => {
-                    setCitiesList(data);
-                });
+                ky.get(requestURL).json().then(setCitiesList);
             } else {
-                setCitiesList({ data: [] });
+                setCitiesList([]);
             }
         }, 500);
 

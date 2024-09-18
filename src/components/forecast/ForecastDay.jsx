@@ -18,7 +18,7 @@ function ForecastDay(props) {
                         timestamp={item.dt}
                         cellForecast={item}
                         isDefaultActive={isDefaultActive}
-                        key={index}
+                        key={item.dt}
                     />
                 );
             })}

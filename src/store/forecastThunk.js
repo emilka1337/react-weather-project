@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import ky from 'ky';
 
 
 export const fetchForecast = createAsyncThunk('forecast/fetchforecast', async ({ lat, lon }) => {
@@ -7,7 +7,7 @@ export const fetchForecast = createAsyncThunk('forecast/fetchforecast', async ({
         }data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY
         }&units=metric`;
 
-    const forecastData = axios.get(forecastURL).then(response => response.data)
+    const forecastData = ky.get(forecastURL).json()
 
     return forecastData
 });
