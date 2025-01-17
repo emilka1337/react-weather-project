@@ -1,4 +1,4 @@
-import React, { createContext, Suspense, useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // Components
 import CityAndDate from "./city-and-date/CityAndDate";

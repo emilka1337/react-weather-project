@@ -69,9 +69,9 @@ function DailyForecast() {
             .then((result) => {
                 setNotificationsPermission(result);
             })
-            .catch((error) => {
+            // .catch((error) => {
                 // setError(error);
-            });
+            // });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
